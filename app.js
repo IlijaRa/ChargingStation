@@ -17,3 +17,19 @@ mongoose.connect(dbUrl).then(() => {
 }).catch((error) => {
     console.log(`App failed to connect to database: ${error}`);
 });
+
+const User = require('./models/userModel');
+
+const userInput = {
+    firstName: "John",
+    lastName: "Doe",
+    dateOfBirth: "1990-01-15T00:00:00.000Z",
+    username: "johndoe",
+    emailAddress: "john.doe@example.com",
+    password: "securePassword123",
+    role: "driver",
+    isBlocked: false
+};
+
+const user = new User(userInput);
+user.save();
