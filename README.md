@@ -1,2 +1,0 @@
-# ChargingStation.BE
-backend part
