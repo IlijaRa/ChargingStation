@@ -1,6 +1,6 @@
-import mangoose from 'mongoose';
+import mongoose from 'mongoose';
 
-const vehicleSchema = mangoose.Schema(
+const vehicleSchema = mongoose.Schema(
     {
         manufacturer: {
             type: String,
@@ -18,6 +18,14 @@ const vehicleSchema = mangoose.Schema(
             type: String,
             required: true
         },
+        batteryCapacity: {
+            type: Number,
+            required: true
+        },
+        chargingTime: {
+            type: Number,
+            required: true
+        },
         fuelType: {
             type: String,
             required: true
@@ -26,10 +34,14 @@ const vehicleSchema = mangoose.Schema(
             type: Number,
             required: true
         },
+        regenerativeBraking: {
+            type: Boolean,
+            required: false
+        }
     },
     {
         timestamps: true
     }
 )
 
-export const Vehicle = mangoose.model('Vehicle', vehicleSchema);
+export const Vehicle = mongoose.model('Vehicle', vehicleSchema);

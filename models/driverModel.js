@@ -1,8 +1,13 @@
-import mangoose from 'mongoose';
-import { Vehicle } from './vehicleModel'
+import mongoose from 'mongoose';
+import { Vehicle } from './vehicleModel.js'
+import { User } from './userModel.js';
 
-const driverSchema = mangoose.Schema(
+const driverSchema = mongoose.Schema(
     {
+        userId: {
+            type: String,
+            required: true
+        },
         vehicles: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Vehicle',
@@ -14,4 +19,4 @@ const driverSchema = mangoose.Schema(
     }
 )
 
-export const Driver = mangoose.model('Driver', driverSchema);
+export const Driver = User.discriminator('Driver', driverSchema);

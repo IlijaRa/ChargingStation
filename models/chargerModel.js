@@ -1,7 +1,7 @@
-import mangoose from 'mongoose';
+import mongoose from 'mongoose';
 import { Appointment } from './appointmentModel';
 
-const chargerSchema = mangoose.Schema(
+const chargerSchema = mongoose.Schema(
     {
         power: {
             type: Number,
@@ -34,4 +34,4 @@ const chargerSchema = mangoose.Schema(
     }
 )
 
-export const Charger = mangoose.model('Charger', chargerSchema);
+export const Charger = mongoose.model('Charger', chargerSchema);

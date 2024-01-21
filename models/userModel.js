@@ -1,6 +1,6 @@
-import mangoose from 'mongoose';
+import mongoose from 'mongoose';
 
-const userSchema = mangoose.Schema(
+const userSchema = mongoose.Schema(
     {
         firstName: {
             type: String,
@@ -32,4 +32,4 @@ const userSchema = mangoose.Schema(
     }
 )
 
-export const User = mangoose.model('User', userSchema);
+export const User = mongoose.model('User', userSchema);

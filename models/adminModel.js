@@ -1,7 +1,12 @@
-import mangoose from 'mongoose';
+import mongoose from 'mongoose';
+import { User } from './userModel.js';
 
-const adminSchema = mangoose.Schema(
+const adminSchema = mongoose.Schema(
     {
+        userId: {
+            type: String,
+            required: true
+        },
         isAdmin: {
             type: Boolean,
             required: true
@@ -12,4 +17,4 @@ const adminSchema = mangoose.Schema(
     }
 )
 
-export const Admin = mangoose.model('Admin', adminSchema);
+export const Admin = User.discriminator('Admin', adminSchema);
