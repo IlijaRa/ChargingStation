@@ -3,6 +3,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
+const api = 'api';
 const PORT = 5555;
 const dbUrl = 'mongodb+srv://admin:admin@chargingstationsmongodb.gxgr2hi.mongodb.net/?retryWrites=true&w=majority';
 
@@ -17,3 +18,6 @@ mongoose.connect(dbUrl).then(() => {
 }).catch((error) => {
     console.log(`App failed to connect to database: ${error}`);
 });
+
+const userRouter = require('./routes/User');
+app.use(`/${api}/users`, userRouter);

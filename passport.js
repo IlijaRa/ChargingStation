@@ -4,7 +4,7 @@ const jwtStrategy = require('passport-jwt').Strategy;
 
 const User = require('./models/userModel');
 
-const cookieExtracor = request => {
+const cookieExtractor = request => {
     let token = null;
     if (request && request.cookies) {
         token = request.cookies["access_token"];
@@ -13,36 +13,38 @@ const cookieExtracor = request => {
     return token;
 }
 
-// authorization
+// Authorization
 passport.use(new jwtStrategy({
-    jwtFromRequest : cookieExtracor,
-    secretOrKey : 'chargingStations'
-}, (payload, done) => {
-    User.findById({_id: payload.sub}, (err, user) => {
-        if (err) {
-            return done(err, false);
-        }
+    jwtFromRequest: cookieExtractor,
+    secretOrKey: 'chargingStations'
+}, async (payload, done) => {
+    try {
+        const user = await User.findById(payload.sub);
         if (user) {
             return done(null, user);
-        }
-        else {
+        } else {
             return done(null, false);
         }
-    })
+    } catch (error) {
+        return done(error, false);
+    }
 }));
 
-// authentication local strategy using username and password
-passport.use(new localStrategy((username, password, done) => {
-    User.findOne({username}, (err, user) => {
-        //something went wrong with database
-        if (err) {
-            return done(err);
-        }
-        // no user exist
+// Authentication local strategy using username and password
+passport.use(new localStrategy(async (username, password, done) => {
+    try {
+        const user = await User.findOne({ username });
         if (!user) {
             return done(null, false);
         }
-        // check if password is correct
-        user.comparePassword(password, done);
-    });
+        // Check if password is correct
+        const isMatch = await user.comparePassword(password);
+        if (isMatch) {
+            return done(null, user);
+        } else {
+            return done(null, false);
+        }
+    } catch (error) {
+        return done(error, false);
+    }
 }));
