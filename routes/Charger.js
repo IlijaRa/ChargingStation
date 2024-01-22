@@ -19,7 +19,7 @@ chargerRouter.get(`/getall`, passport.authenticate('jwt', { session: false }), a
         return response.status(200).json({ message: { msgBody: { count: chargers.length, data: chargers }, msgError: false } });
     } catch(error) {
         console.log(error.message)
-        response.status(500).json({ message: { msgBody: `Error has occurred while getting the chargers: ${error.message}`, msgError: true } });
+        response.status(500).json({ message: { msgBody: `Error has occurred while getting chargers: ${error.message}`, msgError: true } });
     }
 });
 

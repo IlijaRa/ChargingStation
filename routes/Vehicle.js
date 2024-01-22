@@ -19,7 +19,7 @@ vehicleRouter.get(`/getall`, passport.authenticate('jwt', { session: false }), a
         return response.status(200).json({ message: { msgBody: { count: vehicles.length, data: vehicles }, msgError: false } });
     } catch(error) {
         console.log(error.message)
-        response.status(500).json({ message: { msgBody: `Error has occurred while getting the vehicles: ${error.message}`, msgError: true } });
+        response.status(500).json({ message: { msgBody: `Error has occurred while getting vehicles: ${error.message}`, msgError: true } });
     }
 });
 
@@ -109,7 +109,7 @@ vehicleRouter.delete('/delete/:id', passport.authenticate('jwt', { session: fals
         if (role !== 'driver' && role !== 'admin') {
             return response.status(403).json({ message: { msgBody: `Forbidden action`, msgError: true } });
         }
-        
+
         const { id } = request.params;
 
         const result = await Vehicle.findByIdAndDelete(id);

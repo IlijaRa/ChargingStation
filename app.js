@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const userRouter = require('./routes/User');
 const vehicleRouter = require('./routes/Vehicle');
 const chargerRouter = require('./routes/Charger');
+const appointmentRouter = require('./routes/Appointment');
 
 const api = 'api';
 const PORT = 5555;
@@ -25,3 +26,4 @@ mongoose.connect(dbUrl).then(() => {
 app.use(`/${api}/users`, userRouter);
 app.use(`/${api}/vehicles`, vehicleRouter);
 app.use(`/${api}/chargers`, chargerRouter);
+app.use(`/${api}/appointments`, appointmentRouter);
