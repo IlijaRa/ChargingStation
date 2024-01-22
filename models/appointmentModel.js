@@ -17,6 +17,10 @@ const appointmentSchema = mongoose.Schema(
         toTime: {
             type: String,
             required: false
+        },
+        chargerId: {
+            type: String,
+            required: true
         }
     },
     {

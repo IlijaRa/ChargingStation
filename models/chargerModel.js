@@ -1,33 +1,39 @@
 const mongoose = require('mongoose');
-const Appointment = require('./appointmentModel');
 
 const chargerSchema = mongoose.Schema(
     {
-        power: {
+        chargingPower: {
             type: Number,
             required: true
         },
-        capacity: {
-            type: Number,
+        connectorType: {
+            type: String,
             required: true
+        },
+        voltage: {
+            type: String,
+            required: false
         },
         pricePerKwh: {
             type: Number,
             required: true
         },
-        isTaken: {
+        paymentMethod: {
+            type: String,
+            required: true
+        },
+        isAvailable: {
             type: Boolean,
             required: true
         },
-        appointments: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Appointment',
-            required: true
-        }],
-        mileage: {
+        latitude: {
             type: Number,
             required: true
         },
+        longitude: {
+            type: Number,
+            required: true
+        }
     },
     {
         timestamps: true
@@ -35,4 +41,3 @@ const chargerSchema = mongoose.Schema(
 )
 
 module.exports = mongoose.model('Charger', chargerSchema);
-// export const Charger = mongoose.model('Charger', chargerSchema);

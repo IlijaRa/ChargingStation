@@ -22,10 +22,6 @@ const vehicleSchema = mongoose.Schema(
             type: Number,
             required: true
         },
-        chargingTime: {
-            type: Number,
-            required: true
-        },
         fuelType: {
             type: String,
             required: true
