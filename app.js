@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
@@ -13,6 +14,7 @@ const dbUrl = 'mongodb+srv://admin:admin@chargingstationsmongodb.gxgr2hi.mongodb
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors());
 
 mongoose.connect(dbUrl).then(() => {
     console.log(`App successfully connected to database`);
