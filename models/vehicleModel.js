@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const vehicleSchema = mongoose.Schema(
     {
@@ -37,6 +37,10 @@ const vehicleSchema = mongoose.Schema(
         regenerativeBraking: {
             type: Boolean,
             required: false
+        },
+        username: {
+            type: String,
+            required: true
         }
     },
     {
@@ -44,4 +48,4 @@ const vehicleSchema = mongoose.Schema(
     }
 )
 
-export const Vehicle = mongoose.model('Vehicle', vehicleSchema);
+module.exports = mongoose.model('Vehicle', vehicleSchema);

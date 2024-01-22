@@ -47,4 +47,9 @@ userRouter.post('/logout', passport.authenticate('jwt', { session: false }), asy
     response.json({ user: { username: "", role: "" }, success: true });
 });
 
+userRouter.get('/authenticated', passport.authenticate('jwt', { session: false }), async (request, response) => {
+    const { username, role } = request.user;
+    response.status(200).json({ isAuthenticated: true, user: { username, role }});
+});
+
 module.exports = userRouter;

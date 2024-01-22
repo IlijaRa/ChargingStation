@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
+const userRouter = require('./routes/User');
+const vehicleRouter = require('./routes/Vehicle');
 
 const api = 'api';
 const PORT = 5555;
@@ -19,5 +21,5 @@ mongoose.connect(dbUrl).then(() => {
     console.log(`App failed to connect to database: ${error}`);
 });
 
-const userRouter = require('./routes/User');
 app.use(`/${api}/users`, userRouter);
+app.use(`/${api}/vehicles`, vehicleRouter);

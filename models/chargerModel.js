@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import { Appointment } from './appointmentModel';
+const mongoose = require('mongoose');
+const Appointment = require('./appointmentModel');
 
 const chargerSchema = mongoose.Schema(
     {
@@ -34,4 +34,5 @@ const chargerSchema = mongoose.Schema(
     }
 )
 
-export const Charger = mongoose.model('Charger', chargerSchema);
+module.exports = mongoose.model('Charger', chargerSchema);
+// export const Charger = mongoose.model('Charger', chargerSchema);
