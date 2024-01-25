@@ -36,6 +36,10 @@ const UserSchema = mongoose.Schema(
         isBlocked: {
             type: Boolean,
             required: true
+        },
+        isConfirmed: {
+            type: Boolean,
+            required: true
         }
     },
     {
