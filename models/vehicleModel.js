@@ -10,30 +10,32 @@ const vehicleSchema = mongoose.Schema(
             type: String,
             required: true
         },
-        year: {
-            type: Number,
-            required: true
-        },
-        color: {
-            type: String,
-            required: true
-        },
+        // year: {
+        //     type: Number,
+        //     required: true
+        // },
+        // color: {
+        //     type: String,
+        //     required: true
+        // },
         batteryCapacity: {
             type: Number,
             required: true
         },
-        fuelType: {
-            type: String,
-            required: true
+        chargerType: {
         },
-        mileage: {
-            type: Number,
-            required: true
-        },
-        regenerativeBraking: {
-            type: Boolean,
-            required: false
-        },
+        // fuelType: {
+        //     type: String,
+        //     required: true
+        // },
+        // mileage: {
+        //     type: Number,
+        //     required: true
+        // },
+        // regenerativeBraking: {
+        //     type: Boolean,
+        //     required: false
+        // },
         username: {
             type: String,
             required: true
