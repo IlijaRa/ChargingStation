@@ -10,10 +10,10 @@ const chargerSchema = mongoose.Schema(
             type: String,
             required: true
         },
-        voltage: {
-            type: String,
-            required: false
-        },
+        // voltage: {
+        //     type: String,
+        //     required: false
+        // },
         pricePerKwh: {
             type: Number,
             required: true
