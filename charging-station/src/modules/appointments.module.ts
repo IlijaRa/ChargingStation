@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { Appointment, AppointmentSchema } from "src";
+import { Appointment, AppointmentSchema } from "src/schemas";
 
 @Module({
     imports: [

@@ -10,7 +10,7 @@ export class User extends Document {
     lastName?: string;
 
     @Prop({ required: true })
-    DateOfBirth?: Date;
+    dateOfBirth?: Date;
 
     @Prop({ unique: true, required: true })
     username?: string;
@@ -24,10 +24,10 @@ export class User extends Document {
     @Prop({ required: true })
     role?: string;
 
-    @Prop({ required: true })
+    @Prop({ default: false, required: true })
     isBlocked?: boolean;
 
-    @Prop({ required: true })
+    @Prop({ default: false, required: true })
     isConfirmed?: boolean;
 }
 

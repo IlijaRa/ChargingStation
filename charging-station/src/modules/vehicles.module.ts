@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { Vehicle, VehicleSchema } from "src";
+import { Vehicle, VehicleSchema } from "src/schemas";
 
 @Module({
     imports: [
