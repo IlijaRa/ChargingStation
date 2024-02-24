@@ -19,6 +19,9 @@ export class Charger extends Document {
     isAvailable?: boolean;
 
     @Prop({ required: true })
+    location?: string;
+
+    @Prop({ required: true })
     latitude?: number;
 
     @Prop({ required: true })

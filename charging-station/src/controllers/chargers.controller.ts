@@ -17,8 +17,7 @@ export class ChargersController {
     getById(@Param('chargerId') chargerId: string) {
         return this.chargersService.getById(chargerId);
     }
-
-    //TODO: check if charger with chargerId exists in the first place
+    
     @Get('getall')
     getAll() {
         return this.chargersService.getAll();

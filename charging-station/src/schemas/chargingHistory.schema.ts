@@ -13,6 +13,9 @@ export class ChargingHistory extends Document {
     cost?: Number;
 
     @Prop({ required: true })
+    paymentMethod?: string;
+
+    @Prop({ required: true })
     takenEnergy?: Number;
 
     @Prop({ required: true })
