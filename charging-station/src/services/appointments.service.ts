@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { AppointmentSaveDto } from "src/dto/appointments/save.dto";
+import { AppointmentSaveDto } from "src/dto";
 import { Appointment } from "src/schemas";
 
 @Injectable()

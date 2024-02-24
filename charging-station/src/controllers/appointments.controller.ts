@@ -13,7 +13,7 @@ export class AppointmentsController {
     }
 
     //TODO: check if appointment with appointmentId exist in the first place
-    @Get(':appointmentId')
+    @Get('getbyid/:appointmentId')
     getById(@Param('appointmentId') appointmentId: string) {
         return this.appointmentsService.getById(appointmentId);
     }
@@ -25,7 +25,7 @@ export class AppointmentsController {
     }
 
     //TODO: check if appointment with appointmentId exists in the first place
-    @Delete(':appointmentId')
+    @Delete('delete/:appointmentId')
     delete(@Param('appointmentId') appointmentId: string) {
         return this.appointmentsService.delete(appointmentId);
     }
