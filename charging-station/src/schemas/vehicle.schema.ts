@@ -15,7 +15,7 @@ export class Vehicle extends Document {
     @Prop({ required: true })
     chargingProtocol?: string;
 
-    @Prop({ unique: true, required: true })
+    @Prop({ required: true })
     userId?: string;
 }
 

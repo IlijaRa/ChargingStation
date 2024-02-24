@@ -3,3 +3,4 @@ export * from './appointments.service';
 export * from './chargers.service';
 export * from './chargingHistories.service';
 export * from './users.service';
+export * from './vehicles.service';
