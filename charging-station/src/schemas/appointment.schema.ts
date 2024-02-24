@@ -4,10 +4,10 @@ import { Document } from 'mongoose';
 @Schema({ timestamps: true })
 export class Appointment extends Document {
     @Prop({ required: true })
-    startTime?: string;
+    startDate?: string;
 
     @Prop({ required: true })
-    endTime?: string;
+    endDate?: string;
 
     @Prop({ required: true })
     chargerId?: string;

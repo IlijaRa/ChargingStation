@@ -2,6 +2,8 @@ import { Type } from "class-transformer";
 import { IsNotEmpty, IsString, IsStrongPassword } from "class-validator";
 
 export class RegistrationDto {
+    _id?: string
+
     @IsNotEmpty()
     @IsString()
     firstName?: string;

@@ -8,8 +8,7 @@ import { User } from "src/schemas";
 export class AccountsService {
     constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-    register(registerDto: RegistrationDto) {
-        const user = new this.userModel(registerDto);
-        return user.save();
+    register(model?: RegistrationDto) {
+        return new this.userModel(model).save();
     }
 }

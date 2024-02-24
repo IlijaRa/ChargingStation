@@ -4,12 +4,10 @@ import { AccountsService } from "src/services";
 
 @Controller('accounts')
 export class AccountsController {
-
-    constructor(private usersService: AccountsService) {}
+    constructor(private accountsService: AccountsService) {}
 
     @Post('register')
-    register(@Body() register: RegistrationDto) {
-        console.log(register);
-        return this.usersService.register(register);
+    register(@Body() model: RegistrationDto) {
+        return this.accountsService.register(model);
     }
 }
