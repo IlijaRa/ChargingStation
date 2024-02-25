@@ -29,6 +29,9 @@ export class User extends Document {
 
     @Prop({ default: false, required: true })
     isConfirmed?: boolean;
+
+    @Prop({ unique: true })
+    refreshTokenHash?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

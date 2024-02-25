@@ -15,9 +15,7 @@ export class ChargingHistoriesController {
     //TODO: check if chargingHistory with chargingHistoryId exist in the first place
     @Get('getbyid/:chargingHistoryId')
     getById(@Param('chargingHistoryId') chargingHistoryId: string) {
-        const chargingHistoryDto = this.chargingHistoriesService.getById(chargingHistoryId);
-        console.log("chargingHistoryDto", chargingHistoryDto);
-        return chargingHistoryDto;
+        return this.chargingHistoriesService.getById(chargingHistoryId);;
     }
 
     @Get('getall')
