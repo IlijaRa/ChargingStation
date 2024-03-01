@@ -30,7 +30,7 @@ export class User extends Document {
     @Prop({ default: false, required: true })
     isConfirmed?: boolean;
 
-    @Prop({ unique: true })
+    @Prop()
     refreshTokenHash?: string;
 }
 
