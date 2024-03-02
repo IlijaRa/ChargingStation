@@ -37,7 +37,7 @@ export class AuthService {
             ] 
         });
 
-        if (!user) {
+        if (!user || user.isConfirmed == false) {
             throw new ForbiddenException('Access denied');
         }
 
