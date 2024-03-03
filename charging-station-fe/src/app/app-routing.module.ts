@@ -5,12 +5,10 @@ import { LoginComponent, RegisterComponent } from './view';
 const routes: Routes = [
   {
     path: 'login',
-    // pathMatch: 'full',
     component: LoginComponent
   },
   {
     path: 'register',
-    // pathMatch: 'full',
     component: RegisterComponent
   },
 ];

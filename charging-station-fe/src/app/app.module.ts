@@ -8,7 +8,7 @@ import { LoginComponent, RegisterComponent } from './view';
 @NgModule({
   declarations: [
     AppComponent,
-
+    
     LoginComponent,
     RegisterComponent
   ],
