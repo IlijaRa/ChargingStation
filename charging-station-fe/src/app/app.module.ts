@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LandingComponent, LoginComponent, RegisterComponent } from './views';
+import { LandingComponent, LoginComponent, RegisterComponent, UsersComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
 
 @NgModule({
@@ -13,6 +13,7 @@ import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } fro
     LoginComponent,
     RegisterComponent,
     LandingComponent,
+    UsersComponent,
 
     HeaderLayoutComponent,
     MainLayoutComponent,
