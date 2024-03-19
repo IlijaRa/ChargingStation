@@ -18,6 +18,10 @@ export class RegistrationDto {
 
     @IsNotEmpty()
     @IsString()
+    biography?: string;
+
+    @IsNotEmpty()
+    @IsString()
     username?: string;
 
     @IsNotEmpty()
@@ -32,4 +36,8 @@ export class RegistrationDto {
     @IsNotEmpty()
     @IsString()
     role?: string;
+
+    @IsNotEmpty()
+    @IsString()
+    gender?: string;
 }

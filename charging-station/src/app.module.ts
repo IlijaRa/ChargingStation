@@ -15,9 +15,11 @@ import { AccessTokenGuard } from './common';
     VehiclesModule
   ],
   controllers: [],
-  providers: [{
-    provide: APP_GUARD,
-    useClass: AccessTokenGuard
-  }],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AccessTokenGuard
+    }
+  ],
 })
 export class AppModule {}

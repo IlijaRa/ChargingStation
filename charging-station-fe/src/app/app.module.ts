@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LandingComponent, LoginComponent, RegisterComponent, UsersComponent } from './views';
+import { LandingComponent, LoginComponent, RegisterComponent, UserComponent, UsersComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
+import { UsersService } from './core';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -14,6 +16,7 @@ import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } fro
     RegisterComponent,
     LandingComponent,
     UsersComponent,
+    UserComponent,
 
     HeaderLayoutComponent,
     MainLayoutComponent,
@@ -21,9 +24,12 @@ import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } fro
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    UsersService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

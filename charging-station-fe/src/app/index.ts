@@ -1,2 +1,3 @@
+export * from './core';
 export * from './layouts';
-export * from './view';
+export * from './views';

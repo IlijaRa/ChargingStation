@@ -1,8 +1,9 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { AccountsController } from "src/controllers";
+import { AccountsController, UsersController } from "src/controllers";
 import { Charger, ChargerSchema, ChargingHistory, ChargingHistorySchema, User, UserSchema } from "src/schemas";
 import { AccountsService, ChargingHistoriesService, UsersService } from "src/services"
+import { AccessTokenStrategy, RefreshTokenStrategy } from "src/strategies";
 
 @Module({
     imports: [
@@ -13,7 +14,7 @@ import { AccountsService, ChargingHistoriesService, UsersService } from "src/ser
         ])
     ],
     providers: [AccountsService, UsersService, ChargingHistoriesService],
-    controllers: [AccountsController]
+    controllers: [AccountsController, UsersController]
 })
 export class UsersModule {
 

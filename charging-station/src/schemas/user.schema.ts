@@ -12,6 +12,9 @@ export class User extends Document {
     @Prop({ required: true })
     dateOfBirth?: Date;
 
+    @Prop({ required: true })
+    biography?: string;
+
     @Prop({ unique: true, required: true })
     username?: string;
 
@@ -23,6 +26,9 @@ export class User extends Document {
 
     @Prop({ required: true })
     role?: string;
+
+    @Prop({ required: true })
+    gender?: string;
 
     @Prop({ default: false, required: true })
     isBlocked?: boolean;
