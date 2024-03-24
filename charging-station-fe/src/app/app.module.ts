@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LandingComponent, LoginComponent, RegisterComponent, UserComponent, UsersComponent } from './views';
+import { ChargersComponent, LandingComponent, LoginComponent, RegisterComponent, UserComponent, UsersComponent, VehiclesComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
-import { UsersService } from './core';
+import { ChargersService, UsersService, VehiclesService } from './core';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -17,6 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     LandingComponent,
     UsersComponent,
     UserComponent,
+    ChargersComponent,
+    VehiclesComponent,
 
     HeaderLayoutComponent,
     MainLayoutComponent,
@@ -28,7 +30,9 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
-    UsersService
+    UsersService,
+    ChargersService,
+    VehiclesService
   ],
   bootstrap: [AppComponent]
 })

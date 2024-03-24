@@ -1,4 +1,4 @@
-<!-- ======= Users Section ======= -->
+<!-- ======= Vehicles Section ======= -->
 <section id="team" class="team">
 
     <div class="container" data-aos="fade-up">
@@ -6,8 +6,8 @@
       <header class="section-header">
         <div class="row align-items-center">
             <div class="col-lg-12">
-                <h2>Users</h2>
-                <p>List of Users</p>
+                <h2>Vehicles</h2>
+                <p>List of Vehicles</p>
             </div>
             <div class="col-lg-6">
                 <div class="input-group rounded">
@@ -35,15 +35,16 @@
       </header>
 
       <div class="row gy-4">
-        <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100" *ngFor="let user of users">
+        <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100" *ngFor="let vehicle of vehicles">
           <div class="member">
             <div class="member-img">
-              <img src="assets/img/users/headshot-{{user.gender}}.jpg" class="img-fluid" alt="">
+              <img src="assets/img/vehicles/vehicle.jpg" class="img-fluid" alt="">
             </div>
             <div class="member-info">
-              <h4>{{ user.firstName }} {{ user.lastName }}</h4>
-              <span>{{ user.username }}</span>
-              <p>{{ user.biography }}</p>
+              <h4>{{ vehicle.vehicleModel }} ({{vehicle.manufacturer}})</h4>
+              <span>{{ vehicle.chargingProtocol }} ({{vehicle.batteryCapacity}} kWh)</span>
+              <p></p>
+              <!-- <p>{{ vehicle.isAvailable }}</p> -->
               <!-- <button class="btn btn-danger col-lg-4">Block</button> -->
               <!-- <button class="btn btn-primary col-lg-4">Confirm</button> -->
               <!-- <button class="btn btn-primary col-lg-4">Details</button> -->
@@ -55,9 +56,9 @@
 
     </div>
 
-  </section><!-- End Users Section -->
+  </section><!-- End Vehicles Section -->
 
-<ng-component *ngIf="entityModalShow">
+<!-- <ng-component > -->
   <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -69,4 +70,4 @@
       </div>
     </div>
   </div>
-</ng-component>
+<!-- </ng-component> -->

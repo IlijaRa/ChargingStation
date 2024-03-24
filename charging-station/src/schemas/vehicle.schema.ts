@@ -10,7 +10,7 @@ export class Vehicle extends Document {
     vehicleModel?: string;
 
     @Prop({ required: true })
-    batteryCapacity?: Number;
+    batteryCapacity?: number;
 
     @Prop({ required: true })
     chargingProtocol?: string;

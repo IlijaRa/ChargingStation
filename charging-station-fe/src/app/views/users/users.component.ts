@@ -5,7 +5,7 @@ import { UserGetAllDto, UserGetAllItemDto, UsersService, ViewState } from "src/a
     selector: 'users',
     templateUrl: './users.component.html',
 })
-export class UsersComponent implements OnInit{
+export class UsersComponent implements OnInit {
     users?: UserGetAllItemDto[];
 
     entityModalShow: boolean = false;
