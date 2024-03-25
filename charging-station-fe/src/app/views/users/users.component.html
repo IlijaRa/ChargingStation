@@ -31,6 +31,9 @@
                 </ul>
               </div>
             </div>
+            <div class="col-lg-5 float-right">
+              <button type="button" class="btn btn-danger" (click)="openAddEditUser()"><i class="fa fa-plus"></i> New user</button>
+            </div>
         </div>
       </header>
 
@@ -47,7 +50,8 @@
               <!-- <button class="btn btn-danger col-lg-4">Block</button> -->
               <!-- <button class="btn btn-primary col-lg-4">Confirm</button> -->
               <!-- <button class="btn btn-primary col-lg-4">Details</button> -->
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" click="entityDetails(user.id)">Details</button>
+              <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (onclick)="entityDetails(user.id)">Details</button> -->
+              <button mat-raised-button (click)="openAddEditUser()" color="primary">Details</button>
             </div>
           </div>
         </div>
@@ -57,7 +61,7 @@
 
   </section><!-- End Users Section -->
 
-<ng-component *ngIf="entityModalShow">
+<ng-component>
   <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">

@@ -8,8 +8,20 @@ import { UserGetAllDto, UserGetByIdDto } from "./users.model";
 export class UsersService {
     constructor(private http: HttpClient) { }
 
+    async confirm(id?: number): Promise<any> {
+        return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/users/confirm/${id}`));
+    }
+
+    async block(id?: number): Promise<any> {
+        return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/users/block/${id}`));
+    }
+
+    async unblock(id?: number): Promise<any> {
+        return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/users/unblock/${id}`));
+    }
+
     async getById(id?: string): Promise<UserGetByIdDto> {
-        return await lastValueFrom<UserGetByIdDto>(this.http.get<UserGetByIdDto>(`${environment.apiUrl}/users/getbyid/${id}`));
+        return await lastValueFrom<UserGetByIdDto>(this.http.get<UserGetByIdDto>(`${environment.apiUrl}/users/confirm/${id}`));
     }
 
     async getAll(): Promise<any> {

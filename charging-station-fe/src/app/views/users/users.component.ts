@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { UserGetAllDto, UserGetAllItemDto, UsersService, ViewState } from "src/app/core";
+import { UserAddEditComponent } from ".";
 
 @Component({
     selector: 'users',
@@ -12,7 +14,7 @@ export class UsersComponent implements OnInit {
     entityState: ViewState = ViewState.Details;
     entityId?: string;
         
-    constructor(private usersService: UsersService) {}
+    constructor(private usersService: UsersService, private matDialog: MatDialog) {}
 
     ngOnInit(): void {
         this.getAll();
@@ -51,5 +53,9 @@ export class UsersComponent implements OnInit {
             return biography?.substring(0, periodIndex! + 1);
         }
         return biography;
+    }
+
+    openAddEditUser() {
+        this.matDialog.open(UserAddEditComponent);
     }
 }

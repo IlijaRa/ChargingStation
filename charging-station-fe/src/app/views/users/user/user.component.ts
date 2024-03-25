@@ -47,26 +47,26 @@ export class UserComponent implements OnInit{
     // }
 
     private initForm() {
-        this.form.elements['firstName'] = new FormElement();
-        this.form.elements['firstName'].mandatory = true;
+        // this.form.elements['firstName'] = new FormElement();
+        // this.form.elements['firstName'].mandatory = true;
 
-        this.form.elements['lastName'] = new FormElement();
-        this.form.elements['lastName'].mandatory = true;
+        // this.form.elements['lastName'] = new FormElement();
+        // this.form.elements['lastName'].mandatory = true;
 
-        this.form.elements['dateOfBirth'] = new FormElement();
-        this.form.elements['dateOfBirth'].mandatory = true;
+        // this.form.elements['dateOfBirth'] = new FormElement();
+        // this.form.elements['dateOfBirth'].mandatory = true;
 
-        this.form.elements['username'] = new FormElement();
-        this.form.elements['username'].mandatory = true;
+        // this.form.elements['username'] = new FormElement();
+        // this.form.elements['username'].mandatory = true;
 
-        this.form.elements['emailAddress'] = new FormElement();
-        this.form.elements['emailAddress'].mandatory = true;
+        // this.form.elements['emailAddress'] = new FormElement();
+        // this.form.elements['emailAddress'].mandatory = true;
 
-        this.form.elements['isBlocked'] = new FormElement();
-        this.form.elements['isBlocked'].mandatory = true;
+        // this.form.elements['isBlocked'] = new FormElement();
+        // this.form.elements['isBlocked'].mandatory = true;
 
-        this.form.elements['isConfirmed'] = new FormElement();
-        this.form.elements['isConfirmed'].mandatory = true;
+        // this.form.elements['isConfirmed'] = new FormElement();
+        // this.form.elements['isConfirmed'].mandatory = true;
     }
 
     private onAction() {
