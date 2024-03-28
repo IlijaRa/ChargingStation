@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChargersComponent, LandingComponent, LoginComponent, RegisterComponent, UserAddEditComponent, UserComponent, UsersComponent, VehiclesComponent } from './views';
+import { ChargersComponent, LandingComponent, LoginComponent, RegisterComponent, UserAddEditComponent, UsersComponent, VehiclesComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
 import { AuthsService, ChargersService, UsersService, VehiclesService } from './core';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,6 +14,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     RegisterComponent,
     LandingComponent,
     UsersComponent,
-    UserComponent,
     UserAddEditComponent,
     ChargersComponent,
     VehiclesComponent,
@@ -42,7 +44,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule
   ],
   providers: [
     AuthsService,

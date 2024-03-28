@@ -1,13 +1,17 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { environment } from "src/environments/environment";
-import { lastValueFrom } from "rxjs";
-import { UserGetAllDto, UserGetByIdDto } from "./users.model";
+import { lastValueFrom, Observable } from "rxjs";
+import { UserGetAllDto, UserGetByIdDto, UserUpdateDto } from "./users.model";
 
 @Injectable()
 export class UsersService {
     constructor(private http: HttpClient) { }
-
+    
+    update(model: UserUpdateDto): Observable<any> {
+        return this.http.put(`${environment.apiUrl}/users/update`, model);
+    }
+    
     async confirm(id?: number): Promise<any> {
         return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/users/confirm/${id}`));
     }
@@ -20,8 +24,8 @@ export class UsersService {
         return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/users/unblock/${id}`));
     }
 
-    async getById(id?: string): Promise<UserGetByIdDto> {
-        return await lastValueFrom<UserGetByIdDto>(this.http.get<UserGetByIdDto>(`${environment.apiUrl}/users/confirm/${id}`));
+    getById(id?: string): Observable<UserGetByIdDto> {
+        return this.http.get(`${environment.apiUrl}/users/getbyid/${id}`);
     }
 
     async getAll(): Promise<any> {

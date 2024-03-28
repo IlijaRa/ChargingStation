@@ -1,25 +1,32 @@
-<div>
-    <div mat-dialog-title>
-        <h1>Create user</h1>
+<div style="height: 100%;">
+    <button mat-icon-button aria-label="close dialog" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    <div class="title-alighment">
+        <h1 *ngIf="state == viewState.Create">User create</h1>
+        <h1 *ngIf="state == viewState.Edit">User edit</h1>
+        <h1 *ngIf="state == viewState.Details">User details</h1>
     </div>
-    <form [formGroup]="form" (ngSubmit)="save()">
+    <form [formGroup]="form!" *ngIf="form" class="scroll-hidden">
         <div mat-dialog-content>
             <div class="row">
                 <mat-form-field appearance="outline">
                     <mat-label>First Name</mat-label>
-                    <input matInput formControlName="firstName">
+                    <input matInput formControlName="firstName" [(ngModel)]="firstName">
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Last Name</mat-label>
                     <input matInput formControlName="lastName">
                 </mat-form-field>
                 <mat-form-field appearance="outline">
-                    <mat-label>Date</mat-label>
-                    <input matInput type="date" formControlName="date">
+                    <mat-label>Date (MM/DD/YYYY)</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="date">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Biography</mat-label>
-                    <input matInput formControlName="biography">
+                    <textarea matInput formControlName="biography"></textarea>
                 </mat-form-field>
                 <mat-form-field appearance="outline">
                     <mat-label>Username</mat-label>
@@ -29,7 +36,7 @@
                     <mat-label>Email Address</mat-label>
                     <input matInput formControlName="emailAddress">
                 </mat-form-field>
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" *ngIf="state == viewState.Create">
                     <mat-label>Password</mat-label>
                     <input matInput type="password" formControlName="password">
                 </mat-form-field>
@@ -38,11 +45,22 @@
                     <mat-radio-button value="male">Male</mat-radio-button>
                     <mat-radio-button value="female">Female</mat-radio-button>
                 </mat-radio-group>
+                <mat-radio-group formControlName="isBlocked" *ngIf="state != viewState.Create">
+                    <mat-label>Blocked</mat-label>
+                    <mat-radio-button value="true">Yes</mat-radio-button>
+                    <mat-radio-button value="false">No</mat-radio-button>
+                </mat-radio-group>
+                <mat-radio-group formControlName="isConfirmed" *ngIf="state != viewState.Create">
+                    <mat-label>Confirmed</mat-label>
+                    <mat-radio-button value="true">Yes</mat-radio-button>
+                    <mat-radio-button value="false">No</mat-radio-button>
+                </mat-radio-group>
             </div>
         </div>
         <div mat-dialog-action>
-            <button mat-raised-button>Cancel</button>
-            <button mat-raised-button color="primary" type="submit">Save</button>
+            <button mat-raised-button mat-dialog-close>Cancel</button>
+            <button mat-raised-button class="mat-dialog-button-right-alignment" color="primary" type="submit" *ngIf="state == viewState.Create" (click)="save()">Save</button>
+            <button mat-raised-button class="mat-dialog-button-right-alignment" color="primary" type="submit" *ngIf="state == viewState.Edit" (click)="update()">Update</button>
         </div>
     </form>
 </div>

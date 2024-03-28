@@ -1,10 +1,18 @@
-import { Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put } from "@nestjs/common";
 import { Public } from "src/common";
+import { UserUpdateDto } from "src/dto";
 import { UsersService } from "src/services";
 
 @Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) {}
+    
+    @Public()
+    @Put('update')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    update(@Body() model: UserUpdateDto) {
+        return this.usersService.update(model);
+    }
 
     //TODO: check if user with userId exist in the first place
     @Public()

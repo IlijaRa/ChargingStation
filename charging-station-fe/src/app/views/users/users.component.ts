@@ -11,23 +11,14 @@ export class UsersComponent implements OnInit {
     users?: UserGetAllItemDto[];
 
     entityModalShow: boolean = false;
+    viewState = ViewState;
     entityState: ViewState = ViewState.Details;
     entityId?: string;
-        
+
     constructor(private usersService: UsersService, private matDialog: MatDialog) {}
 
     ngOnInit(): void {
         this.getAll();
-    }
-
-    entityDetails(id?: string) {
-        this.entityModalShow = true;
-        this.entityId = id;
-        this.entityState = ViewState.Details;
-    }
-
-    entityModalClose() {
-        this.entityModalShow = false;
     }
 
     entityActionCallback() {
@@ -55,7 +46,26 @@ export class UsersComponent implements OnInit {
         return biography;
     }
 
-    openAddEditUser() {
-        this.matDialog.open(UserAddEditComponent);
+    openUserDialog(id?: string, viewState?: ViewState) {
+        this.matDialog.open(UserAddEditComponent, {
+            autoFocus: false,
+            data: {
+                id: id,
+                state: viewState
+            }
+        })
+        .afterClosed()
+        .subscribe((res) => {
+          this.getAll();
+        //   setTimeout(() => {
+        //     if (viewState == ViewState.Create) {
+        //         alert("Employee added successfully!");
+        //     } 
+            
+        //     if (viewState == ViewState.Edit) {
+        //         alert("Employee updated successfully!");
+        //     }
+        //   }, 500);
+        });
     }
 }

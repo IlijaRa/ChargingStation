@@ -1,3 +1,9 @@
+<style>
+  .forward {
+    position: relative;
+    float: right;
+  }
+</style>
 <!-- ======= Users Section ======= -->
 <section id="team" class="team">
 
@@ -32,7 +38,7 @@
               </div>
             </div>
             <div class="col-lg-5 float-right">
-              <button type="button" class="btn btn-danger" (click)="openAddEditUser()"><i class="fa fa-plus"></i> New user</button>
+              <button type="button" class="btn btn-danger" (click)="openUserDialog(undefined, viewState.Create)"><i class="fa fa-plus"></i> New user</button>
             </div>
         </div>
       </header>
@@ -40,6 +46,12 @@
       <div class="row gy-4">
         <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100" *ngFor="let user of users">
           <div class="member">
+            <div class="forward" *ngIf="user.isBlocked">
+              <img src="assets/img/blocked.png" class="img-fluid" alt="">
+            </div>
+            <div class="forward" *ngIf="!user.isBlocked">
+              <img src="assets/img/unblocked.png" class="img-fluid" alt="">
+            </div>
             <div class="member-img">
               <img src="assets/img/users/headshot-{{user.gender}}.jpg" class="img-fluid" alt="">
             </div>
@@ -47,11 +59,8 @@
               <h4>{{ user.firstName }} {{ user.lastName }}</h4>
               <span>{{ user.username }}</span>
               <p>{{ user.biography }}</p>
-              <!-- <button class="btn btn-danger col-lg-4">Block</button> -->
-              <!-- <button class="btn btn-primary col-lg-4">Confirm</button> -->
-              <!-- <button class="btn btn-primary col-lg-4">Details</button> -->
-              <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (onclick)="entityDetails(user.id)">Details</button> -->
-              <button mat-raised-button (click)="openAddEditUser()" color="primary">Details</button>
+              <button mat-raised-button (click)="openUserDialog(user.id, viewState.Details)">Details</button>
+              <button mat-raised-button (click)="openUserDialog(user.id, viewState.Edit)" color="primary">Edit</button>
             </div>
           </div>
         </div>
@@ -60,17 +69,3 @@
     </div>
 
   </section><!-- End Users Section -->
-
-<ng-component>
-  <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-          <user [state]="entityState" [id]="entityId" (onEntityAction)="entityActionCallback()"></user>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send message</button>
-          </div>
-      </div>
-    </div>
-  </div>
-</ng-component>
