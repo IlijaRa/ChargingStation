@@ -28,7 +28,6 @@ export class VehiclesController {
         return this.vehiclesService.getAllByUserId(userId);
     }
 
-    //TODO: check if user with userId exists in the first place
     @Public()
     @Get('getall')
     getAll() {

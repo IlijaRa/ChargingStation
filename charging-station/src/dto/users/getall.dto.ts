@@ -12,3 +12,12 @@ export class UserGetAllItemDto {
     isBlocked?: boolean;
     isConfirmed?: boolean;
 }
+
+export class UserAllDto {
+    items?: UserAllItemDto[];
+}
+
+export class UserAllItemDto {
+    id?: string;
+    fullName?: string;
+}

@@ -28,6 +28,12 @@ export class UsersController {
     }
 
     @Public()
+    @Get('all')
+    all() {
+        return this.usersService.all();
+    }
+
+    @Public()
     @Get('getallconfirmed')
     getAllConfirmed() {
         return this.usersService.getAllConfirmed();

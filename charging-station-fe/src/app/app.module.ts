@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChargersComponent, LandingComponent, LoginComponent, RegisterComponent, UserAddEditComponent, UsersComponent, VehiclesComponent } from './views';
+import { ChargersComponent, LandingComponent, LoginComponent, RegisterComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
 import { AuthsService, ChargersService, UsersService, VehiclesService } from './core';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,6 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
     UserAddEditComponent,
     ChargersComponent,
     VehiclesComponent,
+    VehicleAddEditComponent,
 
     HeaderLayoutComponent,
     MainLayoutComponent,
@@ -47,7 +49,8 @@ import { MatIconModule } from '@angular/material/icon';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [
     AuthsService,

@@ -1,15 +1,19 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { environment } from "src/environments/environment";
-import { lastValueFrom } from "rxjs";
-import { VehicleGetAllDto, VehicleGetByIdDto } from "./vehicles.model";
+import { lastValueFrom, Observable } from "rxjs";
+import { VehicleGetAllDto, VehicleGetByIdDto, VehicleSaveDto } from "./vehicles.model";
 
 @Injectable()
 export class VehiclesService {
     constructor(private http: HttpClient) { }
 
-    async getById(id?: string): Promise<VehicleGetByIdDto> {
-        return await lastValueFrom<VehicleGetByIdDto>(this.http.get<VehicleGetByIdDto>(`${environment.apiUrl}/vehicles/getbyid/${id}`));
+    save(model: VehicleSaveDto): Observable<any> {
+        return this.http.post(`${environment.apiUrl}/vehicles/save`, model);
+    }
+
+    getById(id?: string): Observable<VehicleGetByIdDto> {
+        return this.http.get(`${environment.apiUrl}/vehicles/getbyid/${id}`);
     }
 
     async getAllByUserId(userId?: string): Promise<VehicleGetAllDto> {

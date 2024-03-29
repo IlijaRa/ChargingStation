@@ -8,11 +8,11 @@ import { Vehicle } from "src/schemas";
 export class VehiclesService {
     constructor(@InjectModel(Vehicle.name) private vehicleModel: Model<Vehicle>) {}
 
-    save(model?: VehicleSaveDto) {
-        if (model._id == null) {
-            return new this.vehicleModel(model).save();
-        } else {
+    async save(model?: VehicleSaveDto) {
+        if (model._id) {
             return this.vehicleModel.findByIdAndUpdate(model._id, model);
+        } else {
+            return new this.vehicleModel(model).save();
         }
     }
 

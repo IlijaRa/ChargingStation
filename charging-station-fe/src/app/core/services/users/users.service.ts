@@ -32,6 +32,10 @@ export class UsersService {
         return await lastValueFrom<UserGetAllDto>(this.http.get<UserGetAllDto>(`${environment.apiUrl}/users/getall`));
     }
 
+    async all(): Promise<any> {
+        return await lastValueFrom<UserGetAllDto>(this.http.get<UserGetAllDto>(`${environment.apiUrl}/users/all`));
+    }
+
     async getAllConfirmed(): Promise<any> {
         return await lastValueFrom<UserGetAllDto>(this.http.get<UserGetAllDto>(`${environment.apiUrl}/users/getallconfirmed`));
     }

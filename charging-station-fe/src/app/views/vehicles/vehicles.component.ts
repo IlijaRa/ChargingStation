@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { VehicleGetAllDto, VehicleGetAllItemDto, VehiclesService, ViewState } from "src/app/core";
+import { VehicleAddEditComponent } from ".";
 
 @Component({
     selector: 'vehicles',
@@ -9,23 +11,14 @@ export class VehiclesComponent implements OnInit {
     vehicles?: VehicleGetAllItemDto[];
 
     entityModalShow: boolean = false;
+    viewState = ViewState;
     entityState: ViewState = ViewState.Details;
     entityId?: string;
 
-    constructor(private vehiclesService: VehiclesService) {}
+    constructor(private vehiclesService: VehiclesService, private matDialog: MatDialog) {}
 
     ngOnInit(): void {
         this.getAll();
-    }
-
-    entityDetails(id?: string) {
-        this.entityModalShow = true;
-        this.entityId = id;
-        this.entityState = ViewState.Details;
-    }
-
-    entityModalClose() {
-        this.entityModalShow = false;
     }
 
     entityActionCallback() {
@@ -37,6 +30,29 @@ export class VehiclesComponent implements OnInit {
             this.vehicles = response.items;
             resolve();
           })
+        });
+    }
+
+    openVehicleDialog(id?: string, viewState?: ViewState) {
+        this.matDialog.open(VehicleAddEditComponent, {
+            autoFocus: false,
+            data: {
+                id: id,
+                state: viewState
+            }
+        })
+        .afterClosed()
+        .subscribe((res) => {
+          this.getAll();
+        //   setTimeout(() => {
+        //     if (viewState == ViewState.Create) {
+        //         alert("Employee added successfully!");
+        //     } 
+            
+        //     if (viewState == ViewState.Edit) {
+        //         alert("Employee updated successfully!");
+        //     }
+        //   }, 500);
         });
     }
 }

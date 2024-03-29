@@ -31,6 +31,9 @@
                 </ul>
               </div>
             </div>
+            <div class="col-lg-5 float-right">
+              <button type="button" class="btn btn-danger" (click)="openVehicleDialog(undefined, viewState.Create)"><i class="fa fa-plus"></i> New vehicle</button>
+            </div>
         </div>
       </header>
 
@@ -44,11 +47,8 @@
               <h4>{{ vehicle.vehicleModel }} ({{vehicle.manufacturer}})</h4>
               <span>{{ vehicle.chargingProtocol }} ({{vehicle.batteryCapacity}} kWh)</span>
               <p></p>
-              <!-- <p>{{ vehicle.isAvailable }}</p> -->
-              <!-- <button class="btn btn-danger col-lg-4">Block</button> -->
-              <!-- <button class="btn btn-primary col-lg-4">Confirm</button> -->
-              <!-- <button class="btn btn-primary col-lg-4">Details</button> -->
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" click="entityDetails(user.id)">Details</button>
+              <button mat-raised-button (click)="openVehicleDialog(vehicle.id, viewState.Details)">Details</button>
+              <button mat-raised-button (click)="openVehicleDialog(vehicle.id, viewState.Edit)" color="primary">Edit</button>
             </div>
           </div>
         </div>
@@ -57,17 +57,3 @@
     </div>
 
   </section><!-- End Vehicles Section -->
-
-<!-- <ng-component > -->
-  <!-- <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-          <user [state]="entityState" [id]="entityId" (onEntityAction)="entityActionCallback()"></user>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Send message</button>
-          </div>
-      </div>
-    </div>
-  </div> -->
-<!-- </ng-component> -->

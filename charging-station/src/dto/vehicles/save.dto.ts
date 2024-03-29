@@ -13,7 +13,7 @@ export class VehicleSaveDto {
 
     @IsNotEmpty()
     @IsNumber()
-    batteryCapacity?: Number;
+    batteryCapacity?: number;
     
     @IsNotEmpty()
     @IsString()
