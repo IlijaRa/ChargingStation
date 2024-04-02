@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from "@nestjs/common";
 import { Public } from "src/common";
 import { UserUpdateDto } from "src/dto";
 import { UsersService } from "src/services";
@@ -70,11 +70,18 @@ export class UsersController {
     unblock(@Param('userId') userId: string) {
         return this.usersService.unblock(userId);
     }
-
+    
     //TODO: check if user with userId exists in the first place
     @Public()
     @Get('confirm/:userId')
     confirm(@Param('userId') userId: string) {
         return this.usersService.confirm(userId);
+    }
+
+    //TODO: check if user with userId exists in the first place
+    @Public()
+    @Delete('delete/:userId')
+    delete(@Param('userId') userId: string) {
+        return this.usersService.delete(userId);
     }
 }

@@ -5,9 +5,9 @@
     <h1 *ngIf="state == viewState.Create">Create user</h1>
     <h1 *ngIf="state == viewState.Edit">Update user</h1>
 </div>
-<mat-tab-group style="padding-left: 10px; padding-right: 10px;">
+<mat-tab-group style="padding-left: 10px; padding-right: 10px;" animationDuration="0ms">
     <form [formGroup]="form!" *ngIf="form">
-        <mat-tab label="Basic Information">
+        <mat-tab label="Information">
             <div mat-dialog-content class="content">
                 <mat-form-field appearance="outline" class="left-field-adjustment">
                     <mat-label>First name</mat-label>
@@ -62,20 +62,21 @@
             </div>
             <div mat-dialog-actions class="action">
                 <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
-                <button mat-raised-button color="primary" type="submit">Save</button>
+                <button mat-raised-button color="primary" type="submit" *ngIf="!entityId" (click)="save()">Save</button>
+                <button mat-raised-button color="primary" type="submit" *ngIf="entityId" (click)="update()">Update</button>
             </div>
         </mat-tab>
         <mat-tab label="Biography">
             <div mat-dialog-content class="content">
-                <mat-form-field appearance="outline">
-                    <textarea matInput placeholder="Ex. Peter.Griffin is a fictional character and the protagonist 
-                    of the American animated sitcom Family Guy." formControlName="biography"></textarea>
+                <mat-form-field #biography appearance="outline" style="width: 358px; height: 352px;" class="scroll-hidden">
+                    <textarea style="min-width: 319px; min-height: 300px; resize: none;" matInput placeholder="Ex. Peter.Griffin is a fictional character and the protagonist of the American animated sitcom Family Guy." formControlName="biography"></textarea>
                 </mat-form-field>
             </div>
             <div mat-dialog-actions class="action">
                 <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
-                <button mat-raised-button color="primary" type="submit">Save</button>
+                <button mat-raised-button color="primary" type="submit" *ngIf="!entityId" (click)="save()">Save</button>
+                <button mat-raised-button color="primary" type="submit" *ngIf="entityId" (click)="update()">Update</button>
             </div>
         </mat-tab>
     </form>
-  </mat-tab-group>
+</mat-tab-group>

@@ -17,8 +17,7 @@ export class UserAddEditComponent {
   viewState = ViewState;
   state?: ViewState;
   disabled?: boolean;
-
-  private entityId: string;
+  entityId: string;
   
   constructor(
     private formBuilder: FormBuilder, 

@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsBoolean, IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class UserUpdateDto {
     @IsNotEmpty()
@@ -37,12 +37,4 @@ export class UserUpdateDto {
     @IsNotEmpty()
     @IsString()
     gender?: string;
-
-    // @IsNotEmpty()
-    // @IsBoolean()
-    // isBlocked?: boolean;
-
-    // @IsNotEmpty()
-    // @IsBoolean()
-    // isConfirmed?: boolean;
 }

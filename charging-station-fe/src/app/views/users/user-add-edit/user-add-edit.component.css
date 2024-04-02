@@ -14,11 +14,14 @@
 }
 
 .scroll-hidden {
-    overflow: hidden !important;
+    /* overflow: hidden; */
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 .title-alignment {
-    margin-left: 25px;
+    /* margin-left: 25px; */
+    text-align: center;
 }
 
 .left-field-adjustment {
@@ -37,13 +40,4 @@
 
 .action button {
     flex: 1;
-}
-
-mat-form-field textarea {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    resize: none;
-    box-sizing: border-box;
 }

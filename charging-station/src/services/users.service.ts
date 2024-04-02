@@ -79,8 +79,19 @@ export class UsersService {
         return { items: userItems };
     }
 
-    getAllUnconfirmed() {
-        return this.userModel.find({ isConfirmed: false });
+    async getAllUnconfirmed(): Promise<UserGetAllDto> {
+        const users = await this.userModel.find({ isConfirmed: false });
+        const userItems: UserGetAllItemDto[] = users.map(user => ({
+            id: user._id.toString(),
+            firstName: user.firstName,
+            lastName: user.lastName,
+            biography: user.biography,
+            username: user.username,
+            gender: user.gender,
+            isBlocked: user.isBlocked,
+            isConfirmed: user.isConfirmed
+        }));
+        return { items: userItems };
     }
 
     getAllBlocked() {
@@ -101,5 +112,9 @@ export class UsersService {
 
     confirm(userId?: string) {
         return this.userModel.findByIdAndUpdate(userId, { isConfirmed: true });
+    }
+
+    delete(userId?: string) {
+        return this.userModel.findByIdAndDelete(userId);
     }
 }

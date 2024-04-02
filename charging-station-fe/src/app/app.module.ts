@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChargersComponent, LoginComponent, RegisterComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
+import { ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUsersComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
 import { AppInjector, AppInterceptor, AppValuePipe, AuthGuard, AuthsService, ChargersService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -37,6 +37,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     RegisterComponent,
     UsersComponent,
     UserAddEditComponent,
+    UnconfirmedUsersComponent,
     ChargersComponent,
     VehiclesComponent,
     VehicleAddEditComponent,

@@ -13,7 +13,7 @@ export class UsersService {
     }
     
     async confirm(id?: string): Promise<any> {
-        return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/users/confirm/${id}`));
+        return await lastValueFrom<void>(this.http.get<void>(`${environment.apiUrl}/users/confirm/${id}`));
     }
 
     async block(id?: string): Promise<any> {
@@ -50,5 +50,9 @@ export class UsersService {
 
     async getAllUnblocked(): Promise<any> {
         return await lastValueFrom<UserGetAllDto>(this.http.get<UserGetAllDto>(`${environment.apiUrl}/users/getallunblocked`));
+    }
+
+    async delete(id?: string): Promise<any> {
+        return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/users/delete/${id}`));
     }
 }
