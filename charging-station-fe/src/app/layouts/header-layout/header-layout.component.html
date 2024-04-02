@@ -1,79 +1,64 @@
-<!-- ======= Header ======= -->
-<header id="header" class="header fixed-top">
-    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-  
-      <a href="index.html" class="logo d-flex align-items-center">
-        <img src="../assets/img/logo.png" alt="">
-        <span>ChargingStation</span>
-      </a>
-  
-      <nav id="navbar" class="navbar">
-        <ul>
-          <!-- <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto" href="#services">Services</a></li>
-          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li>
-          <li><a href="blog.html">Blog</a></li> -->
-          <li class="dropdown"><a><span>Actions</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li class="dropdown"><a routerLink="/users"><span>Users</span> <i class="bi bi-chevron-right"></i></a>
-                <!-- <ul>
-                  <li><a routerLink="/unregistered-users">Allow Entrance</a></li>
-                </ul> -->
-              </li>
-              <li><a routerLink="/chargers">Chargers</a></li>
-              <li><a routerLink="/vehicles">Vehicles</a></li>
-            </ul>
-          </li> 
-          <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
-            </ul>
-          </li>  -->
-  
-          <!-- <li class="dropdown megamenu"><a href="#"><span>Mega Menu</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li>
-                <a href="#">Column 1 link 1</a>
-                <a href="#">Column 1 link 2</a>
-                <a href="#">Column 1 link 3</a>
-              </li>
-              <li>
-                <a href="#">Column 2 link 1</a>
-                <a href="#">Column 2 link 2</a>
-                <a href="#">Column 3 link 3</a>
-              </li>
-              <li>
-                <a href="#">Column 3 link 1</a>
-                <a href="#">Column 3 link 2</a>
-                <a href="#">Column 3 link 3</a>
-              </li>
-              <li>
-                <a href="#">Column 4 link 1</a>
-                <a href="#">Column 4 link 2</a>
-                <a href="#">Column 4 link 3</a>
-              </li>
-            </ul>
-          </li> -->
-  
-          <!-- <li><a class="nav-link scrollto" routerLink="/contact">Contact</a></li> -->
-          <li><a class="nav-link scrollto" routerLink="/login">Login</a></li>
-          <li><a class="getstarted scrollto" routerLink="/register">Register</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav>
+<mat-toolbar color="primary" class="mat-elevation-z8" *ngIf="auth.authorized['admin'] || auth.authorized['driver']">
+  <button click="drawer.toggle()" mat-icon-button>
+    <mat-icon style="transform: scale(1.333333333333333);">battery_charging_full</mat-icon>
+  </button>
+  <!-- <button *ngIf="!auth.authorized['admin'] && !auth.authorized['driver']" routerLink="/" mat-icon-button>
+    <mat-icon>account_balance</mat-icon>
+  </button> -->
+  <span>ChargingStations</span>
+  <span class="example-spacer"></span>
+  <ng-container *ngIf="!auth.authorized['admin'] && !auth.authorized['driver']">
+    <button mat-button routerLink="/login">Log in</button>
+    <button mat-raised-button color="warn" routerLink="/register">Register</button>
+  </ng-container>
+  <ng-container *ngIf="auth.authorized['admin'] || auth.authorized['driver']">
+    <a mat-mini-fab color="accent">{{ auth.user?.initials }}</a>
+    <button [matMenuTriggerFor]="options" mat-button>Hello, {{ auth.user?.firstName + ' ' + auth.user?.lastName }}! <i class="fa fa-chevron-down"></i></button>
+    <mat-menu #options="matMenu">
+      <button mat-menu-item (click)="signOut()">Log out</button>
+    </mat-menu>
+  </ng-container>
+</mat-toolbar>
+<mat-drawer-container autosize *ngIf="auth.authorized['admin']">
+  <mat-drawer #drawer opened="true" mode="side" position="start">
+    <mat-nav-list>
+      <mat-list-item>
+        <button mat-button color="primary"><mat-icon>dashboard</mat-icon>Dashboard</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-button color="primary" routerLink="/users"><mat-icon>how_to_reg</mat-icon>Users</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-button color="primary" routerLink="/chargers"><mat-icon>battery_charging_full</mat-icon>Chargers</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-button color="primary" routerLink="/vehicles"><mat-icon>directions_car</mat-icon>Vehicles</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-button color="primary" routerLink="/unconfirmed-users"><mat-icon>perm_identity</mat-icon>Unconfirmed users</button>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="drawer-content">
+      <router-outlet></router-outlet>
     </div>
-  </header><!-- End Header -->
+  </mat-drawer-content>
+</mat-drawer-container>
+<mat-drawer-container autosize *ngIf="auth.authorized['driver']">
+  <mat-drawer #drawer opened="true" mode="side" position="start">
+    <mat-nav-list>
+      <mat-list-item>
+        <button mat-button color="primary" routerLink="/vehicles"><mat-icon>battery_alert</mat-icon>Reserve Charger</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-button color="primary" routerLink="/vehicles"><mat-icon>directions_car</mat-icon>My Vehicles</button>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="drawer-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChargersComponent, LandingComponent, LoginComponent, RegisterComponent, UsersComponent, VehiclesComponent } from './views';
+import { ChargersComponent, LoginComponent, RegisterComponent, UsersComponent, VehiclesComponent } from './views';
+import { HeaderLayoutComponent } from './layouts';
+import { AuthGuard } from './core';
 
 const routes: Routes = [
   {
@@ -12,23 +14,24 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
-    path: 'users',
-    component: UsersComponent,
-  },
-  {
-    path: 'chargers',
-    component: ChargersComponent,
-  },
-  {
-    path: 'vehicles',
-    component: VehiclesComponent,
-  },
-  {
     path: '',
-    component: LandingComponent,
+    component: HeaderLayoutComponent,
+    canActivate: [AuthGuard],
     children: [
+      {
+        path: 'users',
+        component: UsersComponent,
+      },
+      {
+        path: 'chargers',
+        component: ChargersComponent,
+      },
+      {
+        path: 'vehicles',
+        component: VehiclesComponent,
+      },
     ]
-  },
+  }
 ];
 
 @NgModule({

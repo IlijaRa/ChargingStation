@@ -1,31 +1,30 @@
-<!-- ======= Login Section ======= -->
-<section id="contact" class="contact">
-    <div class="container" data-aos="fade-up">
-        <header class="section-header">
-            <p>Login</p>
-            <!-- <h2>Populate form below in order to login</h2> -->
-        </header>
-      
-        <div class="row gy-12 justify-content-center">
-            <div class="col-lg-6">
-                <form class="php-email-form">
-                    <div class="row gy-4">
-                        <div class="col-md-12">
-                            <input type="text" name="name" class="form-control" placeholder="Username / Email Address" required>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="password" class="form-control" name="password" placeholder="Password" required>
-                        </div>
-                        <p>Don't have an account? <a class="link" routerLink="/register">Register here</a></p>
-                        <div class="col-md-12 text-center">
-                            <button type="submit">Login</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+<div class="login-container">
+    <div class="login-content">
+        <div class="welcome-title">
+            <h1><mat-icon style="transform: scale(1.333333333333333); padding-top: 3px; padding-right:28px;">battery_charging_full</mat-icon>ChargingStations</h1>
+            <!-- <h6>electric vehicle heaven</h6> -->
+            <span>Welcome! Please login to your account</span>
         </div>
+        <form [formGroup]="form!" *ngIf="form" class="scroll-hidden">
+            <div mat-dialog-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>Username / Email</mat-label>
+                    <input matInput formControlName="usernameOrEmail">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password">
+                </mat-form-field>
+                <div style="margin-bottom: 20px;">
+                    <a routerLink="/register">You don't have an account?</a>
+                </div>
+            </div>
+            <div mat-dialog-action>
+                <button class="login-button" mat-raised-button color="primary" type="submit" (click)="login()">Login</button>
+            </div>
+        </form>
     </div>
-</section><!-- End Login Section -->
-
-
-<footer-layout></footer-layout>
+</div>
+<div class="image-container mat-elevation-z24">
+    <img src="../../../assets/img/login-image.png" alt="Your Image" width="1400" height="2234">
+</div>

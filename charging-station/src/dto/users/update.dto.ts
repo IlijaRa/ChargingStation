@@ -38,11 +38,11 @@ export class UserUpdateDto {
     @IsString()
     gender?: string;
 
-    @IsNotEmpty()
-    @IsBoolean()
-    isBlocked?: boolean;
+    // @IsNotEmpty()
+    // @IsBoolean()
+    // isBlocked?: boolean;
 
-    @IsNotEmpty()
-    @IsBoolean()
-    isConfirmed?: boolean;
+    // @IsNotEmpty()
+    // @IsBoolean()
+    // isConfirmed?: boolean;
 }

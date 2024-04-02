@@ -8,6 +8,4 @@ export class UserGetByIdDto {
     emailAddress?: string;
     role?: string;
     gender?: string;
-    isBlocked?: boolean;
-    isConfirmed?: boolean;
 }

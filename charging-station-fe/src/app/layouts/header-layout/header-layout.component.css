@@ -1,0 +1,13 @@
+.example-spacer {
+    flex:1 1 auto
+}
+
+.mat-drawer-container {
+    height: 100vh;
+    /* overflow: hidden; */
+}
+
+.mat-drawer-content {
+    height: 100%;
+    /* overflow: hidden; */
+}

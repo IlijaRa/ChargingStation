@@ -34,9 +34,7 @@ export class UsersService {
             username: user.username,
             emailAddress: user.emailAddress,
             role: user.role,
-            gender: user.gender,
-            isBlocked: user.isBlocked,
-            isConfirmed: user.isConfirmed
+            gender: user.gender
         };
     
         return userDto;
@@ -66,8 +64,19 @@ export class UsersService {
         return { items: userItems };
     }
 
-    getAllConfirmed() {
-        return this.userModel.find({ isConfirmed: true });
+    async getAllConfirmed(): Promise<UserGetAllDto> {
+        const users = await this.userModel.find({ isConfirmed: true });
+        const userItems: UserGetAllItemDto[] = users.map(user => ({
+            id: user._id.toString(),
+            firstName: user.firstName,
+            lastName: user.lastName,
+            biography: user.biography,
+            username: user.username,
+            gender: user.gender,
+            isBlocked: user.isBlocked,
+            isConfirmed: user.isConfirmed
+        }));
+        return { items: userItems };
     }
 
     getAllUnconfirmed() {

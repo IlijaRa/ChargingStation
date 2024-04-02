@@ -6,11 +6,8 @@ export class UserUpdateDto {
     biography?: string;
     username?: string;
     emailAddress?: string;
-    password?: string;
     role?: string;
     gender?: string;
-    isBlocked?: boolean;
-    isConfirmed?: boolean;
 }
 
 export class UserGetByIdDto {
@@ -23,8 +20,6 @@ export class UserGetByIdDto {
     emailAddress?: string;
     role?: string;
     gender?: string;
-    isBlocked?: boolean;
-    isConfirmed?: boolean;
 }
 
 export class UserGetAllDto {

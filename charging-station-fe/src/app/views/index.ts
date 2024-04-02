@@ -1,5 +1,5 @@
 export * from './chargers';
-export * from './landing';
+export * from './google-map';
 export * from './login';
 export * from './register';
 export * from './users';

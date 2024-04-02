@@ -12,16 +12,16 @@ export class UsersService {
         return this.http.put(`${environment.apiUrl}/users/update`, model);
     }
     
-    async confirm(id?: number): Promise<any> {
+    async confirm(id?: string): Promise<any> {
         return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/users/confirm/${id}`));
     }
 
-    async block(id?: number): Promise<any> {
-        return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/users/block/${id}`));
+    async block(id?: string): Promise<any> {
+        return await lastValueFrom<void>(this.http.get<void>(`${environment.apiUrl}/users/block/${id}`));
     }
 
-    async unblock(id?: number): Promise<any> {
-        return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/users/unblock/${id}`));
+    async unblock(id?: string): Promise<any> {
+        return await lastValueFrom<void>(this.http.get<void>(`${environment.apiUrl}/users/unblock/${id}`));
     }
 
     getById(id?: string): Observable<UserGetByIdDto> {

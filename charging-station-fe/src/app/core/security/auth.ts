@@ -6,7 +6,7 @@ import { Dictionary, ErrorModel } from "../common";
 import { AuthUser } from "./auth.model";
 
 class AuthenticationRequest {
-    username?: string;
+    usernameOrEmail?: string;
     password?: string;
 }
 
@@ -15,18 +15,18 @@ class AuthenticationResponse {
     refresh_token?: string;
 }
 
-class CheckUsernameRequest{
-    username?: string;
+class CheckCredentialsRequest{
+    usernameOrEmail?: string;
 }
 
-class CheckUsernameResponse{
+class CheckCredentialsResponse{
     doesExist?: boolean;
 }
 
 class UserModel {
     firstName?: string;
-    roles?: string[];
     lastName?: string;
+    roles?: string[];
 }
 
 export class Auth {
@@ -51,7 +51,7 @@ export class Auth {
             if (this.getToken()) {
                 const headers = new HttpHeaders({'Authorization': `Bearer ${this.getToken()}`});
 
-                lastValueFrom<UserModel>(this.getHttpClient().get<UserModel>(`${environment.apiUrl}/Account/GetUser`, { headers: headers })).then((response: UserModel) => {
+                lastValueFrom<UserModel>(this.getHttpClient().get<UserModel>(`${environment.apiUrl}/accounts/getcurrentuser`, { headers: headers })).then((response: UserModel) => {
                     this.user = undefined;
                     this.authorized = [];
 
@@ -78,11 +78,11 @@ export class Auth {
         })
     }
 
-    static authenticate(username: string, password: string): Promise<void> {
+    static authenticate(usernameOrEmail: string, password: string): Promise<void> {
         return new Promise((resolve, reject) => {
 
             let model: AuthenticationRequest = new AuthenticationRequest();
-            model.username = username;
+            model.usernameOrEmail = usernameOrEmail;
             model.password = password;
 
             lastValueFrom<AuthenticationResponse>(this.getHttpClient().post<AuthenticationResponse>(`${environment.apiUrl}/auth/login`, model)).then((response: AuthenticationResponse) => {
@@ -96,21 +96,21 @@ export class Auth {
         })
     }
 
-    // static checkUsername(username: string): Promise<void> {
-    //     return new Promise((resolve, reject) => {
+    static checkCredentials(usernameOrEmail: string): Promise<void> {
+        return new Promise((resolve, reject) => {
 
-    //         let model: CheckUsernameRequest = new CheckUsernameRequest();
-    //         model.username = username;
+            let model: CheckCredentialsRequest = new CheckCredentialsRequest();
+            model.usernameOrEmail = usernameOrEmail;
 
-    //         lastValueFrom<CheckUsernameResponse>(this.getHttpClient().post<CheckUsernameResponse>(`${environment.apiUrl}/Account/CheckUsername`, model)).then((response: CheckUsernameResponse) => {
-    //             if (response.doesExist == true){
-    //                 resolve();
-    //             }
-    //         }).catch((e: ErrorModel) => {
-    //             reject(e);
-    //         })
-    //     })
-    // }
+            lastValueFrom<CheckCredentialsResponse>(this.getHttpClient().post<CheckCredentialsResponse>(`${environment.apiUrl}/accounts/checkcredentials`, model)).then((response: CheckCredentialsResponse) => {
+                if (response.doesExist == true){
+                    resolve();
+                }
+            }).catch((e: ErrorModel) => {
+                reject(e);
+            })
+        })
+    }
 
     static signOut() {
         this.user = undefined;

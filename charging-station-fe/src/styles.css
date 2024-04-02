@@ -1,3 +1,11 @@
+/* .mat-success {
+  color: #fff !important;
+  background-color: #28a745 !important;
+}
+.mat-success[disabled] {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+} */
+
 /* body {
     background: url('http://i.imgur.com/Eor57Ae.jpg') no-repeat fixed center center;
     background-size: cover; 
@@ -11,16 +19,18 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
-
+textarea { min-height: auto; min-width: 380px;}
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
 :root {
     scroll-behavior: smooth;
+    overflow: hidden;
   }
   
   body {
     /* font-family: "Open Sans", sans-serif; */
+    overflow: hidden;
     font-family: Montserrat;
     color: #444444;
     background: url(/assets/img/hero-bg.png) top center no-repeat;

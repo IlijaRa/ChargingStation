@@ -13,6 +13,7 @@ export class UserAddEditComponent {
   form?: FormGroup;
   user?: UserGetByIdDto;
   firstName?: string;
+  lastName?: string;
   viewState = ViewState;
   state?: ViewState;
   disabled?: boolean;
@@ -32,20 +33,19 @@ export class UserAddEditComponent {
         this.usersService.getById(this.entityId).subscribe({
           next: (val: any) => {
             this.user = val;
-            this.disabled = this.state == this.viewState.Details;
             this.firstName = val?.firstName;
+            this.lastName = val?.lastName;
             this.form = this.formBuilder.group({
-              firstName: new FormControl({ value : this.firstName, disabled: this.disabled }),
-              lastName: new FormControl({ value : val?.lastName, disabled: this.disabled }),
-              date: new FormControl({ value : val?.dateOfBirth, disabled: this.disabled }),
-              biography: new FormControl({ value : val?.biography, disabled: this.disabled }),
-              username: new FormControl({ value : val?.username, disabled: this.disabled }),
-              emailAddress: new FormControl({ value : val?.emailAddress, disabled: this.disabled }),
-              password: new FormControl({ value : val?.password, disabled: this.disabled }),
-              gender: new FormControl({ value : val?.gender, disabled: this.disabled }),
-              isBlocked: new FormControl({ value : val?.isBlocked == true ? "true" : "false", disabled: this.disabled }),
-              isConfirmed: new FormControl({ value : val?.isConfirmed == true ? "true" : "false", disabled: this.disabled }),
+              firstName: new FormControl(this.firstName),
+              lastName: new FormControl(this.lastName),
+              date: new FormControl(val?.dateOfBirth),
+              biography: new FormControl(val?.biography),
+              username: new FormControl(val?.username),
+              emailAddress: new FormControl(val?.emailAddress),
+              password: new FormControl(val?.password),
+              gender: new FormControl(val?.gender),
             });
+            console.log("this.form", this.form.value);
           },
           error: (err: any) => {
             console.error(err);
@@ -92,11 +92,8 @@ export class UserAddEditComponent {
         biography: this.form?.value.biography,
         username: this.form?.value.username,
         emailAddress: this.form?.value.emailAddress,
-        password: this.form?.value.password,
         role: "driver",
-        gender: this.form?.value.gender,
-        isBlocked: this.form?.value.isBlocked == "true" ? true : false,
-        isConfirmed: this.form?.value.isConfirmed == "true" ? true : false,
+        gender: this.form?.value.gender
       };
       this.usersService.update(model).subscribe({
         next: (val: any) => {

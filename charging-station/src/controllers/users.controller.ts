@@ -59,21 +59,21 @@ export class UsersController {
 
     //TODO: check if user with userId exists in the first place
     @Public()
-    @Post('block/:userId')
+    @Get('block/:userId')
     block(@Param('userId') userId: string) {
         return this.usersService.block(userId);
     }
 
     //TODO: check if user with userId exists in the first place
     @Public()
-    @Post('unblock/:userId')
+    @Get('unblock/:userId')
     unblock(@Param('userId') userId: string) {
         return this.usersService.unblock(userId);
     }
 
     //TODO: check if user with userId exists in the first place
     @Public()
-    @Post('confirm/:userId')
+    @Get('confirm/:userId')
     confirm(@Param('userId') userId: string) {
         return this.usersService.confirm(userId);
     }
