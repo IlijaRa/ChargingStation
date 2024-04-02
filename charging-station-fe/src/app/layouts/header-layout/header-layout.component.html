@@ -1,10 +1,7 @@
 <mat-toolbar color="primary" class="mat-elevation-z8" *ngIf="auth.authorized['admin'] || auth.authorized['driver']">
-  <button click="drawer.toggle()" mat-icon-button>
+  <button (click)="drawer.toggle()" mat-icon-button>
     <mat-icon style="transform: scale(1.333333333333333);">battery_charging_full</mat-icon>
   </button>
-  <!-- <button *ngIf="!auth.authorized['admin'] && !auth.authorized['driver']" routerLink="/" mat-icon-button>
-    <mat-icon>account_balance</mat-icon>
-  </button> -->
   <span>ChargingStations</span>
   <span class="example-spacer"></span>
   <ng-container *ngIf="!auth.authorized['admin'] && !auth.authorized['driver']">
@@ -19,40 +16,29 @@
     </mat-menu>
   </ng-container>
 </mat-toolbar>
-<mat-drawer-container autosize *ngIf="auth.authorized['admin']">
+<mat-drawer-container autosize>
   <mat-drawer #drawer opened="true" mode="side" position="start">
     <mat-nav-list>
-      <mat-list-item>
-        <button mat-button color="primary"><mat-icon>dashboard</mat-icon>Dashboard</button>
+      <mat-list-item *ngIf="auth.authorized['admin']">
+        <button mat-menu-item><mat-icon color="primary">dashboard</mat-icon>Dashboard</button>
       </mat-list-item>
-      <mat-list-item>
-        <button mat-button color="primary" routerLink="/users"><mat-icon>how_to_reg</mat-icon>Users</button>
+      <mat-list-item *ngIf="auth.authorized['admin']">
+        <button mat-menu-item routerLink="/users"><mat-icon color="primary">how_to_reg</mat-icon>Users</button>
       </mat-list-item>
-      <mat-list-item>
-        <button mat-button color="primary" routerLink="/chargers"><mat-icon>battery_charging_full</mat-icon>Chargers</button>
+      <mat-list-item *ngIf="auth.authorized['admin']">
+        <button mat-menu-item routerLink="/chargers"><mat-icon color="primary">battery_charging_full</mat-icon>Chargers</button>
       </mat-list-item>
-      <mat-list-item>
-        <button mat-button color="primary" routerLink="/vehicles"><mat-icon>directions_car</mat-icon>Vehicles</button>
+      <mat-list-item *ngIf="auth.authorized['admin']">
+        <button mat-menu-item routerLink="/vehicles"><mat-icon color="primary">directions_car</mat-icon>Vehicles</button>
       </mat-list-item>
-      <mat-list-item>
-        <button mat-button color="primary" routerLink="/unconfirmed-users"><mat-icon>perm_identity</mat-icon>Unconfirmed users</button>
+      <mat-list-item *ngIf="auth.authorized['admin']">
+        <button mat-menu-item routerLink="/unconfirmed-users"><mat-icon color="primary">perm_identity</mat-icon>Unconfirmed users</button>
       </mat-list-item>
-    </mat-nav-list>
-  </mat-drawer>
-  <mat-drawer-content>
-    <div class="drawer-content">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-drawer-content>
-</mat-drawer-container>
-<mat-drawer-container autosize *ngIf="auth.authorized['driver']">
-  <mat-drawer #drawer opened="true" mode="side" position="start">
-    <mat-nav-list>
-      <mat-list-item>
-        <button mat-button color="primary" routerLink="/vehicles"><mat-icon>battery_alert</mat-icon>Reserve Charger</button>
+      <mat-list-item *ngIf="auth.authorized['driver']">
+        <button mat-menu-item routerLink="/vehicles"><mat-icon color="primary">battery_alert</mat-icon>Reserve Charger</button>
       </mat-list-item>
-      <mat-list-item>
-        <button mat-button color="primary" routerLink="/vehicles"><mat-icon>directions_car</mat-icon>My Vehicles</button>
+      <mat-list-item *ngIf="auth.authorized['driver']">
+        <button mat-menu-item routerLink="/vehicles"><mat-icon color="primary">directions_car</mat-icon>My Vehicles</button>
       </mat-list-item>
     </mat-nav-list>
   </mat-drawer>

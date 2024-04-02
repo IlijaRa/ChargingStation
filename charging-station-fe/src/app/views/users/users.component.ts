@@ -16,6 +16,7 @@ export class UsersComponent implements OnInit {
     entityState: ViewState = ViewState.Details;
     entityId?: string;
     selectedItem: any;
+    
     handleClick($event: any) {
       $event.stopPropagation();
     }
@@ -85,7 +86,7 @@ export class UsersComponent implements OnInit {
         e.source.checked = true;
     }
 
-    openUserDialog(id?: string, viewState?: ViewState) {
+    openDialog(id?: string, viewState?: ViewState) {
         console.log("id", id);
         console.log("viewState", viewState);
         this.matDialog.open(UserAddEditComponent, {

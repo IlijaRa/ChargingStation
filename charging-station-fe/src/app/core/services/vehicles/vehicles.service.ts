@@ -23,4 +23,8 @@ export class VehiclesService {
     async getAll(): Promise<VehicleGetAllDto> {
         return await lastValueFrom<VehicleGetAllDto>(this.http.get<VehicleGetAllDto>(`${environment.apiUrl}/vehicles/getall`));
     }
+
+    async delete(id?: string): Promise<any> {
+        return await lastValueFrom<void>(this.http.delete<void>(`${environment.apiUrl}/vehicles/delete/${id}`));
+    }
 }

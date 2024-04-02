@@ -9,7 +9,7 @@ import { UserAllDto, UserAllItemDto, UsersService, VehicleGetByIdDto, VehicleSav
   templateUrl: './vehicle-add-edit.component.html',
   styleUrls: ['./vehicle-add-edit.component.css']
 })
-export class VehicleAddEditComponent implements OnInit{
+export class VehicleAddEditComponent implements OnInit {
   form?: FormGroup;
   vehicle?: VehicleGetByIdDto;
   drivera?: UserAllItemDto;
@@ -17,8 +17,7 @@ export class VehicleAddEditComponent implements OnInit{
   viewState = ViewState;
   state?: ViewState;
   disabled?: boolean;
-
-  private entityId: string;
+  entityId: string;
 
   constructor(
     private formBuilder: FormBuilder,

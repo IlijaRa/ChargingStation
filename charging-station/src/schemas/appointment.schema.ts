@@ -10,6 +10,9 @@ export class Appointment extends Document {
     endDate?: string;
 
     @Prop({ required: true })
+    isAvailable?: boolean;
+    
+    @Prop({ required: true })
     chargerId?: string;
 }
 

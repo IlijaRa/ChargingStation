@@ -44,7 +44,6 @@ export class UserAddEditComponent {
               password: new FormControl(val?.password),
               gender: new FormControl(val?.gender),
             });
-            console.log("this.form", this.form.value);
           },
           error: (err: any) => {
             console.error(err);

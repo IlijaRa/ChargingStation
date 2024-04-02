@@ -24,6 +24,10 @@ export class ChargerSaveDto {
     isAvailable?: boolean;
 
     @IsNotEmpty()
+    @IsString()
+    location?: string;
+
+    @IsNotEmpty()
     @IsNumber()
     latitude?: number;
 

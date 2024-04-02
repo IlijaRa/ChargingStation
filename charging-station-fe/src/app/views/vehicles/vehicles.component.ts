@@ -5,15 +5,25 @@ import { VehicleAddEditComponent } from ".";
 
 @Component({
     selector: 'vehicles',
-    templateUrl: './vehicles.component.html'
+    templateUrl: './vehicles.component.html',
+    styleUrls: ['./vehicles.component.css']
 })
 export class VehiclesComponent implements OnInit {
     vehicles?: VehicleGetAllItemDto[];
-
+    displayedColumns: string[] = ['manufacturer', 'vehicleModel', 'batteryCapacity', 'chargingProtocol', 'id'];
     entityModalShow: boolean = false;
     viewState = ViewState;
     entityState: ViewState = ViewState.Details;
     entityId?: string;
+    selectedItem: any;
+    
+    handleClick($event: any) {
+      $event.stopPropagation();
+    }
+  
+    select(item: any) {
+      this.selectedItem = item;
+    }
 
     constructor(private vehiclesService: VehiclesService, private matDialog: MatDialog) {}
 
@@ -33,13 +43,24 @@ export class VehiclesComponent implements OnInit {
         });
     }
 
-    openVehicleDialog(id?: string, viewState?: ViewState) {
+    deleteVehicle(vehicleId?: string): Promise<void> {
+      return new Promise((resolve: any) => {
+          this.vehiclesService.delete(vehicleId).then((response: void) => {
+              this.getAll();
+              resolve();
+          })
+      });
+    }
+
+    openDialog(id?: string, viewState?: ViewState) {
         this.matDialog.open(VehicleAddEditComponent, {
             autoFocus: false,
             data: {
                 id: id,
                 state: viewState
-            }
+            },
+            width: '427px',
+            height: '609px'
         })
         .afterClosed()
         .subscribe((res) => {

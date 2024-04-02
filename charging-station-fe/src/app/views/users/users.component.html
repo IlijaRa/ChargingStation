@@ -11,7 +11,7 @@
       </mat-form-field>
     </form>
     <div class="new-user-alignment">
-      <button class="new-user-button" mat-raised-button color="primary" (click)="openUserDialog(undefined, viewState.Create)"><i class="fa fa-plus"></i> New user</button>
+      <button class="new-user-button" mat-raised-button color="primary" (click)="openDialog(undefined, viewState.Create)"><i class="fa fa-plus"></i> New user</button>
     </div>
   </div>
   
@@ -58,8 +58,7 @@
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let user">
-        <mat-icon color="primary" (click)="openUserDialog(user.id, viewState.Edit)">edit</mat-icon>
-        <!-- <mat-icon color="primary" (click)="openUserDialog(user.id, viewState.Details)">details</mat-icon> -->
+        <mat-icon color="primary" (click)="openDialog(user.id, viewState.Edit)">edit</mat-icon>
       </td>
     </ng-container>
   

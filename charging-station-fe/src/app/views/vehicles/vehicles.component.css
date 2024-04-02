@@ -1,0 +1,85 @@
+.vehicles-container {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.vehicles-title {
+    padding-top: 15px;
+    padding-bottom: 20px;
+    padding-right: 15px;
+    width: auto;
+    text-align: left;
+    color: #3F51B5;
+}
+
+h1 {
+    font-size: 45px;
+    margin-bottom: 0px;
+  }
+
+.forward {
+    position: relative;
+    float: right;
+}
+
+.example-form {
+    min-width: 50px;
+    max-width: 500px;
+    width: 100%;
+}
+  
+.example-full-width {
+    width: 100%;
+}
+
+mat-form-field {
+    position: relative;
+}
+
+button.trigger {
+    padding-right: 35px;
+    margin-bottom: 10px;
+}
+
+button.trigger::after {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid;
+    content: '';
+    height: 0;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 0;
+}
+
+.search-new-vehicle {
+    display: flex;
+    justify-content: space-between;
+  }
+
+.new-vehicle-button {
+    width: 150px;
+    height: 56px;
+}
+  
+.new-vehicle-alignment {
+    display: flex;
+    justify-content: right;
+    /* margin-bottom: 10px; */
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+  
+th, td {
+    overflow: hidden;
+    width: 16%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}

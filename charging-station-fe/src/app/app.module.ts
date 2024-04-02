@@ -25,6 +25,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ChargerAddEditComponent } from './views/chargers/charger-add-edit/charger-add-edit.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 
     HeaderLayoutComponent,
     MainLayoutComponent,
-    FooterLayoutComponent
+    FooterLayoutComponent,
+    ChargerAddEditComponent
   ],
   imports: [
     BrowserModule,
