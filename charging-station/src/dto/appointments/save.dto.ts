@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsString } from "class-validator";
 
 export class AppointmentSaveDto {
     _id?: string
@@ -11,6 +11,10 @@ export class AppointmentSaveDto {
     @IsNotEmpty()
     @Type(() => Date)
     endDate?: Date;
+
+    @IsNotEmpty()
+    @IsBoolean()
+    isAvailable?: boolean;
 
     @IsNotEmpty()
     @IsString()

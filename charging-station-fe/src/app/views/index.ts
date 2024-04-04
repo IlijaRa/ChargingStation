@@ -1,3 +1,4 @@
+export * from './appointments';
 export * from './chargers';
 export * from './google-map';
 export * from './login';

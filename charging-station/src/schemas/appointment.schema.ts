@@ -9,7 +9,7 @@ export class Appointment extends Document {
     @Prop({ required: true })
     endDate?: string;
 
-    @Prop({ required: true })
+    @Prop({ default: false, required: true })
     isAvailable?: boolean;
     
     @Prop({ required: true })

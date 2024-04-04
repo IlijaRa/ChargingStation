@@ -1,6 +1,7 @@
 .vehicles-container {
     margin-left: 20px;
     margin-right: 20px;
+    text-align: center;
 }
 
 .vehicles-title {
@@ -82,4 +83,14 @@ th, td {
     text-overflow: ellipsis;
     white-space: nowrap;
     text-align: center;
+}
+
+.lock-icon-adjustments {
+    vertical-align: middle; 
+    transform: scale(0.8);
+}
+
+.no-content {
+    vertical-align: middle; 
+    font-size: 16px;
 }

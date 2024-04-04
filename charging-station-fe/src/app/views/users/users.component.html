@@ -65,4 +65,9 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <ng-container *ngIf="!users || users.length == 0" style="text-align: center;">
+    <mat-icon color="primary" class="lock-icon-adjustments">lock</mat-icon><span class="no-content">No content</span>
+  </ng-container>
+  
 </div>

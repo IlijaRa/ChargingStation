@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUsersComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
+import { AppointmentsComponent, ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUsersComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
-import { AppInjector, AppInterceptor, AppValuePipe, AuthGuard, AuthsService, ChargersService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
+import { AppInjector, AppInterceptor, AppointmentsService, AppValuePipe, AuthGuard, AuthsService, ChargersService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,6 +26,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ChargerAddEditComponent } from './views/chargers/charger-add-edit/charger-add-edit.component';
+import { AppointmentAddComponent } from './views/appointments/appointment-add/appointment-add.component';
 
 @NgModule({
   declarations: [
@@ -42,11 +43,13 @@ import { ChargerAddEditComponent } from './views/chargers/charger-add-edit/charg
     ChargersComponent,
     VehiclesComponent,
     VehicleAddEditComponent,
+    AppointmentsComponent,
 
     HeaderLayoutComponent,
     MainLayoutComponent,
     FooterLayoutComponent,
-    ChargerAddEditComponent
+    ChargerAddEditComponent,
+    AppointmentAddComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +85,8 @@ import { ChargerAddEditComponent } from './views/chargers/charger-add-edit/charg
     AuthsService,
     UsersService,
     ChargersService,
-    VehiclesService
+    VehiclesService,
+    AppointmentsService
   ],
   bootstrap: [AppComponent]
 })

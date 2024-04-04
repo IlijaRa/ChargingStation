@@ -1,10 +1,10 @@
-.users-container {
+.appointments-container {
     margin-left: 20px;
     margin-right: 20px;
     text-align: center;
 }
 
-.users-title {
+.appointments-title {
     padding-top: 15px;
     padding-bottom: 20px;
     padding-right: 15px;
@@ -56,17 +56,18 @@ button.trigger::after {
     width: 0;
 }
 
-.search-new-user {
+.button-area {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 22.4px;
   }
 
-.new-user-button {
-    width: 150px;
+.new-appointment-button {
+    /* width: 200px; */
     height: 56px;
 }
   
-.new-user-alignment {
+.new-appointment-alignment {
     display: flex;
     justify-content: right;
     /* margin-bottom: 10px; */

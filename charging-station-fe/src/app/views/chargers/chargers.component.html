@@ -49,7 +49,7 @@
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let charger">
-        <mat-icon color="primary" (click)="openDialog(charger.id, viewState.Edit)">schedule</mat-icon>
+        <mat-icon color="primary" [routerLink]="['appointments', charger.id]">schedule</mat-icon>
         <mat-icon color="primary" (click)="openDialog(charger.id, viewState.Edit)">edit</mat-icon>
         <mat-icon color="primary" (click)="deleteCharger(charger.id)">delete</mat-icon>
       </td>
@@ -58,4 +58,9 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <ng-container *ngIf="!chargers || chargers.length == 0" style="text-align: center;">
+    <mat-icon color="primary" class="lock-icon-adjustments">lock</mat-icon><span class="no-content">No content</span>
+  </ng-container>
+
 </div>

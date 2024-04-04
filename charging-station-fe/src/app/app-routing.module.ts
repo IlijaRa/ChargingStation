@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUsersComponent, UsersComponent, VehiclesComponent } from './views';
+import { AppointmentsComponent, ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUsersComponent, UsersComponent, VehiclesComponent } from './views';
 import { HeaderLayoutComponent } from './layouts';
 import { AuthGuard } from './core';
 
@@ -25,6 +25,10 @@ const routes: Routes = [
       {
         path: 'chargers',
         component: ChargersComponent,
+      },
+      {
+        path: 'chargers/appointments/:id',
+        component: AppointmentsComponent,
       },
       {
         path: 'vehicles',

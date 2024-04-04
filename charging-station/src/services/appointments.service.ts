@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { AppointmentSaveDto } from "src/dto";
+import { AppointmentGetAllDto, AppointmentGetAllItemDto, AppointmentGetByIdDto, AppointmentSaveDto } from "src/dto";
 import { Appointment } from "src/schemas";
 
 @Injectable()
@@ -16,12 +16,34 @@ export class AppointmentsService {
         }
     }
 
-    getById(appointmentId?: string) {
-        return this.appointmentModel.findById(appointmentId);
+    async getById(appointmentId?: string): Promise<AppointmentGetByIdDto> {
+        const appointment = await this.appointmentModel.findById(appointmentId);
+
+        if (!appointment) {
+            return null;
+        }
+
+        const appointmentDto: AppointmentGetByIdDto = {
+            id: appointment._id.toString(),
+            startDate: appointment.startDate,
+            endDate: appointment.endDate,
+            isAvailable: appointment.isAvailable,
+            chargerId: appointment.chargerId,
+        };
+    
+        return appointmentDto;
     }
 
-    getAll(chargerId?: string) {
-        return this.appointmentModel.find({ chargerId });
+    async getAll(chargerId?: string): Promise<AppointmentGetAllDto> {
+        const appointments = await this.appointmentModel.find({ chargerId });
+        const appointmentItems: AppointmentGetAllItemDto[] = appointments.map(appointment => ({
+            id: appointment._id.toString(),
+            startDate: appointment.startDate,
+            endDate: appointment.endDate,
+            isAvailable: appointment.isAvailable,
+            chargerId: appointment.chargerId,
+        }));
+        return { items: appointmentItems };
     }
 
     delete(appointmentId?: string) {
