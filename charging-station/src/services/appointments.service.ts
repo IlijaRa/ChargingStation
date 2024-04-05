@@ -36,6 +36,7 @@ export class AppointmentsService {
 
     async getAll(chargerId?: string): Promise<AppointmentGetAllDto> {
         const appointments = await this.appointmentModel.find({ chargerId });
+        
         const appointmentItems: AppointmentGetAllItemDto[] = appointments.map(appointment => ({
             id: appointment._id.toString(),
             startDate: appointment.startDate,
@@ -43,6 +44,11 @@ export class AppointmentsService {
             isAvailable: appointment.isAvailable,
             chargerId: appointment.chargerId,
         }));
+
+        appointmentItems.sort(function (a, b) {
+            return a.startDate.localeCompare(b.startDate);
+        });
+
         return { items: appointmentItems };
     }
 

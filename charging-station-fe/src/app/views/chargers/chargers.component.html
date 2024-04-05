@@ -28,7 +28,7 @@
   
     <ng-container matColumnDef="chargingPower">
       <th mat-header-cell *matHeaderCellDef> Charging power </th>
-      <td mat-cell *matCellDef="let charger"> {{charger.chargingPower}} </td>
+      <td mat-cell *matCellDef="let charger"> {{charger.chargingPower}} kW</td>
     </ng-container>
   
     <ng-container matColumnDef="pricePerKwh">
@@ -41,10 +41,10 @@
       <td mat-cell *matCellDef="let charger"> {{charger.paymentMethod}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="isAvailable">
+    <!-- <ng-container matColumnDef="isAvailable">
       <th mat-header-cell *matHeaderCellDef> Available </th>
       <td mat-cell *matCellDef="let charger"> {{charger.isAvailable}} </td>
-    </ng-container>
+    </ng-container> -->
   
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef></th>

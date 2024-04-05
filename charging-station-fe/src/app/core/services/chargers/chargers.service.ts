@@ -9,7 +9,7 @@ export class ChargersService {
     constructor(private http: HttpClient) { }
 
     save(model: ChargerSaveDto): Observable<any> {
-        return this.http.put(`${environment.apiUrl}/chargers/save`, model);
+        return this.http.post(`${environment.apiUrl}/chargers/save`, model);
     }
 
     getById(id?: string): Observable<ChargerGetByIdDto> {

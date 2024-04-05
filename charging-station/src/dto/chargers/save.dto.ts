@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class ChargerSaveDto {
     _id?: string;
@@ -19,9 +19,9 @@ export class ChargerSaveDto {
     @IsString()
     paymentMethod?: string;
 
-    @IsNotEmpty()
-    @IsBoolean()
-    isAvailable?: boolean;
+    // @IsNotEmpty()
+    // @IsBoolean()
+    // isAvailable?: boolean;
 
     @IsNotEmpty()
     @IsString()

@@ -15,8 +15,8 @@ export class Charger extends Document {
     @Prop({ required: true })
     paymentMethod?: string;
 
-    @Prop({ required: true })
-    isAvailable?: boolean;
+    // @Prop({ required: true })
+    // isAvailable?: boolean;
 
     @Prop({ required: true })
     location?: string;

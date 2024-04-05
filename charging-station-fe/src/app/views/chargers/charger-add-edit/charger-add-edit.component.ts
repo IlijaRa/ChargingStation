@@ -62,8 +62,8 @@ export class ChargerAddEditComponent implements OnInit {
         pricePerKwh: this.form?.value.pricePerKwh,
         paymentMethod: this.form?.value.paymentMethod,
         location: this.form?.value.location,
-        latitude: this.form?.value.latitude,
-        longitude: this.form?.value.longitude,
+        latitude: 100.00,//this.form?.value.latitude,
+        longitude: 100.00,//this.form?.value.longitude,
       };
       this.chargersService.save(model).subscribe({
         next: (val: any) => {

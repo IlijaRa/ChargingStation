@@ -28,12 +28,12 @@
   
     <ng-container matColumnDef="batteryCapacity">
       <th mat-header-cell *matHeaderCellDef> Battery capacity </th>
-      <td mat-cell *matCellDef="let vehicle"> {{vehicle.batteryCapacity}} </td>
+      <td mat-cell *matCellDef="let vehicle"> {{vehicle.batteryCapacity}} kWh</td>
     </ng-container>
   
     <ng-container matColumnDef="chargingProtocol">
       <th mat-header-cell *matHeaderCellDef> Charging protocol </th>
-      <td mat-cell *matCellDef="let vehicle"> {{vehicle.chargingProtocol}} </td>
+      <td mat-cell *matCellDef="let vehicle"> {{vehicle.chargingProtocol}}</td>
     </ng-container>
   
     <ng-container matColumnDef="id">

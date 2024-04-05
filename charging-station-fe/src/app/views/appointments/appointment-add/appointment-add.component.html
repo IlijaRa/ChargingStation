@@ -1,1 +1,37 @@
-<p>appointment-add works!</p>
+<div style="text-align: end;">
+    <button mat-icon-button aria-label="close dialog" mat-dialog-close><mat-icon>close</mat-icon></button>
+</div>
+<div class="title-alignment">
+    <h1>Create appointment</h1>
+    <!-- <h1 *ngIf="state == viewState.Edit">Update charger</h1> -->
+</div>
+<form [formGroup]="form!" *ngIf="form">
+    <div mat-dialog-content class="content">
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Start date (MM/DD/YYYY)</mat-label>
+                <input matInput [matDatepicker]="pickerStartDate" formControlName="startDate">
+                <mat-datepicker-toggle matIconSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerStartDate></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>End date (MM/DD/YYYY)</mat-label>
+                <input matInput [matDatepicker]="pickerEndDate" formControlName="endDate">
+                <mat-datepicker-toggle matIconSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerEndDate></mat-datepicker>
+            </mat-form-field>
+            <div class="row">
+                <mat-radio-group aria-label="Select an option" formControlName="isAvailable">
+                    <mat-label><b>Available</b></mat-label>
+                    <mat-radio-button value="yes">Yes</mat-radio-button>
+                    <mat-radio-button value="no">No</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions class="action">
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="!entityId" (click)="save()">Save</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="entityId" (click)="save()">Update</button>
+    </div>
+</form>

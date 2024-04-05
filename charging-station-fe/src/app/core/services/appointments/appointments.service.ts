@@ -9,7 +9,7 @@ export class AppointmentsService {
     constructor(private http: HttpClient) { }
 
     save(model: AppointmentSaveDto): Observable<any> {
-        return this.http.put(`${environment.apiUrl}/appointments/save`, model);
+        return this.http.post(`${environment.apiUrl}/appointments/save`, model);
     }
 
     getById(id?: string): Observable<AppointmentGetByIdDto> {

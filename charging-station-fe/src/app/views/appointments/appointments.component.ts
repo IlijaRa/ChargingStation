@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
-import { AppointmentGetAllDto, AppointmentGetAllItemDto, AppointmentsService, ChargerGetByIdDto, ChargersService, ViewState } from "src/app/core";
+import { AppointmentGetAllDto, AppointmentGetAllItemDto, AppointmentsService, ChargersService, ViewState } from "src/app/core";
 import { AppointmentAddComponent } from ".";
 
 @Component({
@@ -12,7 +12,7 @@ import { AppointmentAddComponent } from ".";
 export class AppointmentsComponent implements OnInit {
     appointments?: AppointmentGetAllItemDto[];
     chargerLocation?: string;
-    displayedColumns: string[] = ['startDate', 'endDate', 'isAvailable', 'id'];
+    displayedColumns: string[] = ['startDate', 'endDate', 'isAvailable'];
     viewState = ViewState;
     entityState: ViewState = ViewState.Details;
     entityId?: string;
@@ -62,15 +62,15 @@ export class AppointmentsComponent implements OnInit {
         });
     }
 
-    openDialog(id?: string, viewState?: ViewState) {
+    openDialog(id?: string) {
         this.matDialog.open(AppointmentAddComponent, {
             autoFocus: false,
             data: {
                 id: id,
-                state: viewState
+                chargerId: this.chargerId
             },
             width: '427px',
-            height: '609px'
+            height: '400px'
         })
         .afterClosed()
         .subscribe((res) => {

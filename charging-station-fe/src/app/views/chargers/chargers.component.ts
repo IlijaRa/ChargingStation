@@ -10,7 +10,7 @@ import { ChargerAddEditComponent } from ".";
 })
 export class ChargersComponent implements OnInit {
     chargers?: ChargerGetAllItemDto[];
-    displayedColumns: string[] = ['location', 'chargingProtocol', 'chargingPower', 'pricePerKwh', 'paymentMethod', 'isAvailable', 'id'];
+    displayedColumns: string[] = ['location', 'chargingProtocol', 'chargingPower', 'pricePerKwh', 'paymentMethod', 'id'];
     // entityModalShow: boolean = false;
     viewState = ViewState;
     entityState: ViewState = ViewState.Details;

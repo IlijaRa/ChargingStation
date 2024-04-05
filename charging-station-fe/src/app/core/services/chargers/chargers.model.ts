@@ -32,6 +32,6 @@ export class ChargerGetAllItemDto {
     chargingProtocol?: string;
     pricePerKwh?: number;
     paymentMethod?: string;
-    isAvailable?: boolean;
+    // isAvailable?: boolean;
     location?: string;
 }

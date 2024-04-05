@@ -6,19 +6,19 @@
         <div>
             <button class="new-appointment-button" mat-raised-button color="primary" routerLink="../.."><mat-icon>keyboard_arrow_left</mat-icon>Back to chargers</button>
         </div>
-        <div class="new-appointment-alignment">
-            <button class="new-appointment-button" mat-raised-button color="primary" (click)="openDialog(undefined, viewState.Create)"><i class="fa fa-plus"></i> New appointment</button>
-        </div>
+        <!-- <div class="new-appointment-alignment">
+            <button class="new-appointment-button" mat-raised-button color="primary" (click)="openDialog(undefined)"><i class="fa fa-plus"></i> New appointment</button>
+        </div> -->
     </div>
     
     <table mat-table [dataSource]="appointments!">
       <ng-container matColumnDef="startDate">
-        <th mat-header-cell *matHeaderCellDef> Start date </th>
+        <th mat-header-cell *matHeaderCellDef> Start time </th>
         <td mat-cell *matCellDef="let appointment"> {{appointment.startDate}} </td>
       </ng-container>
     
       <ng-container matColumnDef="endDate">
-        <th mat-header-cell *matHeaderCellDef> End date </th>
+        <th mat-header-cell *matHeaderCellDef> End time </th>
         <td mat-cell *matCellDef="let appointment"> {{appointment.endDate}} </td>
       </ng-container>
     
@@ -32,13 +32,13 @@
         <td mat-cell *matCellDef="let user"><mat-slide-toggle [checked]="user.isBlocked" color="primary" (click)="changeBlockStatus(user.id, user.isBlocked)"></mat-slide-toggle></td>
       </ng-container> -->
     
-      <ng-container matColumnDef="id">
+      <!-- <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let appointment">
-          <!-- <mat-icon color="primary" (click)="openDialog(appointment.id, viewState.Edit)">edit</mat-icon> -->
+          <mat-icon color="primary" (click)="openDialog(appointment.id, viewState.Edit)">edit</mat-icon>
           <mat-icon color="primary" (click)="deleteAppointment(appointment.id)">delete</mat-icon>
         </td>
-      </ng-container>
+      </ng-container> -->
   
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
