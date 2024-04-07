@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { ChargerGetAllDto, ChargerGetAllItemDto, ChargersService, ViewState } from "src/app/core";
+import { ChargerSearchItemDto, ChargersService, ViewState } from "src/app/core";
 import { ChargerAddEditComponent } from ".";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
 
 @Component({
     selector: 'chargers',
@@ -9,13 +11,14 @@ import { ChargerAddEditComponent } from ".";
     styleUrls: ['./chargers.component.css']
 })
 export class ChargersComponent implements OnInit {
-    chargers?: ChargerGetAllItemDto[];
+    form?: FormGroup;
+    chargers?: ChargerSearchItemDto[];
     displayedColumns: string[] = ['location', 'chargingProtocol', 'chargingPower', 'pricePerKwh', 'paymentMethod', 'id'];
-    // entityModalShow: boolean = false;
     viewState = ViewState;
     entityState: ViewState = ViewState.Details;
     entityId?: string;
     selectedItem: any;
+    querySearch?: string = undefined;
 
     handleClick($event: any) {
         $event.stopPropagation();
@@ -25,42 +28,39 @@ export class ChargersComponent implements OnInit {
         this.selectedItem = item;
     }
 
-    constructor(private chargersService: ChargersService, private matDialog: MatDialog) {}
-
-    ngOnInit(): void {
-        this.getAll();
+    constructor(private formBuilder: FormBuilder, private chargersService: ChargersService, private matDialog: MatDialog) 
+    {
+        this.form = this.formBuilder.group({
+            query: new FormControl(this.querySearch),
+        });
     }
 
-    // entityDetails(id?: string) {
-    //     this.entityModalShow = true;
-    //     this.entityId = id;
-    //     this.entityState = ViewState.Details;
-    // }
-
-    // entityModalClose() {
-    //     this.entityModalShow = false;
-    // }
+    ngOnInit(): void {
+        this.search();
+    }
 
     entityActionCallback() {
     }
 
-    private getAll(): Promise<void> {
-        return new Promise((resolve: any) => {
-          this.chargersService.getAll().then((response: ChargerGetAllDto) => {
-            this.chargers = response.items;
-            resolve();
-          })
-        });
+    search() {
+        this.chargersService.search(this.querySearch ?? "").subscribe({
+            next: (val: any) => {
+                this.chargers = val.items;
+            },
+            error: (err: any) => {
+              console.error(err);
+            }
+        })
     }
 
     deleteCharger(chargerId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.chargersService.delete(chargerId).then((response: void) => {
-                this.getAll();
+                this.search();
                 resolve();
             })
         });
-      }
+    }
 
     openDialog(id?: string, viewState?: ViewState) {
         this.matDialog.open(ChargerAddEditComponent, {
@@ -74,16 +74,27 @@ export class ChargersComponent implements OnInit {
         })
         .afterClosed()
         .subscribe((res) => {
-          this.getAll();
-        //   setTimeout(() => {
-        //     if (viewState == ViewState.Create) {
-        //         alert("Employee added successfully!");
-        //     } 
-            
-        //     if (viewState == ViewState.Edit) {
-        //         alert("Employee updated successfully!");
-        //     }
-        //   }, 500);
+          this.search();
+        });
+    }
+
+    openDeleteDialog(id?: string) {
+        this.matDialog.open(ConfirmActionDialogComponent, {
+            autoFocus: false,
+            data: {
+                actionName: 'Delete',
+                entityName: 'charger'
+            },
+            width: '427px',
+            height: '215px'
+        })
+        .afterClosed()
+        .subscribe((res) => {
+            if (res === 'ok') {
+                this.deleteCharger(id).then(() => {
+                    this.search();
+                })
+            }
         });
     }
 }

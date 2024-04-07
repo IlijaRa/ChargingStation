@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { ChargerGetAllDto, ChargerGetAllItemDto, ChargerSaveDto } from "src/dto";
+import { ChargerGetAllDto, ChargerGetAllItemDto, ChargerSaveDto, ChargerSearchDto, ChargerSearchItemDto } from "src/dto";
 import { Appointment, Charger } from "src/schemas";
 
 @Injectable()
@@ -34,6 +34,37 @@ export class ChargersService {
             paymentMethod: charger.paymentMethod,
             location: charger.location
         }));
+        return { items: chargerItems };
+    }
+
+    async search(query?: string): Promise<ChargerSearchDto> {
+        let chargers;
+
+        if (this.isEmpty(query)) {
+            chargers = await this.chargerModel.find();
+        } else {
+            const searchCriteria = {
+                $or: [
+                    { chargingProtocol: new RegExp(query, 'i') },
+                    { paymentMethod: new RegExp(query, 'i') },
+                    { location: new RegExp(query, 'i') },
+                    { chargingPower: parseFloat(query) || 0.0 },
+                    { pricePerKwh: parseFloat(query) || 0.0 },
+                ]
+            };
+    
+            chargers = await this.chargerModel.find(searchCriteria);
+        }
+
+        const chargerItems: ChargerSearchItemDto[] = chargers.map(charger => ({
+            id: charger._id.toString(),
+            chargingPower: charger.chargingPower,
+            chargingProtocol: charger.chargingProtocol,
+            pricePerKwh: charger.pricePerKwh,
+            paymentMethod: charger.paymentMethod,
+            location: charger.location
+        }));
+
         return { items: chargerItems };
     }
 
@@ -85,4 +116,12 @@ export class ChargersService {
         const minutes = date.getMinutes().toString().padStart(2, "0");
         return `${hours}:${minutes}`;
     }
+
+    //#region Helpers
+
+    private isEmpty(value) {
+        return (value == null || (typeof value === "string" && value.trim().length === 0));
+    }
+
+    //#endregion
 }

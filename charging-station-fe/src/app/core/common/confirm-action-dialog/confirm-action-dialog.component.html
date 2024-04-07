@@ -1,0 +1,11 @@
+<div style="text-align: end;">
+    <button mat-icon-button aria-label="close dialog" mat-dialog-close><mat-icon>close</mat-icon></button>
+</div>
+<div class="title-alignment">
+    <h1>{{ actionName }} {{ entityName }}</h1>
+    <h3>Are you sure that you want to {{ actionName?.toLowerCase() }} this {{ entityName }}?</h3>
+</div>
+<div mat-dialog-actions class="action">
+    <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+    <button mat-raised-button color="primary" type="submit" (click)="ok()">Ok</button>
+</div>

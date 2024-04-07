@@ -40,9 +40,21 @@ export class UsersController {
     }
 
     @Public()
+    @Get('searchConfirmed/:query?')
+    searchConfirmed(@Param('query') query?: string) {
+        return this.usersService.searchConfirmed(query);
+    }
+
+    @Public()
     @Get('getallunconfirmed')
     getAllUnconfirmed() {
         return this.usersService.getAllUnconfirmed();
+    }
+
+    @Public()
+    @Get('searchUnconfirmed/:query?')
+    searchUnconfirmed(@Param('query') query?: string) {
+        return this.usersService.searchUnconfirmed(query);
     }
 
     @Public()

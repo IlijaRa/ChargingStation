@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { VehicleGetAllDto, VehicleGetAllItemDto, VehicleSaveDto } from "src/dto";
+import { VehicleGetAllDto, VehicleGetAllItemDto, VehicleSaveDto, VehicleSearchDto, VehicleSearchItemDto } from "src/dto";
 import { Vehicle } from "src/schemas";
 
 @Injectable()
@@ -36,7 +36,44 @@ export class VehiclesService {
         return { items: vehicleItems };
     }
 
+    async search(query?: string): Promise<VehicleSearchDto> {
+        let vehicles;
+
+        if (this.isEmpty(query)) {
+            vehicles = await this.vehicleModel.find();
+        } else {
+            const searchCriteria = {
+                $or: [
+                    { manufacturer: new RegExp(query, 'i') },
+                    { vehicleModel: new RegExp(query, 'i') },
+                    { chargingProtocol: new RegExp(query, 'i') },
+                    { batteryCapacity: parseFloat(query) || 0.0 },
+                ]
+            };
+    
+            vehicles = await this.vehicleModel.find(searchCriteria);
+        }
+
+        const vehicleItems: VehicleSearchItemDto[] = vehicles.map(vehicle => ({
+            id: vehicle._id.toString(),
+            manufacturer: vehicle.manufacturer,
+            vehicleModel: vehicle.vehicleModel,
+            batteryCapacity: vehicle.batteryCapacity,
+            chargingProtocol: vehicle.chargingProtocol,
+        }));
+
+        return { items: vehicleItems };
+    }
+
     delete(vehicleId?: string) {
         return this.vehicleModel.findByIdAndDelete(vehicleId);
     }
+
+    //#region Helpers
+
+    private isEmpty(value) {
+        return (value == null || (typeof value === "string" && value.trim().length === 0));
+    }
+
+    //#endregion
 }

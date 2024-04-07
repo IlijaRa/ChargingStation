@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { UserGetAllDto, UserGetAllItemDto, UsersService, ViewState } from "src/app/core";
+import { MatDialog } from "@angular/material/dialog";
+import { UserGetAllItemDto, UsersService, ViewState } from "src/app/core";
 import { UserAddEditComponent } from ".";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
 
 @Component({
     selector: 'users',
@@ -9,6 +11,7 @@ import { UserAddEditComponent } from ".";
     styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+    form?: FormGroup;
     users?: UserGetAllItemDto[];
     displayedColumns: string[] = ['firstName', 'lastName', 'username', 'biography', 'gender', 'isBlocked', 'isConfirmed', 'id'];
     entityModalShow: boolean = false;
@@ -16,7 +19,8 @@ export class UsersComponent implements OnInit {
     entityState: ViewState = ViewState.Details;
     entityId?: string;
     selectedItem: any;
-    
+    querySearch?: string = undefined;
+
     handleClick($event: any) {
       $event.stopPropagation();
     }
@@ -25,58 +29,35 @@ export class UsersComponent implements OnInit {
       this.selectedItem = item;
     }
 
-    constructor(private usersService: UsersService, private matDialog: MatDialog) {}
+    constructor(private formBuilder: FormBuilder, private usersService: UsersService, private matDialog: MatDialog) 
+    {
+        this.form = this.formBuilder.group({
+            query: new FormControl(this.querySearch),
+        });
+    }
 
     ngOnInit(): void {
-        this.getAll();
+        this.search();
     }
 
     entityActionCallback() {
     }
 
-    private getAll(): Promise<void> {
+    search() {
+        this.usersService.searchConfirmed(this.querySearch ?? "").subscribe({
+            next: (val: any) => {
+                this.users = val.items;
+            },
+            error: (err: any) => {
+              console.error(err);
+            }
+        })
+    }
+
+    deleteUser(userId?: string): Promise<void> {
         return new Promise((resolve: any) => {
-            this.usersService.getAllConfirmed().then((response: UserGetAllDto) => {
-                this.users = response.items;
-                this.users?.forEach(user => {
-                    if (user.biography) {
-                        user.biography = this.cropBiography(user.biography);
-                    }
-                });
-                resolve();
-            })
-        });
-    }
-
-    private cropBiography(biography?: string) {
-        const periodIndex = biography?.indexOf('.');
-        if (periodIndex !== -1) {
-            return biography?.substring(0, periodIndex! + 1);
-        }
-        return biography;
-    }
-
-    changeBlockStatus(userId?: string, isBlocked?: boolean) {
-        if (isBlocked) {
-            this.unblock(userId);
-        } else {
-            this.block(userId);
-        }
-    }
-
-    private unblock(userId?: string): Promise<void> {
-        return new Promise((resolve: any) => {
-            this.usersService.unblock(userId).then((response: void) => {
-                this.getAll();
-                resolve();
-            })
-        });
-    }
-
-    private block(userId?: string): Promise<void> {
-        return new Promise((resolve: any) => {
-            this.usersService.block(userId).then((response: void) => {
-                this.getAll();
+            this.usersService.delete(userId).then((response: void) => {
+                this.search();
                 resolve();
             })
         });
@@ -100,16 +81,73 @@ export class UsersComponent implements OnInit {
         })
         .afterClosed()
         .subscribe((res) => {
-          this.getAll();
-        //   setTimeout(() => {
-        //     if (viewState == ViewState.Create) {
-        //         alert("Employee added successfully!");
-        //     } 
+          this.search();
+        });
+    }
+
+    openDeleteDialog(id?: string) {
+        this.matDialog.open(ConfirmActionDialogComponent, {
+            autoFocus: false,
+            data: {
+                actionName: 'Delete',
+                entityName: 'user'
+            },
+            width: '427px',
+            height: '215px'
+        })
+        .afterClosed()
+        .subscribe((res) => {
+            if (res === 'ok') {
+                this.deleteUser(id).then(() => {
+                    this.search();
+                })
+            }
+        });
+    }
+
+    changeBlockStatus(userId?: string, isBlocked?: boolean) {
+        this.openBlockStatusDialog(userId, isBlocked ? 'Unblock' : 'Block');
+    }
+
+    private unblock(userId?: string): Promise<void> {
+        return new Promise((resolve: any) => {
+            this.usersService.unblock(userId).then((response: void) => {
+                this.search();
+                resolve();
+            })
+        });
+    }
+
+    private block(userId?: string): Promise<void> {
+        return new Promise((resolve: any) => {
+            this.usersService.block(userId).then((response: void) => {
+                this.search();
+                resolve();
+            })
+        });
+    }
+
+    openBlockStatusDialog(id?: string, actionName?: string) {
+        this.matDialog.open(ConfirmActionDialogComponent, {
+            autoFocus: false,
+            data: {
+                actionName: actionName,
+                entityName: 'user'
+            },
+            width: '427px',
+            height: '215px'
+        })
+        .afterClosed()
+        .subscribe((res) => {
+            if (res === 'ok') {
+                if (actionName === 'Block') {
+                    this.block(id);
+                } else {
+                    this.unblock(id);
+                } 
+            }
             
-        //     if (viewState == ViewState.Edit) {
-        //         alert("Employee updated successfully!");
-        //     }
-        //   }, 500);
+            this.search();
         });
     }
 }

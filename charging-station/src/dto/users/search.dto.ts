@@ -1,8 +1,8 @@
-export class UserGetAllDto {
-    items?: UserGetAllItemDto[];
+export class UserSearchDto {
+    items?: UserSearchItemDto[];
 }
 
-export class UserGetAllItemDto {
+export class UserSearchItemDto {
     id?: string;
     firstName?: string;
     lastName?: string;

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { environment } from "src/environments/environment";
 import { lastValueFrom, Observable } from "rxjs";
-import { ChargerGetAllDto, ChargerGetByIdDto, ChargerSaveDto } from "./chargers.model";
+import { ChargerGetAllDto, ChargerGetByIdDto, ChargerSaveDto, ChargerSearchDto } from "./chargers.model";
 
 @Injectable()
 export class ChargersService {
@@ -18,6 +18,10 @@ export class ChargersService {
 
     async getAll(): Promise<any> {
         return await lastValueFrom<ChargerGetAllDto>(this.http.get<ChargerGetAllDto>(`${environment.apiUrl}/chargers/getall`));
+    }
+
+    search(query?: string): Observable<ChargerSearchDto> {
+        return this.http.get(`${environment.apiUrl}/chargers/search/${query}`);
     }
 
     async delete(id?: string): Promise<any> {

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { environment } from "src/environments/environment";
 import { lastValueFrom, Observable } from "rxjs";
-import { VehicleGetAllDto, VehicleGetByIdDto, VehicleSaveDto } from "./vehicles.model";
+import { VehicleGetAllDto, VehicleGetByIdDto, VehicleSaveDto, VehicleSearchDto } from "./vehicles.model";
 
 @Injectable()
 export class VehiclesService {
@@ -22,6 +22,10 @@ export class VehiclesService {
 
     async getAll(): Promise<VehicleGetAllDto> {
         return await lastValueFrom<VehicleGetAllDto>(this.http.get<VehicleGetAllDto>(`${environment.apiUrl}/vehicles/getall`));
+    }
+
+    search(query?: string): Observable<VehicleSearchDto> {
+        return this.http.get(`${environment.apiUrl}/vehicles/search/${query}`);
     }
 
     async delete(id?: string): Promise<any> {

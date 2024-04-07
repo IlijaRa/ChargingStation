@@ -1,6 +1,6 @@
 import { DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChargerGetByIdDto, ChargerSaveDto, ChargersService, ViewState } from 'src/app/core';
 
@@ -16,6 +16,7 @@ export class ChargerAddEditComponent implements OnInit {
   state?: ViewState;
   disabled?: boolean;
   entityId: string;
+  errorMessages: any = undefined;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -30,13 +31,13 @@ export class ChargerAddEditComponent implements OnInit {
           next: (val: any) => {
             this.disabled = this.state == this.viewState.Details;
             this.form = this.formBuilder.group({
-              chargingPower: new FormControl(val?.chargingPower),
-              chargingProtocol: new FormControl(val?.chargingProtocol),
-              pricePerKwh: new FormControl(val?.pricePerKwh),
-              paymentMethod: new FormControl(val?.paymentMethod),
-              location: new FormControl(val?.location),
-              latitude: new FormControl(val?.latitude),
-              longitude: new FormControl(val?.longitude)
+              chargingPower: new FormControl(val?.chargingPower, [Validators.required]),
+              chargingProtocol: new FormControl(val?.chargingProtocol, [Validators.required]),
+              pricePerKwh: new FormControl(val?.pricePerKwh, [Validators.required]),
+              paymentMethod: new FormControl(val?.paymentMethod, [Validators.required]),
+              location: new FormControl(val?.location, [Validators.required]),
+              latitude: new FormControl(val?.latitude, [Validators.required]),
+              longitude: new FormControl(val?.longitude, [Validators.required])
             });
           },
           error: (err: any) => {
@@ -45,7 +46,11 @@ export class ChargerAddEditComponent implements OnInit {
         })
       } else {
         this.form = this.formBuilder.group({
-          chargingPower: '', chargingProtocol: '', pricePerKwh: '', paymentMethod: '', location: ''
+          chargingPower: new FormControl('', [Validators.required]), 
+          chargingProtocol: new FormControl('', [Validators.required]), 
+          pricePerKwh: new FormControl('', [Validators.required]), 
+          paymentMethod: new FormControl('', [Validators.required]), 
+          location: new FormControl('', [Validators.required]), 
         });
       }
   }
@@ -70,7 +75,7 @@ export class ChargerAddEditComponent implements OnInit {
           this.cancel();
         },
         error: (err: any) => {
-          console.error(err);
+          this.errorMessages = err.message;
         }
       })
     }

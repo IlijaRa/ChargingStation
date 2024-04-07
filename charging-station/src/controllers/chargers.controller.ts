@@ -21,10 +21,16 @@ export class ChargersController {
         return this.chargersService.getById(chargerId);
     }
     
-    @Get('getall')
     @Public()
+    @Get('getall')
     getAll() {
         return this.chargersService.getAll();
+    }
+
+    @Public()
+    @Get('search/:query?')
+    search(@Param('query') query?: string) {
+        return this.chargersService.search(query);
     }
 
     //TODO: check if charger with chargerId exists in the first place

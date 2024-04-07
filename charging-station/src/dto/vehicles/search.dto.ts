@@ -1,8 +1,8 @@
-export class VehicleGetAllDto {
-    items?: VehicleGetAllItemDto[];
+export class VehicleSearchDto {
+    items?: VehicleSearchItemDto[];
 }
 
-export class VehicleGetAllItemDto {
+export class VehicleSearchItemDto {
     id?: string;
     manufacturer?: string;
     vehicleModel?: string;

@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { VehicleGetAllDto, VehicleGetAllItemDto, VehiclesService, ViewState } from "src/app/core";
+import { VehicleSearchItemDto, VehiclesService, ViewState } from "src/app/core";
 import { VehicleAddEditComponent } from ".";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
 
 @Component({
     selector: 'vehicles',
@@ -9,13 +11,15 @@ import { VehicleAddEditComponent } from ".";
     styleUrls: ['./vehicles.component.css']
 })
 export class VehiclesComponent implements OnInit {
-    vehicles?: VehicleGetAllItemDto[];
+  form?: FormGroup;
+    vehicles?: VehicleSearchItemDto[];
     displayedColumns: string[] = ['manufacturer', 'vehicleModel', 'batteryCapacity', 'chargingProtocol', 'id'];
     entityModalShow: boolean = false;
     viewState = ViewState;
     entityState: ViewState = ViewState.Details;
     entityId?: string;
     selectedItem: any;
+    querySearch?: string = undefined;
     
     handleClick($event: any) {
       $event.stopPropagation();
@@ -25,28 +29,35 @@ export class VehiclesComponent implements OnInit {
       this.selectedItem = item;
     }
 
-    constructor(private vehiclesService: VehiclesService, private matDialog: MatDialog) {}
+    constructor(private formBuilder: FormBuilder, private vehiclesService: VehiclesService, private matDialog: MatDialog) 
+    {
+      this.form = this.formBuilder.group({
+        query: new FormControl(this.querySearch),
+    });
+    }
 
     ngOnInit(): void {
-        this.getAll();
+        this.search();
     }
 
     entityActionCallback() {
     }
 
-    private getAll(): Promise<void> {
-        return new Promise((resolve: any) => {
-          this.vehiclesService.getAll().then((response: VehicleGetAllDto) => {
-            this.vehicles = response.items;
-            resolve();
-          })
-        });
-    }
+    search() {
+      this.vehiclesService.search(this.querySearch ?? "").subscribe({
+          next: (val: any) => {
+              this.vehicles = val.items;
+          },
+          error: (err: any) => {
+            console.error(err);
+          }
+    })
+  }
 
     deleteVehicle(vehicleId?: string): Promise<void> {
       return new Promise((resolve: any) => {
           this.vehiclesService.delete(vehicleId).then((response: void) => {
-              this.getAll();
+              this.search();
               resolve();
           })
       });
@@ -64,16 +75,27 @@ export class VehiclesComponent implements OnInit {
         })
         .afterClosed()
         .subscribe((res) => {
-          this.getAll();
-        //   setTimeout(() => {
-        //     if (viewState == ViewState.Create) {
-        //         alert("Employee added successfully!");
-        //     } 
-            
-        //     if (viewState == ViewState.Edit) {
-        //         alert("Employee updated successfully!");
-        //     }
-        //   }, 500);
+          this.search();
         });
+    }
+
+    openDeleteDialog(id?: string) {
+      this.matDialog.open(ConfirmActionDialogComponent, {
+          autoFocus: false,
+          data: {
+            actionName: 'Delete',
+            entityName: 'vehicle'
+          },
+          width: '427px',
+          height: '215px'
+      })
+      .afterClosed()
+      .subscribe((res) => {
+          if (res === 'ok') {
+              this.deleteVehicle(id).then(() => {
+                  this.search();
+              })
+          }
+      });
     }
 }

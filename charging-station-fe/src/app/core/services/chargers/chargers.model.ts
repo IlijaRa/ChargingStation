@@ -32,6 +32,18 @@ export class ChargerGetAllItemDto {
     chargingProtocol?: string;
     pricePerKwh?: number;
     paymentMethod?: string;
-    // isAvailable?: boolean;
+    location?: string;
+}
+
+export class ChargerSearchDto {
+    items?: ChargerSearchItemDto[];
+}
+
+export class ChargerSearchItemDto {
+    id?: string;
+    chargingPower?: number;
+    chargingProtocol?: string;
+    pricePerKwh?: number;
+    paymentMethod?: string;
     location?: string;
 }

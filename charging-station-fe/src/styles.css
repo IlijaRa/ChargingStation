@@ -33,7 +33,7 @@ textarea { min-height: auto; min-width: 380px;}
     overflow: hidden;
     font-family: Montserrat;
     color: #444444;
-    background: url(/assets/img/hero-bg.png) top center no-repeat;
+    /* background: url(/assets/img/hero-bg.png) top center no-repeat; */
   }
   
   a {

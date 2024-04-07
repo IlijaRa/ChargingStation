@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { UserAllDto, UserAllItemDto, UserGetAllDto, UserGetAllItemDto, UserGetByIdDto, UserUpdateDto } from "src/dto";
+import { UserAllDto, UserAllItemDto, UserGetAllDto, UserGetAllItemDto, UserGetByIdDto, UserSearchDto, UserSearchItemDto, UserUpdateDto } from "src/dto";
 import { User } from "src/schemas";
 
 @Injectable()
@@ -79,6 +79,45 @@ export class UsersService {
         return { items: userItems };
     }
 
+    async searchConfirmed(query?: string): Promise<UserSearchDto> {
+        let confirmedUsers;
+
+        if (this.isEmpty(query)) {
+            confirmedUsers = await this.userModel.find({ isConfirmed: true });
+        } else {
+            const searchCriteria = {
+                $and: [
+                    { isConfirmed: true },
+                    {
+                        $or: [
+                            { firstName: new RegExp(query, 'i') },
+                            { lastName: new RegExp(query, 'i') },
+                            { biography: new RegExp(query, 'i') },
+                            { username: new RegExp(query, 'i') },
+                            { gender: new RegExp(query, 'i') },
+                            { biography: new RegExp(query, 'i') }
+                        ]
+                    }
+                ]
+            };
+    
+            confirmedUsers = await this.userModel.find(searchCriteria);
+        }
+
+        const confirmedUserItems: UserSearchItemDto[] = confirmedUsers.map(user => ({
+            id: user._id.toString(),
+            firstName: user.firstName,
+            lastName: user.lastName,
+            biography: user.biography,
+            username: user.username,
+            gender: user.gender,
+            isBlocked: user.isBlocked,
+            isConfirmed: user.isConfirmed
+        }));
+
+        return { items: confirmedUserItems };
+    }
+
     async getAllUnconfirmed(): Promise<UserGetAllDto> {
         const users = await this.userModel.find({ isConfirmed: false });
         const userItems: UserGetAllItemDto[] = users.map(user => ({
@@ -92,6 +131,45 @@ export class UsersService {
             isConfirmed: user.isConfirmed
         }));
         return { items: userItems };
+    }
+
+    async searchUnconfirmed(query?: string): Promise<UserSearchDto> {
+        let unconfirmedUsers;
+
+        if (this.isEmpty(query)) {
+            unconfirmedUsers = await this.userModel.find({ isConfirmed: false });
+        } else {
+            const searchCriteria = {
+                $and: [
+                    { isConfirmed: false },
+                    {
+                        $or: [
+                            { firstName: new RegExp(query, 'i') },
+                            { lastName: new RegExp(query, 'i') },
+                            { biography: new RegExp(query, 'i') },
+                            { username: new RegExp(query, 'i') },
+                            { gender: new RegExp(query, 'i') },
+                            { biography: new RegExp(query, 'i') }
+                        ]
+                    }
+                ]
+            };
+    
+            unconfirmedUsers = await this.userModel.find(searchCriteria);
+        }
+
+        const unconfirmedUserItems: UserSearchItemDto[] = unconfirmedUsers.map(user => ({
+            id: user._id.toString(),
+            firstName: user.firstName,
+            lastName: user.lastName,
+            biography: user.biography,
+            username: user.username,
+            gender: user.gender,
+            isBlocked: user.isBlocked,
+            isConfirmed: user.isConfirmed
+        }));
+
+        return { items: unconfirmedUserItems };
     }
 
     getAllBlocked() {
@@ -117,4 +195,12 @@ export class UsersService {
     delete(userId?: string) {
         return this.userModel.findByIdAndDelete(userId);
     }
+
+    //#region Helpers
+
+    private isEmpty(value) {
+        return (value == null || (typeof value === "string" && value.trim().length === 0));
+    }
+
+    //#endregion
 }

@@ -4,6 +4,11 @@
 <div class="title-alignment">
     <h1 *ngIf="state == viewState.Create">Create user</h1>
     <h1 *ngIf="state == viewState.Edit">Update user</h1>
+    <ng-container *ngIf="errorMessages != undefined">
+        <ng-container *ngFor="let error of errorMessages">
+            <p style="color: red;">{{ error }}</p>
+        </ng-container>
+    </ng-container>
 </div>
 <mat-tab-group style="padding-left: 10px; padding-right: 10px;" animationDuration="0ms">
     <form [formGroup]="form!" *ngIf="form">
@@ -12,10 +17,13 @@
                 <mat-form-field appearance="outline" class="left-field-adjustment">
                     <mat-label>First name</mat-label>
                     <input matInput placeholder="Ex. Peter" formControlName="firstName" [(ngModel)]="firstName">
+                    <mat-error *ngIf="form.get('firstName')?.errors?.['required']">First name is required</mat-error>
+                    <!-- <mat-error *ngIf="form.controls['firstName'].invalid && form.controls['firstName'].touched">First name is required</mat-error> -->
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="right-field-adjustment">
                     <mat-label>Last Name</mat-label>
                     <input matInput placeholder="Ex. Griffin" formControlName="lastName" [(ngModel)]="lastName">
+                    <mat-error *ngIf="form.get('lastName')?.errors?.['required']">Last name is required </mat-error>
                 </mat-form-field>
                 
                 <div class="row">
@@ -24,6 +32,7 @@
                         <input matInput [matDatepicker]="picker" formControlName="date">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="form.get('date')?.errors?.['required']">Date is required</mat-error>
                     </mat-form-field>
                 </div>
         
@@ -31,6 +40,7 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Username</mat-label>
                         <input matInput placeholder="Ex. peter.griffin" formControlName="username">
+                        <mat-error *ngIf="form.get('username')?.errors?.['required']">Username is required</mat-error>
                     </mat-form-field>
                 </div>
         
@@ -38,10 +48,12 @@
                     <mat-form-field appearance="outline" class="left-field-adjustment">
                         <mat-label>Username</mat-label>
                         <input matInput placeholder="Ex. peter.griffin" formControlName="username">
+                        <mat-error *ngIf="form.get('username')?.errors?.['required']">Username is required</mat-error>
                     </mat-form-field>
                     <mat-form-field appearance="outline" *ngIf="state == viewState.Create" class="right-field-adjustment">
                         <mat-label>Password</mat-label>
                         <input matInput type="password" formControlName="password">
+                        <mat-error *ngIf="form.get('password')?.errors?.['required']">Password is required</mat-error>
                     </mat-form-field>
                 </div>
         
@@ -49,14 +61,17 @@
                     <mat-form-field appearance="outline">
                         <mat-label>Email</mat-label>
                         <input matInput type="email" placeholder="Ex. peter.griffin@gmail.com" formControlName="emailAddress">
+                        <mat-error *ngIf="form.get('emailAddress')?.errors?.['required']">Email address is required</mat-error>
+                        <mat-error *ngIf="form.get('emailAddress')?.errors?.['email']">Email format is not correct</mat-error>
                     </mat-form-field>
                 </div>
 
                 <div class="row">
                     <mat-radio-group aria-label="Select an option" formControlName="gender">
                         <mat-label><b>Gender</b></mat-label>
-                        <mat-radio-button value="male">Male</mat-radio-button>
+                        <mat-radio-button value="male" [checked]="true">Male</mat-radio-button>
                         <mat-radio-button value="female">Female</mat-radio-button>
+                        <!-- <mat-error *ngIf="form.get('gender')?.errors?.['required']">Gender is required</mat-error> -->
                     </mat-radio-group>
                 </div>
             </div>
@@ -70,6 +85,7 @@
             <div mat-dialog-content class="content">
                 <mat-form-field #biography appearance="outline" style="width: 358px; height: 352px;" class="scroll-hidden">
                     <textarea style="min-width: 319px; min-height: 300px; resize: none;" matInput placeholder="Ex. Peter.Griffin is a fictional character and the protagonist of the American animated sitcom Family Guy." formControlName="biography"></textarea>
+                    <mat-error *ngIf="form.get('biography')?.errors?.['required']">Biography is required</mat-error>
                 </mat-form-field>
             </div>
             <div mat-dialog-actions class="action">

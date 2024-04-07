@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppointmentsComponent, ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUsersComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
+import { AppointmentsComponent, ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUserDetailComponent, UnconfirmedUsersComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
 import { AppInjector, AppInterceptor, AppointmentsService, AppValuePipe, AuthGuard, AuthsService, ChargersService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -27,6 +27,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ChargerAddEditComponent } from './views/chargers/charger-add-edit/charger-add-edit.component';
 import { AppointmentAddComponent } from './views/appointments/appointment-add/appointment-add.component';
+import { ConfirmActionDialogComponent } from './core/common/confirm-action-dialog';
+// import { ErrorStateMatcher } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { AppointmentAddComponent } from './views/appointments/appointment-add/ap
     MainLayoutComponent,
     FooterLayoutComponent,
     ChargerAddEditComponent,
-    AppointmentAddComponent
+    AppointmentAddComponent,
+    ConfirmActionDialogComponent,
+    UnconfirmedUserDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -72,7 +76,8 @@ import { AppointmentAddComponent } from './views/appointments/appointment-add/ap
     MatListModule,
     MatTableModule,
     MatSlideToggleModule,
-    MatTabsModule
+    MatTabsModule,
+    // ErrorStateMatcher
   ],
   providers: [
     {
@@ -86,7 +91,8 @@ import { AppointmentAddComponent } from './views/appointments/appointment-add/ap
     UsersService,
     ChargersService,
     VehiclesService,
-    AppointmentsService
+    AppointmentsService,
+    // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ],
   bootstrap: [AppComponent]
 })

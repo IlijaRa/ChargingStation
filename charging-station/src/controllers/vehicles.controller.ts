@@ -34,6 +34,12 @@ export class VehiclesController {
         return this.vehiclesService.getAll();
     }
 
+    @Public()
+    @Get('search/:query?')
+    search(@Param('query') query?: string) {
+        return this.vehiclesService.search(query);
+    }
+
     //TODO: check if vehicle with vehicleId exists in the first place
     @Public()
     @Delete('delete/:vehicleId')

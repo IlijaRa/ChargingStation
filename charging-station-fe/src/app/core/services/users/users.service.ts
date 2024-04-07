@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { environment } from "src/environments/environment";
 import { lastValueFrom, Observable } from "rxjs";
-import { UserGetAllDto, UserGetByIdDto, UserUpdateDto } from "./users.model";
+import { UserGetAllDto, UserGetByIdDto, UserSearchDto, UserUpdateDto } from "./users.model";
 
 @Injectable()
 export class UsersService {
@@ -40,8 +40,16 @@ export class UsersService {
         return await lastValueFrom<UserGetAllDto>(this.http.get<UserGetAllDto>(`${environment.apiUrl}/users/getallconfirmed`));
     }
 
+    searchConfirmed(query?: string): Observable<UserSearchDto> {
+        return this.http.get(`${environment.apiUrl}/users/searchConfirmed/${query}`);
+    }
+
     async getAllUnconfirmed(): Promise<any> {
         return await lastValueFrom<UserGetAllDto>(this.http.get<UserGetAllDto>(`${environment.apiUrl}/users/getallunconfirmed`));
+    }
+
+    searchUnconfirmed(query?: string): Observable<UserSearchDto> {
+        return this.http.get(`${environment.apiUrl}/users/searchUnconfirmed/${query}`);
     }
 
     async getAllBlocked(): Promise<any> {

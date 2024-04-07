@@ -1,0 +1,68 @@
+<div style="text-align: end;">
+    <button mat-icon-button aria-label="close dialog" mat-dialog-close><mat-icon>close</mat-icon></button>
+</div>
+<div class="title-alignment">
+    <h1>User details</h1>
+</div>
+<mat-tab-group style="padding-left: 10px; padding-right: 10px;" animationDuration="0ms">
+    <form [formGroup]="form!" *ngIf="form">
+        <mat-tab label="Information">
+            <div mat-dialog-content class="content">
+                <mat-form-field appearance="outline" class="left-field-adjustment">
+                    <mat-label>First name</mat-label>
+                    <input matInput placeholder="Ex. Peter" formControlName="firstName" [(ngModel)]="firstName" readonly>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="right-field-adjustment">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput placeholder="Ex. Griffin" formControlName="lastName" [(ngModel)]="lastName" readonly>
+                </mat-form-field>
+                
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Date of birth (MM/DD/YYYY)</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="date" readonly>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker disabled></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Username</mat-label>
+                        <input matInput placeholder="Ex. peter.griffin" formControlName="username" readonly>
+                    </mat-form-field>
+                </div>
+        
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput type="email" placeholder="Ex. peter.griffin@gmail.com" formControlName="emailAddress" readonly>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-radio-group aria-label="Select an option" formControlName="gender">
+                        <mat-label><b>Gender</b></mat-label>
+                        <mat-radio-button value="male" disabled>Male</mat-radio-button>
+                        <mat-radio-button value="female" disabled>Female</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div mat-dialog-actions class="action">
+                <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Biography">
+            <div mat-dialog-content class="content">
+                <mat-form-field #biography appearance="outline" style="width: 358px; height: 352px;" class="scroll-hidden">
+                    <textarea style="min-width: 319px; min-height: 300px; resize: none;" matInput placeholder="Ex. Peter.Griffin is a fictional character and the protagonist of the American animated sitcom Family Guy." formControlName="biography" readonly></textarea>
+                </mat-form-field>
+            </div>
+            <div mat-dialog-actions class="action">
+                <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+                <!-- <button mat-raised-button color="primary" type="submit" *ngIf="!entityId" (click)="save()">Save</button>
+                <button mat-raised-button color="primary" type="submit" *ngIf="entityId" (click)="update()">Update</button> -->
+            </div>
+        </mat-tab>
+    </form>
+</mat-tab-group>
