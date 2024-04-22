@@ -16,16 +16,16 @@ export class VehiclesService {
         return this.http.get(`${environment.apiUrl}/vehicles/getbyid/${id}`);
     }
 
-    async getAllByUserId(userId?: string): Promise<VehicleGetAllDto> {
-        return await lastValueFrom<VehicleGetAllDto>(this.http.get<VehicleGetAllDto>(`${environment.apiUrl}/vehicles/getall/${userId}`));
+    getAllByUserId(userId?: string): Observable<VehicleGetAllDto> {
+        return this.http.get(`${environment.apiUrl}/vehicles/getall/${userId}`);
     }
 
     async getAll(): Promise<VehicleGetAllDto> {
         return await lastValueFrom<VehicleGetAllDto>(this.http.get<VehicleGetAllDto>(`${environment.apiUrl}/vehicles/getall`));
     }
 
-    search(query?: string): Observable<VehicleSearchDto> {
-        return this.http.get(`${environment.apiUrl}/vehicles/search/${query}`);
+    search(query?: string, filterId?: string): Observable<VehicleSearchDto> {
+        return this.http.post(`${environment.apiUrl}/vehicles/search/${query}`, { params: { filterId } });
     }
 
     async delete(id?: string): Promise<any> {

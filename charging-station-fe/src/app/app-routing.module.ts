@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppointmentsComponent, ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUsersComponent, UsersComponent, VehiclesComponent } from './views';
+import { AppointmentsComponent, ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUsersComponent, UsersComponent, UserVehiclesComponent, VehiclesComponent } from './views';
 import { HeaderLayoutComponent } from './layouts';
 import { AuthGuard } from './core';
 
@@ -33,6 +33,10 @@ const routes: Routes = [
       {
         path: 'vehicles',
         component: VehiclesComponent,
+      },
+      {
+        path: 'user-vehicles',
+        component: UserVehiclesComponent,
       },
       {
         path: 'unconfirmed-users',

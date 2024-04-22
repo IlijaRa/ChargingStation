@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { lastValueFrom } from "rxjs";
+import { from, lastValueFrom, Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { AppInjector } from "../app-injector";
 import { Dictionary, ErrorModel } from "../common";
@@ -78,23 +78,39 @@ export class Auth {
         })
     }
 
-    static authenticate(usernameOrEmail: string, password: string): Promise<void> {
-        return new Promise((resolve, reject) => {
+    // static authenticate(usernameOrEmail: string, password: string): Promise<void> {
+    //     return new Promise((resolve, reject) => {
+    //         let model: AuthenticationRequest = new AuthenticationRequest();
+    //         model.usernameOrEmail = usernameOrEmail;
+    //         model.password = password;
+    
+    //         lastValueFrom<AuthenticationResponse>(this.getHttpClient().post<AuthenticationResponse>(`${environment.apiUrl}/auth/login`, model)).then((response: AuthenticationResponse) => {
+    //             this.setToken(response?.access_token);
+    //             this.fetchUser().then(() => {
+    //                 resolve();
+    //             });
+    //         }).catch((error: any) => {
+    //             console.log("error", error);
+    //             reject(error); // Re-throw error to propagate it
+    //         });
+    //     });
+    // }
 
-            let model: AuthenticationRequest = new AuthenticationRequest();
-            model.usernameOrEmail = usernameOrEmail;
-            model.password = password;
-
-            lastValueFrom<AuthenticationResponse>(this.getHttpClient().post<AuthenticationResponse>(`${environment.apiUrl}/auth/login`, model)).then((response: AuthenticationResponse) => {
+    static authenticate(usernameOrEmail: string, password: string): Observable<void> {
+        const model: AuthenticationRequest = new AuthenticationRequest();
+        model.usernameOrEmail = usernameOrEmail;
+        model.password = password;
+    
+        return from(
+            lastValueFrom<AuthenticationResponse>(
+                this.getHttpClient().post<AuthenticationResponse>(`${environment.apiUrl}/auth/login`, model)
+            ).then((response: AuthenticationResponse) => {
                 this.setToken(response?.access_token);
-                this.fetchUser().then(() => {
-                    resolve();
-                })
-            }).catch((e: ErrorModel) => {
-                reject(e);
+                return this.fetchUser();
             })
-        })
+        );
     }
+    
 
     static checkCredentials(usernameOrEmail: string): Promise<void> {
         return new Promise((resolve, reject) => {

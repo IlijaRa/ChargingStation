@@ -1,31 +1,32 @@
 import { DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UserAllDto, UserAllItemDto, UsersService, VehicleGetByIdDto, VehicleSaveDto, VehiclesService, ViewState } from 'src/app/core';
+import { VehicleGetByIdDto, UserAllItemDto, ViewState, UsersService, VehiclesService, UserAllDto, VehicleSaveDto, AccountsService } from 'src/app/core';
+import { VehicleAddEditComponent } from '../../vehicles';
 
 @Component({
-  selector: 'app-vehicle-add-edit',
-  templateUrl: './vehicle-add-edit.component.html',
-  styleUrls: ['./vehicle-add-edit.component.css']
+  selector: 'app-user-vehicle-add-edit',
+  templateUrl: './user-vehicle-add-edit.component.html',
+  styleUrls: ['./user-vehicle-add-edit.component.css']
 })
-export class VehicleAddEditComponent implements OnInit {
+export class UserVehicleAddEditComponent {
   form?: FormGroup;
   vehicle?: VehicleGetByIdDto;
-  drivers?: UserAllItemDto[];
   viewState = ViewState;
   state?: ViewState;
   disabled?: boolean;
   entityId: string;
+  driverId: string;
 
   constructor(
     private formBuilder: FormBuilder,
-    private usersService: UsersService,
     private vehiclesService: VehiclesService, 
     private dialogRef: DialogRef<VehicleAddEditComponent>,
-    @Inject(MAT_DIALOG_DATA) data: { id: string, state?: ViewState }) 
+    @Inject(MAT_DIALOG_DATA) data: { id: string, userId: string, userFullName: string, state?: ViewState }) 
     {
       this.entityId = data.id;
+      this.driverId = data.userId
       this.state = data.state;
       if (this.entityId) {
         this.vehiclesService.getById(this.entityId).subscribe({
@@ -36,7 +37,7 @@ export class VehicleAddEditComponent implements OnInit {
               vehicleModel: new FormControl({ value : val?.vehicleModel, disabled: this.disabled }),
               batteryCapacity: new FormControl({ value : val?.batteryCapacity, disabled: this.disabled }),
               chargingProtocol: new FormControl({ value : val?.chargingProtocol, disabled: this.disabled }),
-              userId: new FormControl({ value : val?.userId, disabled: this.disabled })
+              userFullName: new FormControl(data.userFullName)
             });
           },
           error: (err: any) => {
@@ -45,23 +46,12 @@ export class VehicleAddEditComponent implements OnInit {
         })
       } else {
         this.form = this.formBuilder.group({
-          manufacturer: '', vehicleModel: '', batteryCapacity: '', chargingProtocol: '', userId: ''
+          manufacturer: '', vehicleModel: '', batteryCapacity: '', chargingProtocol: '', userFullName: data.userFullName
         });
       }
   }
 
-  ngOnInit(): void {
-    this.getAllDrivers();
-  }
-
-  private getAllDrivers(): Promise<void> {
-    return new Promise((resolve: any) => {
-      this.usersService.all().then((response: UserAllDto) => {
-        this.drivers = response.items;
-        resolve();
-      })
-    });
-  }
+  ngOnInit(): void { }
 
   get userId() {
     return this.form?.get('userId');
@@ -75,7 +65,7 @@ export class VehicleAddEditComponent implements OnInit {
         vehicleModel: this.form?.value.vehicleModel,
         batteryCapacity: this.form?.value.batteryCapacity,
         chargingProtocol: this.form?.value.chargingProtocol,
-        userId: this.form?.value.userId
+        userId: this.driverId
       };
       this.vehiclesService.save(model).subscribe({
         next: (val: any) => {

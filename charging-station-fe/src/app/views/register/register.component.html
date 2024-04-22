@@ -1,81 +1,66 @@
-<!-- <div class="container">
-    <div class="register-block text-center">
-        <h1>Register</h1>
-        <h6>Please fill in the following details to create an account.</h6>
-        <div class="input-icon">
-            <input type="text" placeholder="First Name" id="firstName" />
-            <i class="fa fa-pen"></i>
+<div class="register-container">
+    <div class="register-content">
+        <div class="welcome-title">
+            <h1><mat-icon style="transform: scale(1.333333333333333); padding-top: 3px; padding-right:28px;">polymer</mat-icon>ChargingStations</h1>
+            <span>Welcome! Please populate form below</span>
         </div>
-        <div class="input-icon">
-            <input type="text" placeholder="Last Name" id="lastName" />
-            <i class="fa fa-pen"></i>
-        </div>
-        <div class="input-icon">
-            <input type="date" placeholder="Date of Birth" id="dateOfBirth" />
-            <i class="fa fa-calendar"></i>
-        </div>
-        <div class="input-icon">
-            <input type="text" placeholder="Username" id="username" />
-            <i class="fa fa-user"></i>
-        </div>
-        <div class="input-icon">
-            <input type="email" placeholder="Email Address" id="emailAddress" />
-            <i class="fa fa-envelope"></i>
-        </div>
-        <div class="input-icon">
-            <input type="password" placeholder="Password" id="password" />
-            <i class="fa fa-lock"></i>
-        </div>
-        <div class="input-icon">
-            <select id="role">
-                <option value="driver">Driver</option>
-            </select>
-            <i class="fa fa-users"></i>
-        </div>
-        <p>Already have an account? <a class="a-link" routerLink="/login">Login here</a></p>
-        <button>Register</button>
     </div>
-</div> -->
-
-<!-- ======= Login Section ======= -->
-<section id="contact" class="contact">
-    <div class="container" data-aos="fade-up">
-        <header class="section-header">
-            <p>Register</p>
-            <!-- <h2>Populate form below in order to register</h2> -->
-        </header>
-      
-        <div class="row gy-12 justify-content-center">
-            <div class="col-lg-6">
-                <form class="php-email-form">
-                    <div class="row gy-4">
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" placeholder="First Name" required>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" placeholder="Last Name" required>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="date" class="form-control" placeholder="Date of Birth" required>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="text" class="form-control" placeholder="Username" required>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="email" class="form-control" placeholder="Email Address" required>
-                        </div>
-                        <div class="col-md-12">
-                            <input type="password" class="form-control" placeholder="Password" required>
-                        </div>
-                        <p>Already have an account? <a class="link" routerLink="/login">Login here</a></p>
-                        <div class="col-md-12 text-center">
-                            <button type="submit">Register</button>
-                        </div>
-                    </div>
-                </form>
+    <div class="align-text">
+        <p style="color: red;">{{ errorMessage }}</p>
+    </div>
+    <mat-tab-group style="padding-left: 10px; padding-right: 10px;" animationDuration="0ms">
+        <form [formGroup]="form!" *ngIf="form" class="scroll-hidden">
+            <div mat-dialog-content>
+                <mat-form-field appearance="outline">
+                    <mat-label>First name</mat-label>
+                    <input matInput formControlName="firstName">
+                    <mat-error *ngIf="form.get('firstName')?.errors?.['required']">First name is required </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Last name</mat-label>
+                    <input matInput formControlName="lastName">
+                    <mat-error *ngIf="form.get('lastName')?.errors?.['required']">Last name is required </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Date of birth (MM/DD/YYYY)</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="form.get('dateOfBirth')?.errors?.['required']">Date is required</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input matInput formControlName="username">
+                    <mat-error *ngIf="form.get('username')?.errors?.['required']">Username is required </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Email address</mat-label>
+                    <input matInput formControlName="emailAddress">
+                    <mat-error *ngIf="form.get('emailAddress')?.errors?.['required']">Email address is required </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" formControlName="password">
+                    <mat-error *ngIf="form.get('password')?.errors?.['required']">Password is required</mat-error>
+                </mat-form-field>
+                <div class="row">
+                    <mat-radio-group aria-label="Select an option" formControlName="gender">
+                        <mat-label><b>Gender</b></mat-label>
+                        <mat-radio-button value="male" color="primary">Male</mat-radio-button>
+                        <mat-radio-button value="female" color="primary">Female</mat-radio-button>
+                        <!-- <mat-error *ngIf="form.get('gender')?.errors?.['required']">Gender is required</mat-error> -->
+                    </mat-radio-group>
+                </div>
+                <div>
+                    <a style="color: #3F51B5;" routerLink="/login">You have an account?</a>
+                </div>
             </div>
-        </div>
-    </div>
-</section><!-- End Login Section -->
-
-<footer-layout></footer-layout>
+            <div mat-dialog-action>
+                <button class="register-button" mat-raised-button color="primary" type="submit" (click)="register()">Register</button>
+            </div>
+        </form>
+    </mat-tab-group>
+    <!-- <div class="image-container mat-elevation-z24">
+        <img src="../../../assets/img/login-image.png" alt="Your Image" width="1400" height="2234">
+    </div> -->
+</div>

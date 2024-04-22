@@ -17,7 +17,7 @@ export class HeaderLayoutComponent implements OnInit{
         if (Auth.authorized['admin']) {
           this.router.navigate(['/users']);
         } else if (Auth.authorized['driver']) {
-          this.router.navigate(['/driver-map']); //TODO:
+          this.router.navigate(['/user-vehicles']);
         }
       }
     }

@@ -1,0 +1,38 @@
+<div style="text-align: end;">
+    <button mat-icon-button aria-label="close dialog" mat-dialog-close><mat-icon>close</mat-icon></button>
+</div>
+<div class="title-alignment">
+    <h1 *ngIf="state == viewState.Create">Create vehicle</h1>
+    <h1 *ngIf="state == viewState.Edit">Update vehicle</h1>
+</div>
+<form [formGroup]="form!" *ngIf="form">
+    <div mat-dialog-content class="content">
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Manufacturer</mat-label>
+                <input matInput formControlName="manufacturer">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Vehicle Model</mat-label>
+                <input matInput formControlName="vehicleModel">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Battery Capacity</mat-label>
+                <input matInput type="number" formControlName="batteryCapacity">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Charging Protocol</mat-label>
+                <input matInput formControlName="chargingProtocol">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>User</mat-label>
+                <input matInput formControlName="userFullName" readonly>
+            </mat-form-field>
+        </div>
+    </div>
+    <div mat-dialog-actions class="action">
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="!entityId" (click)="save()">Save</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="entityId" (click)="save()">Update</button>
+    </div>
+</form>

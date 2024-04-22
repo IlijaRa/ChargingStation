@@ -20,8 +20,16 @@ export class VehiclesService {
         return this.vehicleModel.findById(vehicleId);
     }
 
-    getAllByUserId(userId?: string) {
-        return this.vehicleModel.find({ userId });
+    async getAllByUserId(userId?: string): Promise<VehicleGetAllDto> {
+        const vehicles = await this.vehicleModel.find({ userId });
+        const vehicleItems: VehicleGetAllItemDto[] = vehicles.map(vehicle => ({
+            id: vehicle._id.toString(),
+            manufacturer: vehicle.manufacturer,
+            vehicleModel: vehicle.vehicleModel,
+            batteryCapacity: vehicle.batteryCapacity,
+            chargingProtocol: vehicle.chargingProtocol,
+        }));
+        return { items: vehicleItems };
     }
 
     async getAll(): Promise<VehicleGetAllDto> {
@@ -50,7 +58,7 @@ export class VehiclesService {
                     { batteryCapacity: parseFloat(query) || 0.0 },
                 ]
             };
-    
+            
             vehicles = await this.vehicleModel.find(searchCriteria);
         }
 

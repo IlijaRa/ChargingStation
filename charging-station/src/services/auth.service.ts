@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import { ForbiddenException, HttpCode, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { LoginDto, RegistrationDto } from "src/dto";
@@ -37,14 +37,18 @@ export class AuthService {
             ] 
         });
 
-        if (!user || user.isConfirmed == false) {
-            throw new ForbiddenException('Access denied');
+        if (!user) {
+            throw new HttpException('Account with this username/email does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
+        if (user.isConfirmed == false) {
+            throw new HttpException('Your account is not confirmed yet.', HttpStatus.BAD_REQUEST);
         }
 
         const passwordMatch = await bcrypt.compare(model.password, user.password);
 
         if (!passwordMatch) {
-            throw new ForbiddenException('Access denied');
+            throw new HttpException('Password is not correct.', HttpStatus.BAD_REQUEST);
         }
 
         const tokens = await this.generateTokens(user.id, user.username, user.emailAddress);

@@ -15,6 +15,7 @@ export class AccountsService {
         }
 
         const userDto: CurrentUserGetDto = {
+            _id: user._id,
             firstName: user.firstName,
             lastName: user.lastName,
             roles: [user.role]

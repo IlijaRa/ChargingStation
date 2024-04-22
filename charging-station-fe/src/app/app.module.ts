@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppointmentsComponent, ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUserDetailComponent, UnconfirmedUsersComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
-import { AppInjector, AppInterceptor, AppointmentsService, AppValuePipe, AuthGuard, AuthsService, ChargersService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
+import { AccountsService, AppInjector, AppInterceptor, AppointmentsService, AppValuePipe, AuthGuard, AuthsService, ChargersService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -28,6 +28,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ChargerAddEditComponent } from './views/chargers/charger-add-edit/charger-add-edit.component';
 import { AppointmentAddComponent } from './views/appointments/appointment-add/appointment-add.component';
 import { ConfirmActionDialogComponent } from './core/common/confirm-action-dialog';
+import { UserVehicleAddEditComponent } from './views/user-vehicles/user-vehicle-add-edit/user-vehicle-add-edit.component';
+import { UserVehiclesComponent } from './views/user-vehicles';
 // import { ErrorStateMatcher } from '@angular/material/core';
 
 @NgModule({
@@ -53,7 +55,9 @@ import { ConfirmActionDialogComponent } from './core/common/confirm-action-dialo
     ChargerAddEditComponent,
     AppointmentAddComponent,
     ConfirmActionDialogComponent,
-    UnconfirmedUserDetailComponent
+    UnconfirmedUserDetailComponent,
+    UserVehicleAddEditComponent,
+    UserVehiclesComponent
   ],
   imports: [
     BrowserModule,
@@ -92,6 +96,7 @@ import { ConfirmActionDialogComponent } from './core/common/confirm-action-dialo
     ChargersService,
     VehiclesService,
     AppointmentsService,
+    AccountsService
     // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ],
   bootstrap: [AppComponent]

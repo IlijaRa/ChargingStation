@@ -36,7 +36,7 @@ export class UserAddEditComponent {
             this.firstName = val?.firstName;
             this.lastName = val?.lastName;
             this.form = this.formBuilder.group({
-              firstName: new FormControl(this.firstName, [Validators.required]),
+              firstName: new FormControl(this.firstName),
               lastName: new FormControl(this.lastName, [Validators.required]),
               date: new FormControl(val?.dateOfBirth, [Validators.required]),
               biography: new FormControl(val?.biography, [Validators.required]),
@@ -52,7 +52,7 @@ export class UserAddEditComponent {
         })
       } else {
         this.form = this.formBuilder.group({
-          firstName: new FormControl('', [Validators.required]), 
+          firstName: new FormControl(''), 
           lastName: new FormControl('', [Validators.required]), 
           date: new FormControl('', [Validators.required]), 
           biography: new FormControl('', [Validators.required]), 

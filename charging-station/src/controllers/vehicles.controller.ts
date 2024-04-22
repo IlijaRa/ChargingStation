@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query } from "@nestjs/common";
 import { Public } from "src/common";
 import { VehicleSaveDto } from "src/dto";
 import { VehiclesService } from "src/services";
@@ -35,7 +35,7 @@ export class VehiclesController {
     }
 
     @Public()
-    @Get('search/:query?')
+    @Post('search/:query?')
     search(@Param('query') query?: string) {
         return this.vehiclesService.search(query);
     }

@@ -35,10 +35,10 @@
         <button mat-menu-item routerLink="/unconfirmed-users"><mat-icon color="primary">perm_identity</mat-icon>Unconfirmed users</button>
       </mat-list-item>
       <mat-list-item *ngIf="auth.authorized['driver']">
-        <button mat-menu-item routerLink="/vehicles"><mat-icon color="primary">battery_alert</mat-icon>Reserve Charger</button>
+        <button mat-menu-item routerLink="/vehicles"><mat-icon color="primary">battery_alert</mat-icon>Reserve charger</button>
       </mat-list-item>
       <mat-list-item *ngIf="auth.authorized['driver']">
-        <button mat-menu-item routerLink="/vehicles"><mat-icon color="primary">directions_car</mat-icon>My Vehicles</button>
+        <button mat-menu-item routerLink="/user-vehicles"><mat-icon color="primary">directions_car</mat-icon>My vehicles</button>
       </mat-list-item>
     </mat-nav-list>
   </mat-drawer>

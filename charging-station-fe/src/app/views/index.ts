@@ -6,3 +6,4 @@ export * from './register';
 export * from './unconfirmed-users';
 export * from './users';
 export * from './vehicles';
+export * from './user-vehicles';

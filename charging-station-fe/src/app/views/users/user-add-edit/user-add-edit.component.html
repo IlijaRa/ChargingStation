@@ -4,10 +4,8 @@
 <div class="title-alignment">
     <h1 *ngIf="state == viewState.Create">Create user</h1>
     <h1 *ngIf="state == viewState.Edit">Update user</h1>
-    <ng-container *ngIf="errorMessages != undefined">
-        <ng-container *ngFor="let error of errorMessages">
-            <p style="color: red;">{{ error }}</p>
-        </ng-container>
+    <ng-container *ngFor="let error of errorMessages">
+        <p style="color: red;">{{ error }}</p>
     </ng-container>
 </div>
 <mat-tab-group style="padding-left: 10px; padding-right: 10px;" animationDuration="0ms">
@@ -17,7 +15,7 @@
                 <mat-form-field appearance="outline" class="left-field-adjustment">
                     <mat-label>First name</mat-label>
                     <input matInput placeholder="Ex. Peter" formControlName="firstName" [(ngModel)]="firstName">
-                    <mat-error *ngIf="form.get('firstName')?.errors?.['required']">First name is required</mat-error>
+                    <!-- <mat-error *ngIf="form.get('firstName')?.errors?.['required']">First name is required</mat-error> -->
                     <!-- <mat-error *ngIf="form.controls['firstName'].invalid && form.controls['firstName'].touched">First name is required</mat-error> -->
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="right-field-adjustment">

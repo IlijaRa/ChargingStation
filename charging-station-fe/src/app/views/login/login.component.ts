@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { Auth, ErrorModel, ViewState } from "src/app/core";
+import { Auth, ViewState } from "src/app/core";
 
 @Component({
     selector: 'login',
@@ -9,36 +9,39 @@ import { Auth, ErrorModel, ViewState } from "src/app/core";
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-    errorMessages?: string[];
     form?: FormGroup;
     viewState = ViewState;
     state?: ViewState;
-
+    errorMessage?: string;
+    
     constructor(
         private router: Router, 
         private formBuilder: FormBuilder) 
     {
         this.form = this.formBuilder.group({
-            usernameOrEmail: new FormControl(),
-            password: new FormControl(),
+            usernameOrEmail: new FormControl('', [Validators.required]),
+            password: new FormControl('', [Validators.required]),
         });
     }
 
     ngOnInit(): void { }
 
     login() {
-        this.errorMessages = undefined;
+        this.errorMessage = undefined;
 
         if (this.form?.valid) {
-            let username = this.form?.value.usernameOrEmail;
-            let password = this.form?.value.password;
-
+            const username = this.form?.value.usernameOrEmail;
+            const password = this.form?.value.password;
+    
             Auth.signOut();
-            Auth.authenticate(username, password).then(() => {
-                this.router.navigate(['/']);
-            }).catch((e: ErrorModel) => {
-                this.errorMessages = e.Messages;
-            })
+            Auth.authenticate(username, password).subscribe({
+                next: () => {
+                    this.router.navigate(['/']);
+                },
+                error: (err: any) => {
+                    this.errorMessage = err.message;
+                }
+            });
         }
     }
 }
