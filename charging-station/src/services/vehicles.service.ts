@@ -44,22 +44,42 @@ export class VehiclesService {
         return { items: vehicleItems };
     }
 
-    async search(query?: string): Promise<VehicleSearchDto> {
+    async search(query?: string, filterId?: string): Promise<VehicleSearchDto> {
         let vehicles;
 
-        if (this.isEmpty(query)) {
-            vehicles = await this.vehicleModel.find();
+        if (this.isEmpty(filterId)) {
+            if (this.isEmpty(query)) {
+                vehicles = await this.vehicleModel.find();
+            } else {
+                const searchCriteria = {
+                    $or: [
+                        { manufacturer: new RegExp(query, 'i') },
+                        { vehicleModel: new RegExp(query, 'i') },
+                        { chargingProtocol: new RegExp(query, 'i') },
+                        { batteryCapacity: parseFloat(query) || 0.0 },
+                    ]
+                };
+                
+                vehicles = await this.vehicleModel.find(searchCriteria);
+            }
         } else {
-            const searchCriteria = {
-                $or: [
-                    { manufacturer: new RegExp(query, 'i') },
-                    { vehicleModel: new RegExp(query, 'i') },
-                    { chargingProtocol: new RegExp(query, 'i') },
-                    { batteryCapacity: parseFloat(query) || 0.0 },
-                ]
-            };
-            
-            vehicles = await this.vehicleModel.find(searchCriteria);
+            if (this.isEmpty(query)) {
+                vehicles = await this.vehicleModel.find({ userId: filterId });
+            } else {
+                const searchCriteria = {
+                    $or: [
+                        { manufacturer: new RegExp(query, 'i') },
+                        { vehicleModel: new RegExp(query, 'i') },
+                        { chargingProtocol: new RegExp(query, 'i') },
+                        { batteryCapacity: parseFloat(query) || 0.0 },
+                    ],
+                    $and: [
+                        { userId: filterId }
+                    ]
+                };
+                
+                vehicles = await this.vehicleModel.find(searchCriteria);
+            }
         }
 
         const vehicleItems: VehicleSearchItemDto[] = vehicles.map(vehicle => ({

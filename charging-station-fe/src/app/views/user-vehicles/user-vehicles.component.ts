@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { VehicleSearchItemDto, ViewState, VehiclesService, AccountsService, CurrentUserDto } from "src/app/core";
 import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
-import { VehicleAddEditComponent } from "../vehicles";
 import { switchMap } from "rxjs";
 import { UserVehicleAddEditComponent } from ".";
 
@@ -38,16 +37,17 @@ export class UserVehiclesComponent {
         private accountsService: AccountsService, 
         private matDialog: MatDialog) 
     {
-      this.form = this.formBuilder.group({
-        query: new FormControl(this.querySearch),
-    });
+        this.form = this.formBuilder.group({
+            query: new FormControl(this.querySearch),
+        });
     }
 
     ngOnInit(): void {
         this.accountsService.getCurrentUser().pipe(
             switchMap((user: any) => {
                 this.user = user;
-                return this.vehiclesService.getAllByUserId(user._id);
+                // Return the observable from the inner function
+                return this.vehiclesService.search(this.querySearch ?? "", this.user?._id ?? "");
             })
         ).subscribe({
             next: (vehicles: any) => {
@@ -70,13 +70,22 @@ export class UserVehiclesComponent {
         })
     }
 
-    search() { }
+    search(userId?: string) {
+        this.vehiclesService.search(this.querySearch ?? "", userId ?? "").subscribe({
+            next: (val: any) => {
+                this.vehicles = val.items;
+            },
+            error: (err: any) => {
+              console.error(err);
+            }
+        })
+    }
 
     deleteVehicle(vehicleId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.vehiclesService.delete(vehicleId).then((response: void) => {
-                // this.search();
-                this.getAll(this.user?._id);
+                this.search(this.user?._id);
+                // this.getAll(this.user?._id);
                 resolve();
             })
         });
@@ -96,8 +105,8 @@ export class UserVehiclesComponent {
         })
         .afterClosed()
         .subscribe((res) => {
-            // this.search();
-            this.getAll(this.user?._id);
+            this.search(this.user?._id);
+            // this.getAll(this.user?._id);
         });
     }
 
@@ -115,8 +124,8 @@ export class UserVehiclesComponent {
         .subscribe((res) => {
             if (res === 'ok') {
                 this.deleteVehicle(id).then(() => {
-                    // this.search();
-                    this.getAll(this.user?._id);
+                    this.search(this.user?._id);
+                    // this.getAll(this.user?._id);
                 })
             }
         });

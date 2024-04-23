@@ -25,7 +25,9 @@ export class VehiclesService {
     }
 
     search(query?: string, filterId?: string): Observable<VehicleSearchDto> {
-        return this.http.post(`${environment.apiUrl}/vehicles/search/${query}`, { params: { filterId } });
+        const params: any = {};
+        params.filterId = filterId;
+        return this.http.post(`${environment.apiUrl}/vehicles/search/${query}`, null, { params });
     }
 
     async delete(id?: string): Promise<any> {
