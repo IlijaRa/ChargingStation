@@ -51,8 +51,8 @@ export class VehiclesComponent implements OnInit {
           error: (err: any) => {
             console.error(err);
           }
-    })
-  }
+      })
+    }
 
     deleteVehicle(vehicleId?: string): Promise<void> {
       return new Promise((resolve: any) => {

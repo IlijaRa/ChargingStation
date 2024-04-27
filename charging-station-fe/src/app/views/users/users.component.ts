@@ -1,9 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { UserGetAllItemDto, UsersService, ViewState } from "src/app/core";
 import { UserAddEditComponent } from ".";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
     selector: 'users',
@@ -18,16 +20,15 @@ export class UsersComponent implements OnInit {
     viewState = ViewState;
     entityState: ViewState = ViewState.Details;
     entityId?: string;
-    selectedItem: any;
     querySearch?: string = undefined;
 
-    handleClick($event: any) {
-      $event.stopPropagation();
-    }
-  
-    select(item: any) {
-      this.selectedItem = item;
-    }
+    pageEvent?: PageEvent;
+    dataSource: any;
+    pageSize: number = 8;
+    currentPage: number = 0;
+    totalSize: number = 0;
+
+    @ViewChild(MatPaginator) paginator?: MatPaginator;
 
     constructor(private formBuilder: FormBuilder, private usersService: UsersService, private matDialog: MatDialog) 
     {
@@ -40,18 +41,32 @@ export class UsersComponent implements OnInit {
         this.search();
     }
 
-    entityActionCallback() {
-    }
-
     search() {
         this.usersService.searchConfirmed(this.querySearch ?? "").subscribe({
             next: (val: any) => {
                 this.users = val.items;
+                this.dataSource = new MatTableDataSource<UserGetAllItemDto>(val.items);
+                this.dataSource.paginator = this.paginator;
+                this.totalSize = this.users?.length!;
+                this.iterator();
             },
             error: (err: any) => {
               console.error(err);
             }
         })
+    }
+
+    handlePageEvent(e: any) {
+        this.currentPage = e.pageIndex;
+        this.pageSize = e.pageSize;
+        this.iterator();
+    }
+
+    private iterator() {
+        const end = (this.currentPage + 1) * this.pageSize;
+        const start = this.currentPage * this.pageSize;
+        const part = this.users?.slice(start, end);
+        this.dataSource = part;
     }
 
     deleteUser(userId?: string): Promise<void> {

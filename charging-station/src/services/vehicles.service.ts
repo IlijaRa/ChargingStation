@@ -44,42 +44,54 @@ export class VehiclesService {
         return { items: vehicleItems };
     }
 
-    async search(query?: string, filterId?: string): Promise<VehicleSearchDto> {
+    async search(query?: string): Promise<VehicleSearchDto> {
         let vehicles;
 
-        if (this.isEmpty(filterId)) {
-            if (this.isEmpty(query)) {
-                vehicles = await this.vehicleModel.find();
-            } else {
-                const searchCriteria = {
-                    $or: [
-                        { manufacturer: new RegExp(query, 'i') },
-                        { vehicleModel: new RegExp(query, 'i') },
-                        { chargingProtocol: new RegExp(query, 'i') },
-                        { batteryCapacity: parseFloat(query) || 0.0 },
-                    ]
-                };
-                
-                vehicles = await this.vehicleModel.find(searchCriteria);
-            }
+        if (this.isEmpty(query)) {
+            vehicles = await this.vehicleModel.find();
         } else {
-            if (this.isEmpty(query)) {
-                vehicles = await this.vehicleModel.find({ userId: filterId });
-            } else {
-                const searchCriteria = {
-                    $or: [
-                        { manufacturer: new RegExp(query, 'i') },
-                        { vehicleModel: new RegExp(query, 'i') },
-                        { chargingProtocol: new RegExp(query, 'i') },
-                        { batteryCapacity: parseFloat(query) || 0.0 },
-                    ],
-                    $and: [
-                        { userId: filterId }
-                    ]
-                };
-                
-                vehicles = await this.vehicleModel.find(searchCriteria);
-            }
+            const searchCriteria = {
+                $or: [
+                    { manufacturer: new RegExp(query, 'i') },
+                    { vehicleModel: new RegExp(query, 'i') },
+                    { chargingProtocol: new RegExp(query, 'i') },
+                    { batteryCapacity: parseFloat(query) || 0.0 },
+                ]
+            };
+            
+            vehicles = await this.vehicleModel.find(searchCriteria);
+        }
+
+        const vehicleItems: VehicleSearchItemDto[] = vehicles.map(vehicle => ({
+            id: vehicle._id.toString(),
+            manufacturer: vehicle.manufacturer,
+            vehicleModel: vehicle.vehicleModel,
+            batteryCapacity: vehicle.batteryCapacity,
+            chargingProtocol: vehicle.chargingProtocol,
+        }));
+
+        return { items: vehicleItems };
+    }
+
+    async searchByDriver(query?: string, driverId?: string): Promise<VehicleSearchDto> {
+        let vehicles;
+
+        if (this.isEmpty(query)) {
+            vehicles = await this.vehicleModel.find({ userId: driverId });
+        } else {
+            const searchCriteria = {
+                $or: [
+                    { manufacturer: new RegExp(query, 'i') },
+                    { vehicleModel: new RegExp(query, 'i') },
+                    { chargingProtocol: new RegExp(query, 'i') },
+                    { batteryCapacity: parseFloat(query) || 0.0 },
+                ],
+                $and: [
+                    { userId: driverId }
+                ]
+            };
+            
+            vehicles = await this.vehicleModel.find(searchCriteria);
         }
 
         const vehicleItems: VehicleSearchItemDto[] = vehicles.map(vehicle => ({
@@ -100,7 +112,7 @@ export class VehiclesService {
     //#region Helpers
 
     private isEmpty(value) {
-        return (value == null || (typeof value === "string" && value.trim().length === 0));
+        return (value == undefined || value == null || (typeof value === "string" && value.trim().length === 0));
     }
 
     //#endregion

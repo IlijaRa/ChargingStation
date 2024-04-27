@@ -47,7 +47,7 @@ export class UserVehiclesComponent {
             switchMap((user: any) => {
                 this.user = user;
                 // Return the observable from the inner function
-                return this.vehiclesService.search(this.querySearch ?? "", this.user?._id ?? "");
+                return this.vehiclesService.searchByDriver(this.querySearch ?? "", this.user?._id ?? "");
             })
         ).subscribe({
             next: (vehicles: any) => {
@@ -71,7 +71,7 @@ export class UserVehiclesComponent {
     }
 
     search(userId?: string) {
-        this.vehiclesService.search(this.querySearch ?? "", userId ?? "").subscribe({
+        this.vehiclesService.searchByDriver(this.querySearch ?? "", userId ?? "").subscribe({
             next: (val: any) => {
                 this.vehicles = val.items;
             },

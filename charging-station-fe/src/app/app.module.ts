@@ -30,6 +30,7 @@ import { AppointmentAddComponent } from './views/appointments/appointment-add/ap
 import { ConfirmActionDialogComponent } from './core/common/confirm-action-dialog';
 import { UserVehicleAddEditComponent } from './views/user-vehicles/user-vehicle-add-edit/user-vehicle-add-edit.component';
 import { UserVehiclesComponent } from './views/user-vehicles';
+import {MatPaginatorModule} from '@angular/material/paginator';
 // import { ErrorStateMatcher } from '@angular/material/core';
 
 @NgModule({
@@ -81,6 +82,7 @@ import { UserVehiclesComponent } from './views/user-vehicles';
     MatTableModule,
     MatSlideToggleModule,
     MatTabsModule,
+    MatPaginatorModule
     // ErrorStateMatcher
   ],
   providers: [

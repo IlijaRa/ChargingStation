@@ -24,9 +24,13 @@ export class VehiclesService {
         return await lastValueFrom<VehicleGetAllDto>(this.http.get<VehicleGetAllDto>(`${environment.apiUrl}/vehicles/getall`));
     }
 
-    search(query?: string, filterId?: string): Observable<VehicleSearchDto> {
+    search(query?: string): Observable<VehicleSearchDto> {
+        return this.http.get(`${environment.apiUrl}/vehicles/search/${query}`);
+    }
+
+    searchByDriver(query?: string, driverId?: string): Observable<VehicleSearchDto> {
         const params: any = {};
-        params.filterId = filterId;
+        params.driverId = driverId;
         return this.http.post(`${environment.apiUrl}/vehicles/search/${query}`, null, { params });
     }
 
