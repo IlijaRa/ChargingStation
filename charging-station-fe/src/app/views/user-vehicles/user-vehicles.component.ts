@@ -1,10 +1,12 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { VehicleSearchItemDto, ViewState, VehiclesService, AccountsService, CurrentUserDto } from "src/app/core";
+import { VehicleSearchItemDto, ViewState, VehiclesService, AccountsService, CurrentUserDto, UserGetAllItemDto } from "src/app/core";
 import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
 import { switchMap } from "rxjs";
 import { UserVehicleAddEditComponent } from ".";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
     selector: 'user-vehicles',
@@ -23,13 +25,13 @@ export class UserVehiclesComponent {
     querySearch?: string = undefined;
     user?: CurrentUserDto;
     
-    handleClick($event: any) {
-      $event.stopPropagation();
-    }
-  
-    select(item: any) {
-      this.selectedItem = item;
-    }
+    pageEvent?: PageEvent;
+    dataSource: any;
+    pageSize: number = 8;
+    currentPage: number = 0;
+    totalSize: number = 0;
+
+    @ViewChild(MatPaginator) paginator?: MatPaginator;
 
     constructor(
         private formBuilder: FormBuilder, 
@@ -46,7 +48,6 @@ export class UserVehiclesComponent {
         this.accountsService.getCurrentUser().pipe(
             switchMap((user: any) => {
                 this.user = user;
-                // Return the observable from the inner function
                 return this.vehiclesService.searchByDriver(this.querySearch ?? "", this.user?._id ?? "");
             })
         ).subscribe({
@@ -59,21 +60,14 @@ export class UserVehiclesComponent {
         });
     }
 
-    getAll(userId?: string) {
-        this.vehiclesService.getAllByUserId(userId).subscribe({
-            next: (val: any) => {
-                this.vehicles = val.items;
-            },
-            error: (err: any) => {
-                console.error(err);
-            }
-        })
-    }
-
     search(userId?: string) {
         this.vehiclesService.searchByDriver(this.querySearch ?? "", userId ?? "").subscribe({
             next: (val: any) => {
                 this.vehicles = val.items;
+                this.dataSource = new MatTableDataSource<VehicleSearchItemDto>(val.items);
+                this.dataSource.paginator = this.paginator;
+                this.totalSize = this.vehicles?.length!;
+                this.iterator();
             },
             error: (err: any) => {
               console.error(err);
@@ -81,11 +75,23 @@ export class UserVehiclesComponent {
         })
     }
 
+    handlePageEvent(e: any) {
+        this.currentPage = e.pageIndex;
+        this.pageSize = e.pageSize;
+        this.iterator();
+    }
+
+    private iterator() {
+        const end = (this.currentPage + 1) * this.pageSize;
+        const start = this.currentPage * this.pageSize;
+        const part = this.vehicles?.slice(start, end);
+        this.dataSource = part;
+    }
+
     deleteVehicle(vehicleId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.vehiclesService.delete(vehicleId).then((response: void) => {
                 this.search(this.user?._id);
-                // this.getAll(this.user?._id);
                 resolve();
             })
         });
@@ -106,7 +112,6 @@ export class UserVehiclesComponent {
         .afterClosed()
         .subscribe((res) => {
             this.search(this.user?._id);
-            // this.getAll(this.user?._id);
         });
     }
 
@@ -125,7 +130,6 @@ export class UserVehiclesComponent {
             if (res === 'yes') {
                 this.deleteVehicle(id).then(() => {
                     this.search(this.user?._id);
-                    // this.getAll(this.user?._id);
                 })
             }
         });

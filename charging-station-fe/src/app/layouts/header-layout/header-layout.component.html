@@ -40,6 +40,9 @@
       <mat-list-item *ngIf="auth.authorized['driver']">
         <button mat-menu-item routerLink="/user-vehicles"><mat-icon color="primary">directions_car</mat-icon>My vehicles</button>
       </mat-list-item>
+      <mat-list-item *ngIf="auth.authorized['driver']">
+        <button mat-menu-item routerLink="/charging-history"><mat-icon color="primary">history</mat-icon>Charging history</button>
+      </mat-list-item>
     </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content>
