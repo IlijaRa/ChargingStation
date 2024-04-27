@@ -19,6 +19,16 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+mat-icon {
+  margin-right: 6px;
+}
+
+mat-icon:hover {
+  opacity: 0.5;
+  transition: 0.3s;
+  transform: scale(1.5);
+}
+
 textarea { min-height: auto; min-width: 380px;}
 /*--------------------------------------------------------------
 # General

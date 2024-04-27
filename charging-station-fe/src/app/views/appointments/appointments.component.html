@@ -13,19 +13,24 @@
       </ng-container>
       
       <table mat-table [dataSource]="dataSource!">
-        <ng-container matColumnDef="startDate">
+        <ng-container matColumnDef="startTime">
           <th mat-header-cell *matHeaderCellDef> Start time </th>
-          <td mat-cell *matCellDef="let appointment"> {{appointment.startDate}} </td>
+          <td mat-cell *matCellDef="let appointment"> {{appointment.startTime}} </td>
         </ng-container>
       
-        <ng-container matColumnDef="endDate">
+        <ng-container matColumnDef="endTime">
           <th mat-header-cell *matHeaderCellDef> End time </th>
-          <td mat-cell *matCellDef="let appointment"> {{appointment.endDate}} </td>
+          <td mat-cell *matCellDef="let appointment"> {{appointment.endTime}} </td>
         </ng-container>
       
         <ng-container matColumnDef="isAvailable">
-          <th mat-header-cell *matHeaderCellDef> Available </th>
-          <td mat-cell *matCellDef="let appointment"><mat-slide-toggle [checked]="appointment.isAvailable" color="primary"></mat-slide-toggle></td>
+          <th mat-header-cell *matHeaderCellDef> Available for charging </th>
+          <td mat-cell *matCellDef="let appointment"><mat-slide-toggle [checked]="appointment.isAvailable" (change)="toggleChangeEvent($event, appointment.isAvailable)" color="accent"></mat-slide-toggle></td>
+        </ng-container>
+
+        <ng-container matColumnDef="isAllowed">
+          <th mat-header-cell *matHeaderCellDef> Allowed </th>
+          <td mat-cell *matCellDef="let appointment"><mat-slide-toggle [checked]="appointment.isAllowed" color="accent" (click)="chaneAllowanceStatus(appointment.id, appointment.chargerId, appointment.isAllowed)"></mat-slide-toggle></td>
         </ng-container>
     
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

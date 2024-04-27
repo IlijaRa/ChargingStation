@@ -25,8 +25,8 @@ export class ChargingHistoriesService {
 
         const chargingHistoryDto: ChargingHistoryGetByIdDto = {
             _id: chargingHistory._id,
-            startDate: chargingHistory.startDate,
-            endDate: chargingHistory.endDate,
+            startTime: chargingHistory.startTime,
+            endTime: chargingHistory.endTime,
             cost: chargingHistory.cost,
             paymentMethod: chargingHistory.paymentMethod,
             takenEnergy: chargingHistory.takenEnergy,

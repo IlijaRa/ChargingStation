@@ -4,8 +4,9 @@ export class AppointmentGetAllDto {
 
 export class AppointmentGetAllItemDto {
     id?: string;
-    startDate?: string;
-    endDate?: string;
+    startTime?: string;
+    endTime?: string;
     isAvailable?: boolean;
+    isAllowed?: boolean;
     chargerId?: string;
 }

@@ -1,7 +1,8 @@
 export class AppointmentGetByIdDto {
     id?: string;
-    startDate?: string;
-    endDate?: string;
+    startTime?: string;
+    endTime?: string;
     isAvailable?: boolean;
+    isAllowed?: boolean;
     chargerId?: string;
 }

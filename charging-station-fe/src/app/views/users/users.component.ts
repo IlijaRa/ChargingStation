@@ -56,6 +56,11 @@ export class UsersComponent implements OnInit {
         })
     }
 
+    clearSearch() {
+        this.querySearch = undefined;
+        this.search();
+    }
+
     handlePageEvent(e: any) {
         this.currentPage = e.pageIndex;
         this.pageSize = e.pageSize;
@@ -112,7 +117,7 @@ export class UsersComponent implements OnInit {
         })
         .afterClosed()
         .subscribe((res) => {
-            if (res === 'ok') {
+            if (res === 'yes') {
                 this.deleteUser(id).then(() => {
                     this.search();
                 })
@@ -154,7 +159,7 @@ export class UsersComponent implements OnInit {
         })
         .afterClosed()
         .subscribe((res) => {
-            if (res === 'ok') {
+            if (res === 'yes') {
                 if (actionName === 'Block') {
                     this.block(id);
                 } else {

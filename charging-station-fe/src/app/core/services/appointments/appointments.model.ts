@@ -1,16 +1,18 @@
 export class AppointmentSaveDto {
     _id?: string
-    startDate?: Date;
-    endDate?: Date;
+    startTime?: Date;
+    endTime?: Date;
     isAvailable?: boolean;
+    isAllowed?: boolean;
     chargerId?: string;
 }
 
 export class AppointmentGetByIdDto {
     id?: string;
-    startDate?: string;
-    endDate?: string;
+    startTime?: string;
+    endTime?: string;
     isAvailable?: boolean;
+    isAllowed?: boolean;
     chargerId?: string;
 }
 
@@ -20,8 +22,19 @@ export class AppointmentGetAllDto {
 
 export class AppointmentGetAllItemDto {
     id?: string;
-    startDate?: string;
-    endDate?: string;
+    startTime?: string;
+    endTime?: string;
     isAvailable?: boolean;
+    isAllowed?: boolean;
+    chargerId?: string;
+}
+
+export class AppointmentAllowDto {
+    appointmentId?: string;
+    chargerId?: string;
+}
+
+export class AppointmentUnallowDto {
+    appointmentId?: string;
     chargerId?: string;
 }

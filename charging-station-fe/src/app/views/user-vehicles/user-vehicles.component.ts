@@ -122,7 +122,7 @@ export class UserVehiclesComponent {
         })
         .afterClosed()
         .subscribe((res) => {
-            if (res === 'ok') {
+            if (res === 'yes') {
                 this.deleteVehicle(id).then(() => {
                     this.search(this.user?._id);
                     // this.getAll(this.user?._id);

@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { AppointmentGetAllDto, AppointmentGetAllItemDto, AppointmentGetByIdDto, AppointmentSaveDto } from "src/dto";
+import { AppointmentAllowDto, AppointmentGetAllDto, AppointmentGetAllItemDto, AppointmentGetByIdDto, AppointmentSaveDto, AppointmentUnallowDto } from "src/dto";
 import { Appointment } from "src/schemas";
 
 @Injectable()
@@ -16,6 +16,20 @@ export class AppointmentsService {
         }
     }
 
+    allow(model?: AppointmentAllowDto) {
+        return this.appointmentModel.findByIdAndUpdate(
+            { _id: model.appointmentId, chargerId: model.chargerId },
+            { isAllowed: true, isAvailable : true }
+        );
+    }
+
+    unallow(model?: AppointmentUnallowDto) {
+        return this.appointmentModel.findByIdAndUpdate(
+            { _id: model.appointmentId, chargerId: model.chargerId },
+            { isAllowed: false, isAvailable : false }
+        );
+    }
+
     async getById(appointmentId?: string): Promise<AppointmentGetByIdDto> {
         const appointment = await this.appointmentModel.findById(appointmentId);
 
@@ -25,9 +39,10 @@ export class AppointmentsService {
 
         const appointmentDto: AppointmentGetByIdDto = {
             id: appointment._id.toString(),
-            startDate: appointment.startDate,
-            endDate: appointment.endDate,
+            startTime: appointment.startTime,
+            endTime: appointment.endTime,
             isAvailable: appointment.isAvailable,
+            isAllowed: appointment.isAllowed,
             chargerId: appointment.chargerId,
         };
     
@@ -39,14 +54,15 @@ export class AppointmentsService {
         
         const appointmentItems: AppointmentGetAllItemDto[] = appointments.map(appointment => ({
             id: appointment._id.toString(),
-            startDate: appointment.startDate,
-            endDate: appointment.endDate,
+            startTime: appointment.startTime,
+            endTime: appointment.endTime,
             isAvailable: appointment.isAvailable,
+            isAllowed: appointment.isAllowed,
             chargerId: appointment.chargerId,
         }));
 
         appointmentItems.sort(function (a, b) {
-            return a.startDate.localeCompare(b.startDate);
+            return a.startTime.localeCompare(b.startTime);
         });
 
         return { items: appointmentItems };

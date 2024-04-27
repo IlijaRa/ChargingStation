@@ -118,7 +118,7 @@ export class UnconfirmedUsersComponent implements OnInit {
         })
         .afterClosed()
         .subscribe((res) => {
-            if (res === 'ok') {
+            if (res === 'yes') {
                 this.deleteUser(id).then(() => {
                     this.search();
                 })
@@ -138,7 +138,7 @@ export class UnconfirmedUsersComponent implements OnInit {
         })
         .afterClosed()
         .subscribe((res) => {
-            if (res === 'ok') {
+            if (res === 'yes') {
                 this.confirmUser(id).then(() => {})
             }
             this.search();

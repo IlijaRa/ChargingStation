@@ -91,18 +91,19 @@ export class ChargersService {
         ];
     
         for (const slot of timeSlots) {
-            const startDate = new Date();
+            const startTime = new Date();
             const startParts = slot.start.split(":");
-            startDate.setHours(parseInt(startParts[0]), parseInt(startParts[1]), 0, 0);
+            startTime.setHours(parseInt(startParts[0]), parseInt(startParts[1]), 0, 0);
     
-            const endDate = new Date();
+            const endTime = new Date();
             const endParts = slot.end.split(":");
-            endDate.setHours(parseInt(endParts[0]), parseInt(endParts[1]), 0, 0);
+            endTime.setHours(parseInt(endParts[0]), parseInt(endParts[1]), 0, 0);
     
             const appointment = new this.appointmentModel({
-                startDate: this.formatTime(startDate),
-                endDate: this.formatTime(endDate),
+                startTime: this.formatTime(startTime),
+                endTime: this.formatTime(endTime),
                 isAvailable: true,
+                isAllowed: true,
                 chargerId: chargerId
             });
             appointmentPromises.push(appointment.save());
@@ -111,16 +112,16 @@ export class ChargersService {
         await Promise.all(appointmentPromises);
     }
 
-    formatTime(date: Date): string {
-        const hours = date.getHours().toString().padStart(2, "0");
-        const minutes = date.getMinutes().toString().padStart(2, "0");
-        return `${hours}:${minutes}`;
-    }
-
     //#region Helpers
 
     private isEmpty(value) {
         return (value == null || (typeof value === "string" && value.trim().length === 0));
+    }
+
+    private formatTime(date: Date): string {
+        const hours = date.getHours().toString().padStart(2, "0");
+        const minutes = date.getMinutes().toString().padStart(2, "0");
+        return `${hours}:${minutes}`;
     }
 
     //#endregion

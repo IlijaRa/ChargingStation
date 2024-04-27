@@ -117,7 +117,7 @@ export class ChargersComponent implements OnInit {
         })
         .afterClosed()
         .subscribe((res) => {
-            if (res === 'ok') {
+            if (res === 'yes') {
                 this.deleteCharger(id).then(() => {
                     this.search();
                 })

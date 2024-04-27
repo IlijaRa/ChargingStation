@@ -4,10 +4,10 @@ import { Document } from 'mongoose';
 @Schema({ timestamps: true })
 export class ChargingHistory extends Document {
     @Prop({ required: true })
-    startDate?: Date;
+    startTime?: Date;
 
     @Prop({ required: true })
-    endDate?: Date;
+    endTime?: Date;
 
     @Prop({ required: true })
     cost?: Number;

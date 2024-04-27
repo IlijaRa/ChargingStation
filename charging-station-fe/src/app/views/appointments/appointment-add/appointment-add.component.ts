@@ -29,8 +29,8 @@ export class AppointmentAddComponent implements OnInit {
         this.appointmentsService.getById(this.entityId).subscribe({
           next: (val: any) => {
             this.form = this.formBuilder.group({
-              startDate: new FormControl(val?.startDate),
-              endDate: new FormControl(val?.endDate),
+              startTime: new FormControl(val?.startTime),
+              endTime: new FormControl(val?.endTime),
               isAvailable: new FormControl(val?.isAvailable)
             });
           },
@@ -40,7 +40,7 @@ export class AppointmentAddComponent implements OnInit {
         })
       } else {
         this.form = this.formBuilder.group({
-          startDate: '', endDate: '', isAvailable: ''
+          startTime: '', endTime: '', isAvailable: ''
         });
       }
   }
@@ -52,8 +52,8 @@ export class AppointmentAddComponent implements OnInit {
     if (this.form?.valid) {
       let model: AppointmentSaveDto = {
         _id: this.entityId,
-        startDate: this.form?.value.startDate,
-        endDate: this.form?.value.endDate,
+        startTime: this.form?.value.startTime,
+        endTime: this.form?.value.endDate,
         isAvailable: this.form?.value.isAvailable == 'yes' ? true : false,
         chargerId: this.chargerId
       };

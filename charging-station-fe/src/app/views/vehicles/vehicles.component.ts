@@ -107,7 +107,7 @@ export class VehiclesComponent implements OnInit {
       })
       .afterClosed()
       .subscribe((res) => {
-          if (res === 'ok') {
+          if (res === 'yes') {
               this.deleteVehicle(id).then(() => {
                   this.search();
               })

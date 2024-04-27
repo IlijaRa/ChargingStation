@@ -5,6 +5,7 @@ import { AppointmentGetAllDto, AppointmentGetAllItemDto, AppointmentsService, Ch
 import { AppointmentAddComponent } from ".";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
+import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
 
 @Component({
     selector: 'appointments',
@@ -14,7 +15,7 @@ import { MatTableDataSource } from "@angular/material/table";
 export class AppointmentsComponent implements OnInit {
     appointments?: AppointmentGetAllItemDto[];
     chargerLocation?: string;
-    displayedColumns: string[] = ['startDate', 'endDate', 'isAvailable'];
+    displayedColumns: string[] = ['startTime', 'endTime', 'isAvailable', 'isAllowed'];
     viewState = ViewState;
     entityState: ViewState = ViewState.Details;
     entityId?: string;
@@ -38,7 +39,6 @@ export class AppointmentsComponent implements OnInit {
     ngOnInit(): void {
         this.route.params.subscribe((value: any) => {
             this.chargerId = value.id;
-            console.log("this.chargerId", this.chargerId);
             this.getCharger();
             this.getAll();
         })
@@ -114,6 +114,56 @@ export class AppointmentsComponent implements OnInit {
         //         alert("Employee updated successfully!");
         //     }
         //   }, 500);
+        });
+    }
+
+    toggleChangeEvent(e?: any, toggleState?: boolean) {
+        e.source.checked = toggleState;
+    }
+
+    chaneAllowanceStatus(appointmentId?: string, chargerId?: string, isAllowed?: boolean) {
+        this.openAllowanceStatusDialog(appointmentId, chargerId, isAllowed ? 'Unallow' : 'Allow');
+    }
+
+    private unallow(appointmentId?: string, chargerId?: string): Promise<void> {
+        return new Promise((resolve: any) => {
+            this.appointmentsService.unallow(appointmentId, chargerId).then((response: void) => {
+                this.getAll();
+                resolve();
+            })
+        });
+    }
+
+    private allow(appointmentId?: string, chargerId?: string): Promise<void> {
+        return new Promise((resolve: any) => {
+            this.appointmentsService.allow(appointmentId, chargerId).then((response: void) => {
+                this.getAll();
+                resolve();
+            })
+        });
+    }
+
+    openAllowanceStatusDialog(appointmentId?: string, chargerId?: string ,actionName?: string) {
+        this.matDialog.open(ConfirmActionDialogComponent, {
+            autoFocus: false,
+            data: {
+                actionName: actionName,
+                entityName: 'appointment'
+            },
+            width: '427px',
+            height: '215px'
+        })
+        .afterClosed()
+        .subscribe((res) => {
+            if (res === 'yes') {
+                if (actionName === 'Allow') {
+                    this.allow(appointmentId, chargerId);
+                } else {
+                    this.unallow(appointmentId, chargerId);
+                } 
+            }
+            
+            this.getAll();
         });
     }
 }

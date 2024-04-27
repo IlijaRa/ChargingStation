@@ -17,7 +17,7 @@ export class ConfirmActionDialogComponent {
       this.entityName = data.entityName
     }
 
-    ok() {
-      this.dialogRef.close('ok');
+    confirm() {
+      this.dialogRef.close('yes');
     }
 }

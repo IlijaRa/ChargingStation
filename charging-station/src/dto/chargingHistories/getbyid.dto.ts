@@ -6,11 +6,11 @@ export class ChargingHistoryGetByIdDto{
 
     @IsNotEmpty()
     @Type(() => Date)
-    startDate?: Date;
+    startTime?: Date;
 
     @IsNotEmpty()
     @Type(() => Date)
-    endDate?: Date;
+    endTime?: Date;
 
     @IsNotEmpty()
     @IsNumber()

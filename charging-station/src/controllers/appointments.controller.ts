@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
-import { AppointmentSaveDto } from "src/dto";
+import { Public } from "src/common";
+import { AppointmentAllowDto, AppointmentSaveDto, AppointmentUnallowDto } from "src/dto";
 import { AppointmentsService } from "src/services";
 
 @Controller('appointments')
@@ -10,6 +11,18 @@ export class AppointmentsController {
     @Post('save')
     save(@Body() model: AppointmentSaveDto) {
         return this.appointmentsService.save(model);
+    }
+
+    @Public()
+    @Post('allow')
+    allow(@Body() model: AppointmentAllowDto) {
+        return this.appointmentsService.allow(model);
+    }
+
+    @Public()
+    @Post('unallow')
+    unallow(@Body() model: AppointmentUnallowDto) {
+        return this.appointmentsService.unallow(model);
     }
 
     //TODO: check if appointment with appointmentId exist in the first place

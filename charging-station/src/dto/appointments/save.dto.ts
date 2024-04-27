@@ -6,15 +6,19 @@ export class AppointmentSaveDto {
 
     @IsNotEmpty()
     @Type(() => Date)
-    startDate?: Date;
+    startTime?: Date;
 
     @IsNotEmpty()
     @Type(() => Date)
-    endDate?: Date;
+    endTime?: Date;
 
     @IsNotEmpty()
     @IsBoolean()
     isAvailable?: boolean;
+
+    @IsNotEmpty()
+    @IsBoolean()
+    isAllowed?: boolean;
 
     @IsNotEmpty()
     @IsString()
