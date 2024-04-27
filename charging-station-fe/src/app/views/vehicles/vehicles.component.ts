@@ -1,9 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { VehicleSearchItemDto, VehiclesService, ViewState } from "src/app/core";
 import { VehicleAddEditComponent } from ".";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
     selector: 'vehicles',
@@ -21,13 +23,13 @@ export class VehiclesComponent implements OnInit {
     selectedItem: any;
     querySearch?: string = undefined;
     
-    handleClick($event: any) {
-      $event.stopPropagation();
-    }
-  
-    select(item: any) {
-      this.selectedItem = item;
-    }
+    pageEvent?: PageEvent;
+    dataSource: any;
+    pageSize: number = 8;
+    currentPage: number = 0;
+    totalSize: number = 0;
+
+    @ViewChild(MatPaginator) paginator?: MatPaginator;
 
     constructor(private formBuilder: FormBuilder, private vehiclesService: VehiclesService, private matDialog: MatDialog) 
     {
@@ -40,18 +42,32 @@ export class VehiclesComponent implements OnInit {
         this.search();
     }
 
-    entityActionCallback() {
-    }
-
     search() {
       this.vehiclesService.search(this.querySearch ?? "").subscribe({
           next: (val: any) => {
               this.vehicles = val.items;
+              this.dataSource = new MatTableDataSource<VehicleSearchItemDto>(val.items);
+                this.dataSource.paginator = this.paginator;
+                this.totalSize = this.vehicles?.length!;
+                this.iterator();
           },
           error: (err: any) => {
             console.error(err);
           }
       })
+    }
+
+    handlePageEvent(e: any) {
+      this.currentPage = e.pageIndex;
+      this.pageSize = e.pageSize;
+      this.iterator();
+    }
+
+    private iterator() {
+        const end = (this.currentPage + 1) * this.pageSize;
+        const start = this.currentPage * this.pageSize;
+        const part = this.vehicles?.slice(start, end);
+        this.dataSource = part;
     }
 
     deleteVehicle(vehicleId?: string): Promise<void> {

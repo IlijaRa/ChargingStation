@@ -1,8 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
 import { AppointmentGetAllDto, AppointmentGetAllItemDto, AppointmentsService, ChargersService, ViewState } from "src/app/core";
 import { AppointmentAddComponent } from ".";
+import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
     selector: 'appointments',
@@ -18,6 +20,14 @@ export class AppointmentsComponent implements OnInit {
     entityId?: string;
     chargerId?: string;
 
+    pageEvent?: PageEvent;
+    dataSource: any;
+    pageSize: number = 8;
+    currentPage: number = 0;
+    totalSize: number = 0;
+
+    @ViewChild(MatPaginator) paginator?: MatPaginator;
+    
     constructor(
         private appointmentsService: AppointmentsService, 
         private chargersService: ChargersService,
@@ -46,11 +56,31 @@ export class AppointmentsComponent implements OnInit {
     }
 
     getAll() {
-        this.appointmentsService.getAll(this.chargerId).then((response: AppointmentGetAllDto) => {
-            this.appointments = response.items;
-            console.log("this.appointments", this.appointments);
-            console.log("response.items", response.items);
+        this.appointmentsService.getAll(this.chargerId).subscribe({
+            next: (val: any) => {
+                this.appointments = val.items;
+                this.dataSource = new MatTableDataSource<AppointmentGetAllDto>(val.items);
+                this.dataSource.paginator = this.paginator;
+                this.totalSize = this.appointments?.length!;
+                this.iterator();
+            },
+            error: (err: any) => {
+              console.error(err);
+            }
         })
+    }
+
+    handlePageEvent(e: any) {
+        this.currentPage = e.pageIndex;
+        this.pageSize = e.pageSize;
+        this.iterator();
+    }
+
+    private iterator() {
+        const end = (this.currentPage + 1) * this.pageSize;
+        const start = this.currentPage * this.pageSize;
+        const part = this.appointments?.slice(start, end);
+        this.dataSource = part;
     }
 
     deleteAppointment(appointmentId?: string): Promise<void> {

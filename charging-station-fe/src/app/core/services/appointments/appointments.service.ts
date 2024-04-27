@@ -16,8 +16,8 @@ export class AppointmentsService {
         return this.http.get(`${environment.apiUrl}/appointments/getbyid/${id}`);
     }
 
-    async getAll(chargerId?: string): Promise<any> {
-        return await lastValueFrom<AppointmentGetAllDto>(this.http.get<AppointmentGetAllDto>(`${environment.apiUrl}/appointments/getall/${chargerId}`));
+    getAll(chargerId?: string): Observable<AppointmentGetAllDto> {
+        return this.http.get<AppointmentGetAllDto>(`${environment.apiUrl}/appointments/getall/${chargerId}`);
     }
 
     async delete(id?: string): Promise<any> {
