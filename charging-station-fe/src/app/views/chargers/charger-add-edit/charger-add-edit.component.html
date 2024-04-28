@@ -15,27 +15,58 @@
         <div class="row">
             <mat-form-field appearance="outline">
                 <mat-label>Location</mat-label>
-                <input matInput formControlName="location">
+                <input matInput formControlName="location" [matAutocomplete]="auto" (change)="search($event)">
                 <mat-error *ngIf="form.get('location')?.errors?.['required']">Location is required</mat-error>
+                <mat-autocomplete #auto>
+                    <mat-option *ngFor="let address of addresses" [value]="address.name" (click)="onSelect(address)">{{ address.name }}</mat-option>
+                </mat-autocomplete>
             </mat-form-field>
+
             <mat-form-field appearance="outline">
                 <mat-label>Charging power</mat-label>
                 <input matInput type="number" formControlName="chargingPower">
                 <mat-error *ngIf="form.get('chargingPower')?.errors?.['required']">Charging power is required</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <!-- <mat-form-field appearance="outline">
                 <mat-label>Charging protocol</mat-label>
                 <input matInput formControlName="chargingProtocol">
                 <mat-error *ngIf="form.get('chargingProtocol')?.errors?.['required']">Charging protocol is required</mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field appearance="outline">
+                <mat-label>Select charging protocol</mat-label>
+                <mat-select formControlName="chargingProtocol">
+                  <mat-option value="CHAdeMO">CHAdeMO</mat-option>
+                  <mat-option value="Tesla">Tesla</mat-option>
+                  <mat-option value="CCS">CCS</mat-option>
+                  <mat-option value="J1772">J1772</mat-option>
+                  <mat-option value="Type1">Type1</mat-option>
+                  <mat-option value="Type2">Type2</mat-option>
+                  <mat-option value="NACS">NACS</mat-option>
+                  <mat-option value="OCPP">OCPP </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('paymentMethod')?.errors?.['required']">Payment method is required</mat-error>
             </mat-form-field>
+
             <mat-form-field appearance="outline">
                 <mat-label>Price per KWH</mat-label>
                 <input matInput type="number" formControlName="pricePerKwh">
                 <mat-error *ngIf="form.get('pricePerKwh')?.errors?.['required']">Price per kWh is required</mat-error>
             </mat-form-field>
-            <mat-form-field appearance="outline">
+            <!-- <mat-form-field appearance="outline">
                 <mat-label>Payment method</mat-label>
                 <input matInput formControlName="paymentMethod">
+                <mat-error *ngIf="form.get('paymentMethod')?.errors?.['required']">Payment method is required</mat-error>
+            </mat-form-field> -->
+            <mat-form-field appearance="outline">
+                <mat-label>Select payment method</mat-label>
+                <mat-select formControlName="paymentMethod">
+                  <mat-option value="Credit/Debit Cards">Credit/Debit Cards</mat-option>
+                  <mat-option value="RFID Cards/Tags">RFID Cards/Tags</mat-option>
+                  <mat-option value="Mobile Payment Apps (e.g., Apple Pay, Google Pay)">Mobile Payment Apps (e.g., Apple Pay, Google Pay)</mat-option>
+                  <mat-option value="Subscription Services">Subscription Services</mat-option>
+                  <mat-option value="Prepaid Cards/Vouchers">Prepaid Cards/Vouchers</mat-option>
+                </mat-select>
                 <mat-error *ngIf="form.get('paymentMethod')?.errors?.['required']">Payment method is required</mat-error>
             </mat-form-field>
         </div>

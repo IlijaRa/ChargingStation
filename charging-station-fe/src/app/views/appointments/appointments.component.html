@@ -7,7 +7,7 @@
             <button class="new-appointment-button" mat-raised-button color="primary" routerLink="../.."><mat-icon>keyboard_arrow_left</mat-icon>Back to chargers</button>
         </div>
     </div>
-    <div class="table-container" style="display: block; height: 500px; overflow-y: auto; background-color: white;">
+    <div class="table-container" style="display: block; height: 450px; overflow-y: auto; background-color: white;">
       <ng-container *ngIf="!appointments || appointments.length == 0">
         <mat-icon color="primary" class="lock-icon-adjustments">lock</mat-icon><span class="no-content">No content</span>
       </ng-container>
@@ -37,6 +37,6 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </div>
-    <mat-paginator #paginator [length]="totalSize" [pageSize]="pageSize" [pageSizeOptions]="[8, 16, 24]" responsiveLayout="stack" 
+    <mat-paginator #paginator [length]="totalSize" [pageSize]="pageSize" [pageSizeOptions]="[7, 14, 21]" responsiveLayout="stack" 
     scrollHeight="flex" [showFirstLastButtons]="true" [pageIndex]="currentPage" (page)="handlePageEvent($event)"></mat-paginator>
   </div>

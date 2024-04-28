@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppointmentsComponent, ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUserDetailComponent, UnconfirmedUsersComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
-import { AccountsService, AppInjector, AppInterceptor, AppointmentsService, AppValuePipe, AuthGuard, AuthsService, ChargersService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
+import { AccountsService, AppInjector, AppInterceptor, AppointmentsService, AppValuePipe, AuthGuard, AuthsService, ChargersService, MapsService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,7 +30,10 @@ import { AppointmentAddComponent } from './views/appointments/appointment-add/ap
 import { ConfirmActionDialogComponent } from './core/common/confirm-action-dialog';
 import { UserVehicleAddEditComponent } from './views/user-vehicles/user-vehicle-add-edit/user-vehicle-add-edit.component';
 import { UserVehiclesComponent } from './views/user-vehicles';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MapsComponent } from './views/maps/maps.component';
+import { ScheduleChargerComponent } from './views/schedule-charger/schedule-charger.component';
 // import { ErrorStateMatcher } from '@angular/material/core';
 
 @NgModule({
@@ -58,7 +61,9 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     ConfirmActionDialogComponent,
     UnconfirmedUserDetailComponent,
     UserVehicleAddEditComponent,
-    UserVehiclesComponent
+    UserVehiclesComponent,
+    MapsComponent,
+    ScheduleChargerComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +87,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatTableModule,
     MatSlideToggleModule,
     MatTabsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatAutocompleteModule
     // ErrorStateMatcher
   ],
   providers: [
@@ -98,7 +104,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     ChargersService,
     VehiclesService,
     AppointmentsService,
-    AccountsService
+    AccountsService,
+    MapsService
     // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ],
   bootstrap: [AppComponent]

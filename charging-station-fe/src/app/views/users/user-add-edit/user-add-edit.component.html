@@ -15,8 +15,6 @@
                 <mat-form-field appearance="outline" class="left-field-adjustment">
                     <mat-label>First name</mat-label>
                     <input matInput placeholder="Ex. Peter" formControlName="firstName" [(ngModel)]="firstName">
-                    <!-- <mat-error *ngIf="form.get('firstName')?.errors?.['required']">First name is required</mat-error> -->
-                    <!-- <mat-error *ngIf="form.controls['firstName'].invalid && form.controls['firstName'].touched">First name is required</mat-error> -->
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="right-field-adjustment">
                     <mat-label>Last Name</mat-label>
@@ -69,7 +67,6 @@
                         <mat-label><b>Gender</b></mat-label>
                         <mat-radio-button value="male" [checked]="true">Male</mat-radio-button>
                         <mat-radio-button value="female">Female</mat-radio-button>
-                        <!-- <mat-error *ngIf="form.get('gender')?.errors?.['required']">Gender is required</mat-error> -->
                     </mat-radio-group>
                 </div>
             </div>

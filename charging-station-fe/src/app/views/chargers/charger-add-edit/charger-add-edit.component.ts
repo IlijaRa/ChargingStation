@@ -2,7 +2,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ChargerGetByIdDto, ChargerSaveDto, ChargersService, ViewState } from 'src/app/core';
+import { ChargerGetByIdDto, ChargerSaveDto, ChargersService, IAddressResult, IResult, MapsService, ViewState } from 'src/app/core';
 
 @Component({
   selector: 'app-charger-add-edit',
@@ -17,8 +17,15 @@ export class ChargerAddEditComponent implements OnInit {
   disabled?: boolean;
   entityId: string;
   errorMessages: any = undefined;
-  
+
+  mapboxAddressResults?: IResult[];
+  addresses: IAddressResult[] = [];
+  selectedAddress?: string;
+  latitude: number = 100.0;
+  longitude: number = 100.0
+
   constructor(
+    private mapsService: MapsService,
     private formBuilder: FormBuilder,
     private chargersService: ChargersService,
     private dialogRef: DialogRef<ChargerAddEditComponent>,
@@ -55,8 +62,7 @@ export class ChargerAddEditComponent implements OnInit {
       }
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   save() {
     if (this.form?.valid) {
@@ -67,8 +73,8 @@ export class ChargerAddEditComponent implements OnInit {
         pricePerKwh: this.form?.value.pricePerKwh,
         paymentMethod: this.form?.value.paymentMethod,
         location: this.form?.value.location,
-        latitude: 100.00,//this.form?.value.latitude,
-        longitude: 100.00,//this.form?.value.longitude,
+        latitude: this.latitude,
+        longitude: this.longitude,
       };
       this.chargersService.save(model).subscribe({
         next: (val: any) => {
@@ -79,6 +85,31 @@ export class ChargerAddEditComponent implements OnInit {
         }
       })
     }
+  }
+
+  search(event?: any) {
+    const searchTerm = event.target.value.toLowerCase();
+
+    if (searchTerm && searchTerm.length > 0) {
+      this.mapsService.searchAddress(searchTerm)?.subscribe((features: IResult[]) => {
+        this.addresses = features.map(result => ({
+          id: result.id,
+          name: result.properties?.full_address || '',
+          latitude: result.geometry?.coordinates ? result.geometry.coordinates[1] : 100.0,
+          longitude: result.geometry?.coordinates ? result.geometry.coordinates[0] : 100.0,
+        }));
+        this.mapboxAddressResults = features;
+      });
+    } else {
+      this.addresses = [];
+    }
+  }
+
+  onSelect(address: IAddressResult) {
+    this.selectedAddress = address.name;
+    this.latitude = address.latitude!;
+    this.longitude = address.longitude!;
+    this.addresses = [];
   }
 
   cancel() {

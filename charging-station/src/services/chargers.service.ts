@@ -32,7 +32,9 @@ export class ChargersService {
             chargingProtocol: charger.chargingProtocol,
             pricePerKwh: charger.pricePerKwh,
             paymentMethod: charger.paymentMethod,
-            location: charger.location
+            location: charger.location,
+            longitude: charger.longitude,
+            latitude: charger.latitude
         }));
         return { items: chargerItems };
     }

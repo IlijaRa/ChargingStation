@@ -16,8 +16,8 @@ export class ChargersService {
         return this.http.get(`${environment.apiUrl}/chargers/getbyid/${id}`);
     }
 
-    async getAll(): Promise<any> {
-        return await lastValueFrom<ChargerGetAllDto>(this.http.get<ChargerGetAllDto>(`${environment.apiUrl}/chargers/getall`));
+    getAll(): Observable<ChargerGetAllDto> {
+        return this.http.get(`${environment.apiUrl}/chargers/getall`);
     }
 
     search(query?: string): Observable<ChargerSearchDto> {

@@ -33,6 +33,8 @@ export class ChargerGetAllItemDto {
     pricePerKwh?: number;
     paymentMethod?: string;
     location?: string;
+    longitude?: number;
+    latitude?: number;
 }
 
 export class ChargerSearchDto {

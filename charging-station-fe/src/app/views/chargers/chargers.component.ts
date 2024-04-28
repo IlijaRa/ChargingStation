@@ -24,19 +24,11 @@ export class ChargersComponent implements OnInit {
 
     pageEvent?: PageEvent;
     dataSource: any;
-    pageSize: number = 8;
+    pageSize: number = 7;
     currentPage: number = 0;
     totalSize: number = 0;
 
     @ViewChild(MatPaginator) paginator?: MatPaginator;
-    
-    // handleClick($event: any) {
-    //     $event.stopPropagation();
-    // }
-    
-    // select(item: any) {
-    //     this.selectedItem = item;
-    // }
 
     constructor(private formBuilder: FormBuilder, private chargersService: ChargersService, private matDialog: MatDialog) 
     {

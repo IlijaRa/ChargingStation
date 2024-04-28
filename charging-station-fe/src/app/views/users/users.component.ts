@@ -24,7 +24,7 @@ export class UsersComponent implements OnInit {
 
     pageEvent?: PageEvent;
     dataSource: any;
-    pageSize: number = 8;
+    pageSize: number = 7;
     currentPage: number = 0;
     totalSize: number = 0;
 
