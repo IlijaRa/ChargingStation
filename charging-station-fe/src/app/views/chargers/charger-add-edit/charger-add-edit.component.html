@@ -27,11 +27,6 @@
                 <input matInput type="number" formControlName="chargingPower">
                 <mat-error *ngIf="form.get('chargingPower')?.errors?.['required']">Charging power is required</mat-error>
             </mat-form-field>
-            <!-- <mat-form-field appearance="outline">
-                <mat-label>Charging protocol</mat-label>
-                <input matInput formControlName="chargingProtocol">
-                <mat-error *ngIf="form.get('chargingProtocol')?.errors?.['required']">Charging protocol is required</mat-error>
-            </mat-form-field> -->
 
             <mat-form-field appearance="outline">
                 <mat-label>Select charging protocol</mat-label>
@@ -53,11 +48,7 @@
                 <input matInput type="number" formControlName="pricePerKwh">
                 <mat-error *ngIf="form.get('pricePerKwh')?.errors?.['required']">Price per kWh is required</mat-error>
             </mat-form-field>
-            <!-- <mat-form-field appearance="outline">
-                <mat-label>Payment method</mat-label>
-                <input matInput formControlName="paymentMethod">
-                <mat-error *ngIf="form.get('paymentMethod')?.errors?.['required']">Payment method is required</mat-error>
-            </mat-form-field> -->
+            
             <mat-form-field appearance="outline">
                 <mat-label>Select payment method</mat-label>
                 <mat-select formControlName="paymentMethod">

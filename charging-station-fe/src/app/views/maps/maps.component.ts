@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import * as mapboxgl from 'mapbox-gl';
+import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 @Component({
   selector: 'app-maps',
@@ -11,6 +12,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
   map?: mapboxgl.Map;
 
   @Input() markerInfos?: any[];
+  @Output() mapResult = new EventEmitter<mapboxgl.Map>();
 
   constructor() {}
 
@@ -18,10 +20,16 @@ export class MapsComponent implements OnInit, AfterViewInit {
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-74.00362959345136, 40.72073260421214], // New York coordinates
-      zoom: 4,
+      center: [19.843052026055503, 45.245440118008624], // Novi Sad coordinates
+      zoom: 12,
       accessToken: environment.mapKey
     });
+
+    this.emitMap();
+  }
+
+  emitMap() {
+    this.mapResult.emit(this.map);
   }
 
   ngAfterViewInit(): void {
@@ -31,7 +39,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
 
   addMarkersToMap(markerInfos?: any[]) {
     markerInfos?.forEach(markerInfo => {
-      const marker = new mapboxgl.Marker({ color: '#F84C4C' });
+      const marker = new mapboxgl.Marker({ color: '#FF4786' });
       marker.setLngLat([markerInfo.longitude, markerInfo.latitude]);
       marker.addTo(this.map!);
     });

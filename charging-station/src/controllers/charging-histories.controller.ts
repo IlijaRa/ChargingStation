@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { ChargingHistorySaveDto } from "src/dto";
 import { ChargingHistoriesService } from "src/services";
 
-@Controller('chargingHistories')
+@Controller('charging-histories')
 export class ChargingHistoriesController {
     constructor(private chargingHistoriesService: ChargingHistoriesService) {}
 
@@ -15,11 +15,11 @@ export class ChargingHistoriesController {
     //TODO: check if chargingHistory with chargingHistoryId exist in the first place
     @Get('getbyid/:chargingHistoryId')
     getById(@Param('chargingHistoryId') chargingHistoryId: string) {
-        return this.chargingHistoriesService.getById(chargingHistoryId);;
+        return this.chargingHistoriesService.getById(chargingHistoryId);
     }
 
-    @Get('getall')
-    getAll() {
-        return this.chargingHistoriesService.getAll();
+    @Get('getall/:driverId')
+    getAll(@Param('driverId') driverId: string) {
+        return this.chargingHistoriesService.getAll(driverId);
     }
 }

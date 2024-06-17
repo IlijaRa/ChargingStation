@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { ChargingHistoryGetByIdDto, ChargingHistorySaveDto } from "src/dto";
+import { ChargingHistoryGetAllDto, ChargingHistoryGetAllItemDto } from "src/dto/chargingHistories/getall.dto";
 import { Charger, ChargingHistory, User } from "src/schemas";
 
 @Injectable()
@@ -41,7 +42,21 @@ export class ChargingHistoriesService {
         return chargingHistoryDto;
     }
 
-    getAll() {
-        return this.chargingHistoryModel.find();
+    async getAll(driverId?: string): Promise<ChargingHistoryGetAllDto> {
+        const chargingHistories = await this.chargingHistoryModel.find({ driverId });
+        const chargingHistoryItems: ChargingHistoryGetAllItemDto[] = chargingHistories.map(chargingHistory => ({
+            _id: chargingHistory._id,
+            startTime: chargingHistory.startTime,
+            endTime: chargingHistory.endTime,
+            cost: chargingHistory.cost,
+            paymentMethod: chargingHistory.paymentMethod,
+            takenEnergy: chargingHistory.takenEnergy
+        }));
+
+        chargingHistoryItems.sort(function (a, b) {
+            return a.startTime.localeCompare(b.startTime);
+        });
+
+        return { items: chargingHistoryItems };
     }
 }

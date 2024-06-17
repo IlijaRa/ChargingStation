@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AppointmentsComponent, ChargersComponent, LoginComponent, RegisterComponent, UnconfirmedUserDetailComponent, UnconfirmedUsersComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
+import { AppointmentsComponent, ChargersComponent, ChargingHistoriesComponent, LoginComponent, RegisterComponent, UnconfirmedUserDetailComponent, UnconfirmedUsersComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
-import { AccountsService, AppInjector, AppInterceptor, AppointmentsService, AppValuePipe, AuthGuard, AuthsService, ChargersService, MapsService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
+import { AccountsService, AppInjector, AppInterceptor, AppointmentsService, AppValuePipe, AuthGuard, AuthsService, ChargersService, ChargingHistoriesService, MapsService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -52,6 +52,7 @@ import { ScheduleChargerComponent } from './views/schedule-charger/schedule-char
     VehiclesComponent,
     VehicleAddEditComponent,
     AppointmentsComponent,
+    ChargingHistoriesComponent,
 
     HeaderLayoutComponent,
     MainLayoutComponent,
@@ -105,6 +106,7 @@ import { ScheduleChargerComponent } from './views/schedule-charger/schedule-char
     VehiclesService,
     AppointmentsService,
     AccountsService,
+    ChargingHistoriesService,
     MapsService
     // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ],

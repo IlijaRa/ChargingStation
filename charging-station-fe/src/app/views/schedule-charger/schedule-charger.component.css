@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    height: 100%;
+}
+
+.settings-container {
+    width: 35%;
+    text-align: center;
+}
+
+.settings {
+    height: 100%;
+}
+
+.map-container {
+    width: 65%;
+}
+
+.error-icon-adjustments {
+    vertical-align: middle; 
+    transform: scale(0.8);
+}
+
+.map-not-loaded {
+    vertical-align: middle; 
+    font-size: 16px;
+}
+
+.location-searcher {
+    width: 200px;
+    /* height: 100%; */
+    margin-top: 100px;
+}

@@ -21,8 +21,8 @@ export class ChargerAddEditComponent implements OnInit {
   mapboxAddressResults?: IResult[];
   addresses: IAddressResult[] = [];
   selectedAddress?: string;
-  latitude: number = 100.0;
-  longitude: number = 100.0
+  latitude: number = 90;
+  longitude: number = 90;
 
   constructor(
     private mapsService: MapsService,
@@ -95,8 +95,8 @@ export class ChargerAddEditComponent implements OnInit {
         this.addresses = features.map(result => ({
           id: result.id,
           name: result.properties?.full_address || '',
-          latitude: result.geometry?.coordinates ? result.geometry.coordinates[1] : 100.0,
-          longitude: result.geometry?.coordinates ? result.geometry.coordinates[0] : 100.0,
+          latitude: result.geometry?.coordinates ? result.geometry.coordinates[1] : 90,
+          longitude: result.geometry?.coordinates ? result.geometry.coordinates[0] : 90,
         }));
         this.mapboxAddressResults = features;
       });

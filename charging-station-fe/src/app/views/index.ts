@@ -1,5 +1,6 @@
 export * from './appointments';
 export * from './chargers';
+export * from './charging-histories';
 export * from './login';
 export * from './register';
 export * from './unconfirmed-users';
