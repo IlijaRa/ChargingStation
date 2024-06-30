@@ -2,6 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@
 import { environment } from 'src/environments/environment';
 import * as mapboxgl from 'mapbox-gl';
 import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import axios from 'axios';
 
 @Component({
   selector: 'app-maps',
@@ -10,7 +11,8 @@ import * as MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 })
 export class MapsComponent implements OnInit, AfterViewInit {
   map?: mapboxgl.Map;
-
+  start = [19.843052026055503, 45.245440118008624]; // Example start point [lng, lat]
+  end = [20.489303, 44.769119]; // Example end point [lng, lat]
   @Input() markerInfos?: any[];
   @Output() mapResult = new EventEmitter<mapboxgl.Map>();
 
@@ -33,15 +35,14 @@ export class MapsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('this.markerInfos', this.markerInfos);
-    this.addMarkersToMap(this.markerInfos);
+    // this.addMarkersToMap(this.markerInfos);
   }
 
-  addMarkersToMap(markerInfos?: any[]) {
-    markerInfos?.forEach(markerInfo => {
-      const marker = new mapboxgl.Marker({ color: '#FF4786' });
-      marker.setLngLat([markerInfo.longitude, markerInfo.latitude]);
-      marker.addTo(this.map!);
-    });
-  }
+  // addMarkersToMap(markerInfos?: any[]) {
+  //   markerInfos?.forEach(markerInfo => {
+  //     const marker = new mapboxgl.Marker({ color: '#3F51B5' });
+  //     marker.setLngLat([markerInfo.longitude, markerInfo.latitude]);
+  //     marker.addTo(this.map!);
+  //   });
+  // }
 }

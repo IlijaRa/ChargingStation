@@ -41,7 +41,11 @@ export class AuthService {
             throw new HttpException('Account with this username/email does not exist.', HttpStatus.BAD_REQUEST);
         }
 
-        if (user.isConfirmed == false) {
+        if (user.isBlocked) {
+            throw new HttpException('Your account is blocked.', HttpStatus.BAD_REQUEST);
+        }
+
+        if (!user.isConfirmed) {
             throw new HttpException('Your account is not confirmed yet.', HttpStatus.BAD_REQUEST);
         }
 

@@ -19,6 +19,6 @@
         </div>
     </div>
     <div class="map-container" *ngIf="isReadyToMap">
-        <app-maps [markerInfos]="chargers" (mapResult)="addOptionsToMap($event)"></app-maps>
+        <app-maps [markerInfos]="chargers" (mapResult)="modifyMap($event)"></app-maps>
     </div>
 </div>

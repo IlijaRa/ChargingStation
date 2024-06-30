@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppointmentsModule, AuthModule, ChargersModule, ChargingHistoriesModule, UsersModule, VehiclesModule } from 'src';
+import { AppointmentsModule, AuthModule, ChargersModule, ChargingHistoriesModule, ScheduleChargersModule, UsersModule, VehiclesModule } from 'src';
 import { AccessTokenGuard } from './common';
 
 @Module({
@@ -12,7 +12,8 @@ import { AccessTokenGuard } from './common';
     ChargersModule,
     ChargingHistoriesModule,
     UsersModule,
-    VehiclesModule
+    VehiclesModule,
+    ScheduleChargersModule
   ],
   controllers: [],
   providers: [

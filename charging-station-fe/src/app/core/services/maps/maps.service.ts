@@ -17,9 +17,25 @@ export class MapsService {
             })
         );
     }
+
     // source: https://docs.mapbox.com/api/navigation/directions/
     // "https://api.mapbox.com/directions/v5/{profile}/{coordinates}"
     getDirections () {
         `https://api.mapbox.com/directions/v5/mapbox/driving/{coordinates}`;
+    }
+
+    // source: https://docs.mapbox.com/help/tutorials/optimization-api/
+    // https://api.mapbox.com/optimized-trips/v1/mapbox/driving/{coordinates};{coordinates};...?access_token=YOUR_MAPBOX_ACCESS_TOKEN
+    async getOptimizedRoutes (coordinates: number[][]) {
+        const coordinatesString = coordinates.map(coord => coord.join(',')).join(';');
+        // return this.http?.get(`https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordinatesString}?access_token=${environment.mapKey}`).pipe(
+        //     map((res: any) => {
+        //         return res;
+        //     })
+        // );
+
+        return (await fetch(`https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordinatesString}?access_token=${environment.mapKey}`, { 
+            method: 'GET' 
+        })).json();
     }
 }

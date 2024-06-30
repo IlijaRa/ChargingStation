@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { ChargingHistoryGetByIdDto, ChargingHistorySaveDto } from "src/dto";
-import { ChargingHistoryGetAllDto, ChargingHistoryGetAllItemDto } from "src/dto/chargingHistories/getall.dto";
+import { ChargingHistoryGetAllDto, ChargingHistoryGetAllItemDto, ChargingHistoryGetByIdDto, ChargingHistorySaveDto } from "src/dto";
 import { Charger, ChargingHistory, User } from "src/schemas";
 
 @Injectable()

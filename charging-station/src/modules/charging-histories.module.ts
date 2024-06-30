@@ -7,9 +7,9 @@ import { ChargingHistoriesService } from "src/services";
 @Module({
     imports: [
         MongooseModule.forFeature([
-            { name: Charger.name, schema: ChargerSchema },
             { name: ChargingHistory.name, schema: ChargingHistorySchema },
-            { name: User.name, schema: UserSchema }
+            { name: User.name, schema: UserSchema },
+            { name: Charger.name, schema: ChargerSchema }
         ])
     ],
     providers: [ChargingHistoriesService],
