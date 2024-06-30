@@ -37,6 +37,12 @@ export class AppointmentsController {
         return this.appointmentsService.getAll(chargerId);
     }
 
+    //TODO: check if charger with chargerId exists in the first place
+    @Get('all/:chargerId/:date')
+    all(@Param('chargerId') chargerId: string, @Param('date') date: string) {
+        return this.appointmentsService.all(chargerId, date);
+    }
+
     //TODO: check if appointment with appointmentId exists in the first place
     @Delete('delete/:appointmentId')
     delete(@Param('appointmentId') appointmentId: string) {

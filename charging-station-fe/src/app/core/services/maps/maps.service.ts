@@ -5,7 +5,9 @@ import { environment } from "src/environments/environment";
 
 @Injectable()
 export class MapsService {
-    constructor(private http?: HttpClient) { }
+    constructor(private http?: HttpClient) {
+        // source for geocoder search locations api: https://docs.mapbox.com/help/tutorials/local-search-geocoding-api/
+     }
 
     // source: https://docs.mapbox.com/api/search/geocoding/
     // "https://api.mapbox.com/search/geocode/v6/forward?q=Los%20Angeles&access_token=YOUR_MAPBOX_ACCESS_TOKEN";

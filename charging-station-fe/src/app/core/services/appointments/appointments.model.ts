@@ -29,6 +29,16 @@ export class AppointmentGetAllItemDto {
     chargerId?: string;
 }
 
+export class AppointmentAllDto {
+    items?: AppointmentAllItemDto[];
+}
+
+export class AppointmentAllItemDto {
+    id?: string;
+    startTime?: string;
+    endTime?: string;
+}
+
 export class AppointmentAllowDto {
     appointmentId?: string;
     chargerId?: string;

@@ -13,6 +13,9 @@ export class ScheduleCharger extends Document {
     appointmentId?: string;
 
     @Prop({ required: true })
+    vehicleId?: string;
+
+    @Prop({ required: true })
     date?: string;
 }
 

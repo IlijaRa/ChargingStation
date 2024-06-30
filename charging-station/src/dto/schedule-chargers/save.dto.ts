@@ -1,6 +1,8 @@
-import { IsDate, IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class ScheduleChargerSaveDto {
+    _id?: number;
+
     @IsNotEmpty()
     @IsString()
     driverId?: string;
@@ -12,6 +14,10 @@ export class ScheduleChargerSaveDto {
     @IsNotEmpty()
     @IsString()
     appointmentId?: string;
+
+    @IsNotEmpty()
+    @IsString()
+    vehicleId?: string;
 
     @IsNotEmpty()
     @IsString()

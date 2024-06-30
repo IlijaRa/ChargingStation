@@ -1,0 +1,41 @@
+.dialog-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mat-dialog-title h1 {
+  line-height: 1;
+}
+
+.mat-dialog-button-right-alignment {
+    float: right;
+    margin-right: 15px;
+}
+
+.scroll-hidden {
+    overflow: hidden !important;
+}
+
+.title-alignment {
+    /* margin-left: 25px; */
+    text-align: center;
+}
+
+.left-field-adjustment {
+    width: 48%;
+    margin-right: 2%;
+}
+
+.right-field-adjustment {
+    width: 48%;
+    margin-left: 2%;
+}
+
+.action {
+    padding: 0px 25px 20px;
+}
+
+.action button {
+    flex: 1;
+}

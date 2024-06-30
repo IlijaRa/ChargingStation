@@ -2452,3 +2452,47 @@ textarea { min-height: auto; min-width: 380px;}
   }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mapboxgl-ctrl-geocoder {
+  margin: 20px;
+  padding: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px 2px rgba(63, 81, 181);
+  width: 400px;
+  font-size: 16px;
+}
+
+/* .mapboxgl-ctrl-geocoder--input {
+  font-size: 16px;
+  width: 100%;
+  border: 0;
+  background-color: transparent;
+  color: #404040;
+} */
+
+/* .mapboxgl-ctrl-geocoder--button {
+  background-color: #fff;
+  display: none;
+} */
+
+/* .mapboxgl-ctrl-geocoder--icon {
+  fill: #6e6e6e;
+} */
+
+.mapboxgl-ctrl-geocoder--icon-search {
+  display: none;
+}
+
+.mapboxgl-ctrl-geocoder--icon-close {
+  right: 10px;
+  top: 10px;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' fill='%23808080'%3E%3Cpath d='M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z'/%3E%3C/svg%3E");
+}
+
+.mapboxgl-ctrl-geocoder--pin-right > * {
+  z-index: 2;
+  position: absolute;
+  right: 8px;
+  top: 7px;
+  display: none;
+}

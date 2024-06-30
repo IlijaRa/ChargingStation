@@ -4,5 +4,6 @@ export * from './auths';
 export * from './chargers';
 export * from './charging-histories';
 export * from './maps';
+export * from './schedule-chargers';
 export * from './users';
 export * from './vehicles';

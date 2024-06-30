@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { environment } from "src/environments/environment";
 import { lastValueFrom, Observable } from "rxjs";
-import { AppointmentAllowDto, AppointmentGetAllDto, AppointmentGetByIdDto, AppointmentSaveDto } from "./appointments.model";
+import { AppointmentAllDto, AppointmentAllowDto, AppointmentGetAllDto, AppointmentGetByIdDto, AppointmentSaveDto } from "./appointments.model";
 
 @Injectable()
 export class AppointmentsService {
@@ -28,6 +28,10 @@ export class AppointmentsService {
 
     getAll(chargerId?: string): Observable<AppointmentGetAllDto> {
         return this.http.get<AppointmentGetAllDto>(`${environment.apiUrl}/appointments/getall/${chargerId}`);
+    }
+
+    all(chargerId?: string, date?: string): Observable<AppointmentAllDto> {
+        return this.http.get<AppointmentAllDto>(`${environment.apiUrl}/appointments/all/${chargerId}/${date}`);
     }
 
     async delete(id?: string): Promise<any> {

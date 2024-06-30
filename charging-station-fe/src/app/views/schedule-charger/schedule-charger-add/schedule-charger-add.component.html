@@ -1,0 +1,56 @@
+<div style="text-align: end;">
+    <button mat-icon-button aria-label="close dialog" mat-dialog-close><mat-icon>close</mat-icon></button>
+</div>
+<div class="title-alignment">
+    <h1>Create schedule for charging</h1>
+    <ng-container *ngIf="errorMessages != undefined">
+        <ng-container *ngFor="let error of errorMessages">
+            <p style="color: red;">{{ error }}</p>
+        </ng-container>
+    </ng-container>
+</div>
+<form [formGroup]="form!" *ngIf="form">
+    <div mat-dialog-content class="content">
+        <div class="row">
+            <mat-form-field appearance="outline">
+                <mat-label>Location</mat-label>
+                <input matInput formControlName="location" readonly>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Date of charging</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date" (dateChange)="onDateChange($event)">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="form.get('date')?.errors?.['required']">Date is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Select appointment time</mat-label>
+                <mat-select formControlName="appointments" [(ngModel)]="selectedAppointmentId">
+                    <ng-container *ngFor="let appointment of appointments">
+                        <mat-option [value]="appointment.id">{{ appointment.startTime }} - {{ appointment.endTime }}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Select your vehicle</mat-label>
+                <mat-select formControlName="vehicles" [(ngModel)]="selectedVehicleId">
+                    <ng-container *ngFor="let vehicle of vehicles">
+                        <mat-option [value]="vehicle.id">{{ vehicle.manufacturer }} - {{ vehicle.vehicleModel }}</mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>User</mat-label>
+                <input matInput formControlName="driver" readonly>
+            </mat-form-field>
+        </div>
+    </div>
+    <div mat-dialog-actions class="action">
+        <button mat-raised-button type="button" [mat-dialog-close]="false">Cancel</button>
+        <button mat-raised-button color="primary" type="submit" (click)="save()">Save</button>
+    </div>
+</form>

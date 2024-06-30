@@ -1,12 +1,14 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { AppointmentAllowDto, AppointmentGetAllDto, AppointmentGetAllItemDto, AppointmentGetByIdDto, AppointmentSaveDto, AppointmentUnallowDto } from "src/dto";
-import { Appointment } from "src/schemas";
+import { AppointmentAllDto, AppointmentAllItemDto, AppointmentAllowDto, AppointmentGetAllDto, AppointmentGetAllItemDto, AppointmentGetByIdDto, AppointmentSaveDto, AppointmentUnallowDto } from "src/dto";
+import { Appointment, ScheduleCharger } from "src/schemas";
 
 @Injectable()
 export class AppointmentsService {
-    constructor(@InjectModel(Appointment.name) private appointmentModel: Model<Appointment>) {}
+    constructor(
+        @InjectModel(Appointment.name) private appointmentModel: Model<Appointment>,
+        @InjectModel(ScheduleCharger.name) private scheduleChargerModel: Model<ScheduleCharger>) {}
 
     save(model?: AppointmentSaveDto) {
         if (model._id == null) {
@@ -47,6 +49,31 @@ export class AppointmentsService {
         };
     
         return appointmentDto;
+    }
+
+    async all(chargerId?: string, date?: string): Promise<AppointmentAllDto> {
+        const scheduleChargers = await this.scheduleChargerModel.find({
+            chargerId: chargerId, 
+            date: date
+        });
+
+        const appointmentsToAvoid = scheduleChargers.map(x => x.appointmentId);
+        const appointments = await this.appointmentModel.find({ 
+            chargerId, 
+            _id: { $nin: appointmentsToAvoid } 
+        });
+
+        const appointmentItems: AppointmentAllItemDto[] = appointments.map(appointment => ({
+            id: appointment._id.toString(),
+            startTime: appointment.startTime,
+            endTime: appointment.endTime
+        }));
+
+        appointmentItems.sort(function (a, b) {
+            return a.startTime.localeCompare(b.startTime);
+        });
+
+        return { items: appointmentItems };
     }
 
     async getAll(chargerId?: string): Promise<AppointmentGetAllDto> {

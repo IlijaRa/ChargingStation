@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AppointmentsComponent, ChargersComponent, ChargingHistoriesComponent, LoginComponent, RegisterComponent, UnconfirmedUserDetailComponent, UnconfirmedUsersComponent, UserAddEditComponent, UsersComponent, VehicleAddEditComponent, VehiclesComponent } from './views';
 import { FooterLayoutComponent, HeaderLayoutComponent, MainLayoutComponent } from './layouts';
-import { AccountsService, AppInjector, AppInterceptor, AppointmentsService, AppValuePipe, AuthGuard, AuthsService, ChargersService, ChargingHistoriesService, MapsService, RoleGuard, TruncatePipe, UsersService, VehiclesService } from './core';
+import { AccountsService, AppInjector, AppInterceptor, AppointmentsService, AppValuePipe, AuthGuard, AuthsService, ChargersService, ChargingHistoriesService, MapsService, RoleGuard, ScheduleChargersService, TruncatePipe, UsersService, VehiclesService } from './core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,6 +34,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MapsComponent } from './views/maps/maps.component';
 import { ScheduleChargerComponent } from './views/schedule-charger/schedule-charger.component';
+import { ScheduleChargerAddComponent } from './views/schedule-charger/schedule-charger-add/schedule-charger-add.component';
+import { DatePipe } from '@angular/common';
 // import { ErrorStateMatcher } from '@angular/material/core';
 
 @NgModule({
@@ -64,7 +66,8 @@ import { ScheduleChargerComponent } from './views/schedule-charger/schedule-char
     UserVehicleAddEditComponent,
     UserVehiclesComponent,
     MapsComponent,
-    ScheduleChargerComponent
+    ScheduleChargerComponent,
+    ScheduleChargerAddComponent
   ],
   imports: [
     BrowserModule,
@@ -98,6 +101,7 @@ import { ScheduleChargerComponent } from './views/schedule-charger/schedule-char
       useClass: AppInterceptor,
       multi: true
     },
+    DatePipe,
     AuthGuard,
     RoleGuard,
     AuthsService,
@@ -107,7 +111,8 @@ import { ScheduleChargerComponent } from './views/schedule-charger/schedule-char
     AppointmentsService,
     AccountsService,
     ChargingHistoriesService,
-    MapsService
+    MapsService,
+    ScheduleChargersService
     // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ],
   bootstrap: [AppComponent]

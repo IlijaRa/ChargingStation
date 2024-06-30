@@ -1,24 +1,3 @@
-<div class="container">
-    <div class="settings-container">
-        <div class="settings">
-            <div id="location-searcher" class="location-searcher"></div>
-            <!-- <div class="welcome-title">
-                <h1 style="color: #3F51B5;">Search for chargers</h1>
-            </div>
-            <form [formGroup]="settingsForm!" *ngIf="settingsForm" class="scroll-hidden">
-                <div mat-dialog-content>
-                    <mat-form-field appearance="outline">
-                        <mat-label>Your Location</mat-label>
-                        <input matInput id="driverLocation" formControlName="driverLocation" [matAutocomplete]="auto" (change)="search($event)">
-                        <mat-autocomplete #auto>
-                            <mat-option *ngFor="let address of addresses" [value]="address.name" (click)="onSelect(address)">{{ address.name }}</mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-            </form> -->
-        </div>
-    </div>
-    <div class="map-container" *ngIf="isReadyToMap">
-        <app-maps [markerInfos]="chargers" (mapResult)="modifyMap($event)"></app-maps>
-    </div>
+<div class="map-container" *ngIf="isReadyToMap">
+    <app-maps [markerInfos]="chargers" (mapResult)="modifyMap($event)"></app-maps>
 </div>

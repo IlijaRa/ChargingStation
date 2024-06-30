@@ -27,6 +27,10 @@ export class MapsComponent implements OnInit, AfterViewInit {
       accessToken: environment.mapKey
     });
 
+    // const search = new MapboxSearchBox();
+    // search.accessToken = environment.mapKey;
+    // this.map?.addControl(search);
+
     this.emitMap();
   }
 
