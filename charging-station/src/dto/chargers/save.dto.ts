@@ -1,10 +1,11 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
 
 export class ChargerSaveDto {
     _id?: string;
 
     @IsNotEmpty()
     @IsNumber()
+    @Min(1)
     chargingPower?: number;
 
     @IsNotEmpty()
@@ -13,15 +14,12 @@ export class ChargerSaveDto {
 
     @IsNotEmpty()
     @IsNumber()
+    @Min(1)
     pricePerKwh?: number;
 
     @IsNotEmpty()
     @IsString()
     paymentMethod?: string;
-
-    // @IsNotEmpty()
-    // @IsBoolean()
-    // isAvailable?: boolean;
 
     @IsNotEmpty()
     @IsString()

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
 
 export class VehicleSaveDto {
     _id?: string
@@ -13,6 +13,7 @@ export class VehicleSaveDto {
 
     @IsNotEmpty()
     @IsNumber()
+    @Min(1)
     batteryCapacity?: number;
     
     @IsNotEmpty()

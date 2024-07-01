@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'users',
@@ -30,7 +31,11 @@ export class UsersComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator?: MatPaginator;
 
-    constructor(private formBuilder: FormBuilder, private usersService: UsersService, private matDialog: MatDialog) 
+    constructor(
+        private formBuilder: FormBuilder, 
+        private usersService: UsersService, 
+        private toastr: ToastrService,
+        private matDialog: MatDialog) 
     {
         this.form = this.formBuilder.group({
             query: new FormControl(this.querySearch),
@@ -77,6 +82,7 @@ export class UsersComponent implements OnInit {
     deleteUser(userId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.usersService.delete(userId).then((response: void) => {
+                this.toastr.success("User deleted successfully!", "Success message", { timeOut: 5000 });
                 this.search();
                 resolve();
             })
@@ -132,6 +138,7 @@ export class UsersComponent implements OnInit {
     private unblock(userId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.usersService.unblock(userId).then((response: void) => {
+                this.toastr.success("User unblocked successfully!", "Success message", { timeOut: 5000 });
                 this.search();
                 resolve();
             })
@@ -141,6 +148,7 @@ export class UsersComponent implements OnInit {
     private block(userId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.usersService.block(userId).then((response: void) => {
+                this.toastr.success("User blocked successfully!", "Success message", { timeOut: 5000 });
                 this.search();
                 resolve();
             })

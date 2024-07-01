@@ -7,6 +7,7 @@ import { switchMap } from "rxjs";
 import { UserVehicleAddEditComponent } from ".";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'user-vehicles',
@@ -36,7 +37,8 @@ export class UserVehiclesComponent {
     constructor(
         private formBuilder: FormBuilder, 
         private vehiclesService: VehiclesService, 
-        private accountsService: AccountsService, 
+        private accountsService: AccountsService,
+        private toastr: ToastrService,
         private matDialog: MatDialog) 
     {
         this.form = this.formBuilder.group({
@@ -95,6 +97,7 @@ export class UserVehiclesComponent {
     deleteVehicle(vehicleId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.vehiclesService.delete(vehicleId).then((response: void) => {
+                this.toastr.success("Vehicle deleted successfully!", "Success message", { timeOut: 5000 });
                 this.search(this.user?._id);
                 resolve();
             })

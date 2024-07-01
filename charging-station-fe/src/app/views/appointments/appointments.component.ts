@@ -6,6 +6,7 @@ import { AppointmentAddComponent } from ".";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'appointments',
@@ -33,7 +34,8 @@ export class AppointmentsComponent implements OnInit {
         private appointmentsService: AppointmentsService, 
         private chargersService: ChargersService,
         private route: ActivatedRoute, 
-        private matDialog: MatDialog
+        private matDialog: MatDialog,
+        private toastr: ToastrService
         ) {}
 
     ngOnInit(): void {
@@ -86,6 +88,7 @@ export class AppointmentsComponent implements OnInit {
     deleteAppointment(appointmentId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.appointmentsService.delete(appointmentId).then((response: void) => {
+                this.toastr.success("Appointment deleted successfully!", "Success message", { timeOut: 5000 });
                 this.getAll();
                 resolve();
             })
@@ -105,15 +108,6 @@ export class AppointmentsComponent implements OnInit {
         .afterClosed()
         .subscribe((res) => {
           this.getAll();
-        //   setTimeout(() => {
-        //     if (viewState == ViewState.Create) {
-        //         alert("Employee added successfully!");
-        //     } 
-            
-        //     if (viewState == ViewState.Edit) {
-        //         alert("Employee updated successfully!");
-        //     }
-        //   }, 500);
         });
     }
 
@@ -128,6 +122,7 @@ export class AppointmentsComponent implements OnInit {
     private unallow(appointmentId?: string, chargerId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.appointmentsService.unallow(appointmentId, chargerId).then((response: void) => {
+                this.toastr.success("Appointment unallowed successfully!", "Success message", { timeOut: 5000 });
                 this.getAll();
                 resolve();
             })
@@ -137,6 +132,7 @@ export class AppointmentsComponent implements OnInit {
     private allow(appointmentId?: string, chargerId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.appointmentsService.allow(appointmentId, chargerId).then((response: void) => {
+                this.toastr.success("Appointment allowed successfully!", "Success message", { timeOut: 5000 });
                 this.getAll();
                 resolve();
             })

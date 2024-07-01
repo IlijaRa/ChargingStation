@@ -48,7 +48,7 @@ export class UsersService {
     }
 
     async getAll(): Promise<UserGetAllDto> {
-        const users = await this.userModel.find();
+        const users = await this.userModel.find({ role: 'driver' });
         const userItems: UserGetAllItemDto[] = users.map(user => ({
             id: user._id.toString(),
             firstName: user.firstName,
@@ -63,7 +63,7 @@ export class UsersService {
     }
 
     async all(): Promise<UserAllDto> {
-        const users = await this.userModel.find({ isBlocked: false, isConfirmed: true });
+        const users = await this.userModel.find({ isBlocked: false, isConfirmed: true, role: 'driver' });
         const userItems: UserAllItemDto[] = users.map(user => ({
             id: user._id.toString(),
             fullName: `${user.firstName} ${user.lastName}`,
@@ -72,7 +72,7 @@ export class UsersService {
     }
 
     async getAllConfirmed(): Promise<UserGetAllDto> {
-        const users = await this.userModel.find({ isConfirmed: true });
+        const users = await this.userModel.find({ isConfirmed: true, role: 'driver' });
         const userItems: UserGetAllItemDto[] = users.map(user => ({
             id: user._id.toString(),
             firstName: user.firstName,
@@ -90,7 +90,7 @@ export class UsersService {
         let confirmedUsers;
 
         if (this.isEmpty(query)) {
-            confirmedUsers = await this.userModel.find({ isConfirmed: true });
+            confirmedUsers = await this.userModel.find({ isConfirmed: true, role: 'driver' });
         } else {
             const searchCriteria = {
                 $and: [
@@ -126,7 +126,7 @@ export class UsersService {
     }
 
     async getAllUnconfirmed(): Promise<UserGetAllDto> {
-        const users = await this.userModel.find({ isConfirmed: false });
+        const users = await this.userModel.find({ isConfirmed: false, role: 'driver' });
         const userItems: UserGetAllItemDto[] = users.map(user => ({
             id: user._id.toString(),
             firstName: user.firstName,
@@ -144,7 +144,7 @@ export class UsersService {
         let unconfirmedUsers;
 
         if (this.isEmpty(query)) {
-            unconfirmedUsers = await this.userModel.find({ isConfirmed: false });
+            unconfirmedUsers = await this.userModel.find({ isConfirmed: false, role: 'driver' });
         } else {
             const searchCriteria = {
                 $and: [
@@ -180,11 +180,11 @@ export class UsersService {
     }
 
     getAllBlocked() {
-        return this.userModel.find({ isBlocked: true });
+        return this.userModel.find({ isBlocked: true, role: 'driver' });
     }
 
     getAllUnblocked() {
-        return this.userModel.find({ isBlocked: false });
+        return this.userModel.find({ isBlocked: false, role: 'driver' });
     }
 
     async block(userId?: string) {

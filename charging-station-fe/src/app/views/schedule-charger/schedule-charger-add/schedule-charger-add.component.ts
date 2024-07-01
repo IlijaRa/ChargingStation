@@ -4,6 +4,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AccountsService, AppointmentAllItemDto, AppointmentsService, ChargerGetByIdDto, ChargersService, CurrentUserDto, IAddressResult, IResult, ScheduleChargerSaveDto, ScheduleChargersService, VehicleGetAllItemDto, VehiclesService } from 'src/app/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-schedule-charger-add',
@@ -31,6 +32,7 @@ export class ScheduleChargerAddComponent {
     private vehiclesService: VehiclesService,
     private scheduleChargersService: ScheduleChargersService,
     private datePipe: DatePipe,
+    private toastr: ToastrService,
     private dialogRef: DialogRef<ScheduleChargerAddComponent>,
     @Inject(MAT_DIALOG_DATA) data: { chargerId: string}) 
   {
@@ -145,9 +147,11 @@ export class ScheduleChargerAddComponent {
 
       this.scheduleChargersService.save(model).subscribe({
         next: (val: any) => {
+          this.toastr.success("Schedule saved successfully!", "Success message", { timeOut: 5000 });
           this.cancel();
         },
         error: (err: any) => {
+          this.toastr.error(err.message, "Error message", { timeOut: 5000 });
           this.errorMessages = err.message;
         }
       })

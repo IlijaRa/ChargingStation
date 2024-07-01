@@ -37,6 +37,7 @@ import { ScheduleChargerComponent } from './views/schedule-charger/schedule-char
 import { ScheduleChargerAddComponent } from './views/schedule-charger/schedule-charger-add/schedule-charger-add.component';
 import { DatePipe } from '@angular/common';
 import { UserSchedulesComponent } from './views/user-schedules/user-schedules.component';
+import { ToastrModule } from 'ngx-toastr';
 // import { ErrorStateMatcher } from '@angular/material/core';
 
 @NgModule({
@@ -94,7 +95,9 @@ import { UserSchedulesComponent } from './views/user-schedules/user-schedules.co
     MatSlideToggleModule,
     MatTabsModule,
     MatPaginatorModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
     // ErrorStateMatcher
   ],
   providers: [

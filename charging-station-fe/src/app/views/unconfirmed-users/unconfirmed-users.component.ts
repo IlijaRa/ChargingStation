@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
 import { PageEvent, MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'unconfirmed-users',
@@ -31,7 +32,11 @@ export class UnconfirmedUsersComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator?: MatPaginator;
 
-    constructor(private formBuilder: FormBuilder, private usersService: UsersService, private matDialog: MatDialog) 
+    constructor(
+        private formBuilder: FormBuilder, 
+        private usersService: UsersService, 
+        private matDialog: MatDialog,
+        private toastr: ToastrService) 
     {
         this.form = this.formBuilder.group({
             query: new FormControl(this.querySearch),
@@ -73,6 +78,7 @@ export class UnconfirmedUsersComponent implements OnInit {
     confirmUser(userId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.usersService.confirm(userId).then((response: void) => {
+                this.toastr.success("User confirmed successfully!", "Success message", { timeOut: 5000 });
                 this.search();
                 resolve();
             })
@@ -82,6 +88,7 @@ export class UnconfirmedUsersComponent implements OnInit {
     deleteUser(userId?: string): Promise<void> {
         return new Promise((resolve: any) => {
             this.usersService.delete(userId).then((response: void) => {
+                this.toastr.success("User deleted successfully!", "Success message", { timeOut: 5000 });
                 this.search();
                 resolve();
             })

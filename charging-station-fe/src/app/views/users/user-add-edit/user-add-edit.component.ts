@@ -3,6 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthsService, RegistrationDto, UserGetByIdDto, UsersService, UserUpdateDto, ViewState } from 'src/app/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-add-edit',
@@ -24,6 +25,7 @@ export class UserAddEditComponent {
     private formBuilder: FormBuilder, 
     private authsService: AuthsService, 
     private usersService: UsersService, 
+    private toastr: ToastrService,
     private dialogRef: DialogRef<UserAddEditComponent>,
     @Inject(MAT_DIALOG_DATA) data: { id: string, state?: ViewState }) 
     {
@@ -42,7 +44,6 @@ export class UserAddEditComponent {
               biography: new FormControl(val?.biography, [Validators.required]),
               username: new FormControl(val?.username, [Validators.required]),
               emailAddress: new FormControl(val?.emailAddress, [Validators.required, Validators.email]),
-              password: new FormControl(val?.password, [Validators.required]),
               gender: new FormControl(val?.gender, [Validators.required]),
             });
           },
@@ -79,9 +80,11 @@ export class UserAddEditComponent {
       };
       this.authsService.register(model).subscribe({
         next: (val: any) => {
+          this.toastr.success("User saved successfully!", "Success message", { timeOut: 5000 });
           this.cancel();
         },
         error: (err: any) => {
+          this.toastr.error(err.message, "Error message", { timeOut: 5000 });
           this.errorMessages = err.message;
         }
       })
@@ -103,9 +106,11 @@ export class UserAddEditComponent {
       };
       this.usersService.update(model).subscribe({
         next: (val: any) => {
+          this.toastr.success("User updated successfully!", "Success message", { timeOut: 5000 });
           this.cancel();
         },
         error: (err: any) => {
+          this.toastr.error(err.message, "Error message", { timeOut: 5000 });
           console.error(err);
         }
       })

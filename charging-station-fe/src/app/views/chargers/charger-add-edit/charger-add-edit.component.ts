@@ -3,6 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChargerGetByIdDto, ChargerSaveDto, ChargersService, IAddressResult, IResult, MapsService, ViewState } from 'src/app/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-charger-add-edit',
@@ -29,6 +30,7 @@ export class ChargerAddEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private chargersService: ChargersService,
     private dialogRef: DialogRef<ChargerAddEditComponent>,
+    private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) data: { id: string, state?: ViewState }) 
     {
       this.entityId = data.id;
@@ -36,6 +38,8 @@ export class ChargerAddEditComponent implements OnInit {
       if (this.entityId) {
         this.chargersService.getById(this.entityId).subscribe({
           next: (val: any) => {
+            this.latitude = val.latitude;
+            this.longitude = val.longitude;
             this.disabled = this.state == this.viewState.Details;
             this.form = this.formBuilder.group({
               chargingPower: new FormControl(val?.chargingPower, [Validators.required]),
@@ -78,9 +82,11 @@ export class ChargerAddEditComponent implements OnInit {
       };
       this.chargersService.save(model).subscribe({
         next: (val: any) => {
+          this.toastr.success("Charger saved successfully!", "Success message", { timeOut: 5000 });
           this.cancel();
         },
         error: (err: any) => {
+          this.toastr.error(err.message, "Error message", { timeOut: 5000 });
           this.errorMessages = err.message;
         }
       })

@@ -1,6 +1,8 @@
-.container {
-    margin-top: 100px;
-    margin-bottom: 100px;
+.register-container {
+    float: left;
+    top: 0;
+    left: 0;
+    height: 100%;
 }
 
 .register-block {

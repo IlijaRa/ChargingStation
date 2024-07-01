@@ -8,58 +8,61 @@
     <div class="align-text">
         <p style="color: red;">{{ errorMessage }}</p>
     </div>
-    <mat-tab-group style="padding-left: 10px; padding-right: 10px;" animationDuration="0ms">
-        <form [formGroup]="form!" *ngIf="form" class="scroll-hidden">
-            <div mat-dialog-content>
-                <mat-form-field appearance="outline">
-                    <mat-label>First name</mat-label>
-                    <input matInput formControlName="firstName">
-                    <mat-error *ngIf="form.get('firstName')?.errors?.['required']">First name is required </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Last name</mat-label>
-                    <input matInput formControlName="lastName">
-                    <mat-error *ngIf="form.get('lastName')?.errors?.['required']">Last name is required </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Date of birth (MM/DD/YYYY)</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                    <mat-error *ngIf="form.get('dateOfBirth')?.errors?.['required']">Date is required</mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Username</mat-label>
-                    <input matInput formControlName="username">
-                    <mat-error *ngIf="form.get('username')?.errors?.['required']">Username is required </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Email address</mat-label>
-                    <input matInput formControlName="emailAddress">
-                    <mat-error *ngIf="form.get('emailAddress')?.errors?.['required']">Email address is required </mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Password</mat-label>
-                    <input matInput type="password" formControlName="password">
-                    <mat-error *ngIf="form.get('password')?.errors?.['required']">Password is required</mat-error>
-                </mat-form-field>
-                <div class="row">
-                    <mat-radio-group aria-label="Select an option" formControlName="gender">
-                        <mat-label><b>Gender</b></mat-label>
-                        <mat-radio-button value="male" color="primary">Male</mat-radio-button>
-                        <mat-radio-button value="female" color="primary">Female</mat-radio-button>
-                        <!-- <mat-error *ngIf="form.get('gender')?.errors?.['required']">Gender is required</mat-error> -->
-                    </mat-radio-group>
-                </div>
-                <div>
-                    <a style="color: #3F51B5;" routerLink="/login">You have an account?</a>
-                </div>
+    <form [formGroup]="form!" *ngIf="form" class="scroll-hidden">
+        <div mat-dialog-content>
+            <mat-form-field appearance="outline">
+                <mat-label>First name</mat-label>
+                <input matInput formControlName="firstName">
+                <mat-error *ngIf="form.get('firstName')?.errors?.['required']">First name is required </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Last name</mat-label>
+                <input matInput formControlName="lastName">
+                <mat-error *ngIf="form.get('lastName')?.errors?.['required']">Last name is required </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Date of birth (MM/DD/YYYY)</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="form.get('dateOfBirth')?.errors?.['required']">Date is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Username</mat-label>
+                <input matInput formControlName="username">
+                <mat-error *ngIf="form.get('username')?.errors?.['required']">Username is required </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Email address</mat-label>
+                <input matInput formControlName="emailAddress">
+                <mat-error *ngIf="form.get('emailAddress')?.errors?.['required']">Email address is required </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password">
+                <mat-error *ngIf="form.get('password')?.errors?.['required']">Password is required</mat-error>
+            </mat-form-field>
+            <div class="row">
+                <mat-radio-group aria-label="Select an option" formControlName="gender">
+                    <mat-label><b>Gender</b></mat-label>
+                    <mat-radio-button value="male" color="primary">Male</mat-radio-button>
+                    <mat-radio-button value="female" color="primary">Female</mat-radio-button>
+                    <!-- <mat-error *ngIf="form.get('gender')?.errors?.['required']">Gender is required</mat-error> -->
+                </mat-radio-group>
             </div>
-            <div mat-dialog-action>
-                <button class="register-button" mat-raised-button color="primary" type="submit" (click)="register()">Register</button>
+            <mat-form-field appearance="outline">
+                <mat-label>Biography</mat-label>
+                <textarea matInput formControlName="biography"></textarea>
+                <mat-error *ngIf="form.get('biography')?.errors?.['required']">Biography is required </mat-error>
+            </mat-form-field>
+            <div>
+                <a style="color: #3F51B5;" routerLink="/login">You have an account?</a>
             </div>
-        </form>
-    </mat-tab-group>
+        </div>
+        <div mat-dialog-action>
+            <button class="register-button" mat-raised-button color="primary" type="submit" (click)="register()">Register</button>
+        </div>
+    </form>
     <!-- <div class="image-container mat-elevation-z24">
         <img src="../../../assets/img/login-image.png" alt="Your Image" width="1400" height="2234">
     </div> -->

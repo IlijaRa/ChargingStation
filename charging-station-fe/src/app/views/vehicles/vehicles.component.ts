@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'vehicles',
@@ -31,7 +32,11 @@ export class VehiclesComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator?: MatPaginator;
 
-    constructor(private formBuilder: FormBuilder, private vehiclesService: VehiclesService, private matDialog: MatDialog) 
+    constructor(
+      private formBuilder: FormBuilder, 
+      private vehiclesService: VehiclesService, 
+      private toastr: ToastrService,
+      private matDialog: MatDialog) 
     {
       this.form = this.formBuilder.group({
         query: new FormControl(this.querySearch),
@@ -73,6 +78,7 @@ export class VehiclesComponent implements OnInit {
     deleteVehicle(vehicleId?: string): Promise<void> {
       return new Promise((resolve: any) => {
           this.vehiclesService.delete(vehicleId).then((response: void) => {
+            this.toastr.success("Vehicle deleted successfully!", "Success message", { timeOut: 5000 });
               this.search();
               resolve();
           })

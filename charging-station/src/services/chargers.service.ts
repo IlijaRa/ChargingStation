@@ -107,18 +107,18 @@ export class ChargersService {
     async generateAppointments(chargerId: string) {
         const appointmentPromises = [];
         const timeSlots = [
-            { start: "00:00", end: "02:00" },
-            { start: "02:00", end: "04:00" },
-            { start: "04:00", end: "06:00" },
-            { start: "06:00", end: "08:00" },
-            { start: "08:00", end: "10:00" },
-            { start: "10:00", end: "12:00" },
-            { start: "12:00", end: "14:00" },
-            { start: "14:00", end: "16:00" },
-            { start: "16:00", end: "18:00" },
-            { start: "18:00", end: "20:00" },
-            { start: "20:00", end: "22:00" },
-            { start: "22:00", end: "00:00" }
+            { start: "00:00", end: "01:59" },
+            { start: "02:00", end: "03:59" },
+            { start: "04:00", end: "05:59" },
+            { start: "06:00", end: "07:59" },
+            { start: "08:00", end: "09:59" },
+            { start: "10:00", end: "11:59" },
+            { start: "12:00", end: "13:59" },
+            { start: "14:00", end: "15:59" },
+            { start: "16:00", end: "17:59" },
+            { start: "18:00", end: "19:59" },
+            { start: "20:00", end: "21:59" },
+            { start: "22:00", end: "23:59" }
         ];
     
         for (const slot of timeSlots) {

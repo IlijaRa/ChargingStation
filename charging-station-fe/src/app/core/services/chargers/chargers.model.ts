@@ -4,7 +4,6 @@ export class ChargerSaveDto {
     chargingProtocol?: string;
     pricePerKwh?: number;
     paymentMethod?: string;
-    // isAvailable?: boolean;
     location?: string;
     latitude?: number;
     longitude?: number;
@@ -16,7 +15,6 @@ export class ChargerGetByIdDto {
     chargingProtocol?: string;
     pricePerKwh?: number;
     paymentMethod?: string;
-    // isAvailable?: boolean;
     location?: string;
     latitude?: number;
     longitude?: number;

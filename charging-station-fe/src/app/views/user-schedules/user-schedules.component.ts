@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { AccountsService, CurrentUserDto, ScheduleChargerSearchItemDto, ScheduleChargersService } from 'src/app/core';
 import { ConfirmActionDialogComponent } from 'src/app/core/common/confirm-action-dialog';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-schedules',
@@ -36,6 +37,7 @@ export class UserSchedulesComponent {
       private scheduleChargersService: ScheduleChargersService, 
       private accountsService: AccountsService, 
       private router: Router,
+      private toastr: ToastrService,
       private matDialog: MatDialog) 
   {
       this.form = this.formBuilder.group({
@@ -92,13 +94,21 @@ export class UserSchedulesComponent {
   }
 
   finishSchedule(scheduleChargerId?: string): Promise<void> {
-      return new Promise((resolve: any) => {
-          this.scheduleChargersService.finishSchedule(scheduleChargerId).then((response: void) => {
-              this.search(this.user?._id);
-              resolve();
-          })
-      });
-  }
+    return new Promise((resolve, reject) => {
+        this.scheduleChargersService.finishSchedule(scheduleChargerId)
+            .then((response: void) => {
+                this.toastr.success("Schedule finished successfully!", "Success message", { timeOut: 5000 });
+                this.search(this.user?._id);
+                resolve();
+            })
+            .catch((err: any) => {
+                this.toastr.error(err.message, "Error message", { timeOut: 5000 });
+                console.error("Error finishing schedule:", err);
+                reject(err);
+            });
+    });
+}
+
 
   navigateTo(page?: string) {
     this.router.navigate([`/${page}`]);

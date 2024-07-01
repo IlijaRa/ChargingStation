@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthsService, RegistrationDto, ViewState } from "src/app/core";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'register',
@@ -17,7 +18,8 @@ export class RegisterComponent implements OnInit{
     constructor(
         private router: Router, 
         private formBuilder: FormBuilder,
-        private authsService: AuthsService) 
+        private authsService: AuthsService,
+        private toastr: ToastrService) 
     {
         this.form = this.formBuilder.group({
             firstName: new FormControl('', [Validators.required]),
@@ -41,7 +43,7 @@ export class RegisterComponent implements OnInit{
           let model: RegistrationDto = {
             firstName: this.form?.value.firstName,
             lastName: this.form?.value.lastName,
-            dateOfBirth: this.form?.value.date,
+            dateOfBirth: this.form?.value.dateOfBirth,
             biography: this.form?.value.biography,
             username: this.form?.value.username,
             emailAddress: this.form?.value.emailAddress,
@@ -51,8 +53,11 @@ export class RegisterComponent implements OnInit{
           };
           this.authsService.register(model).subscribe({
             next: (val: any) => {
+              this.toastr.success("You registered account successfully!", "Success message", { timeOut: 5000 });
+              this.router.navigate(['/login']);
             },
             error: (err: any) => {
+              this.toastr.error(err.message, "Error message", { timeOut: 5000 });
                 this.errorMessage = err.message;
             }
           })

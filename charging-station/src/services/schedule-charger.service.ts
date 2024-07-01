@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { ScheduleChargerGetAllDto, ScheduleChargerGetAllItemDto, ScheduleChargerSaveDto, ScheduleChargerSearchDto, ScheduleChargerSearchItemDto } from "src/dto";
+import { ScheduleChargerGetAllDto, ScheduleChargerGetAllItemDto, ScheduleChargerSaveDto, ScheduleChargerSearchDto } from "src/dto";
 import { Appointment, Charger, ChargingHistory, ScheduleCharger, User, Vehicle } from "src/schemas";
 
 @Injectable()
@@ -31,6 +31,10 @@ export class ScheduleChargersService {
 
         if (!existingCharger) {
             throw new HttpException('Charger with this id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
+        if (existingVehicle.chargingProtocol != existingCharger.chargingProtocol) {
+            throw new HttpException('Charging protocols between vehicle and charger are not compatible.', HttpStatus.BAD_REQUEST);
         }
 
         const existingAppointment = await this.appointmentModel.findOne({ _id: model.appointmentId, chargerId: model.chargerId });
@@ -156,16 +160,29 @@ export class ScheduleChargersService {
     
         try {
             const scheduleCharger = await this.scheduleChargerModel.findById(scheduleChargerId).session(session);
+            
             if (!scheduleCharger) {
                 throw new HttpException('Schedule charger not found with this id', HttpStatus.BAD_REQUEST);
             }
-    
+
+            const appointment = await this.appointmentModel.findById(scheduleCharger.appointmentId).session(session);
+            
+            if (!appointment) {
+                throw new HttpException('Appointment not found with this id', HttpStatus.BAD_REQUEST);
+            }
+
+            if (!this.isScheduleOver(scheduleCharger.date, appointment.endTime)) {
+                throw new HttpException('Schedule need to be over before finishing it', HttpStatus.BAD_REQUEST);
+            }
+
             const charger = await this.chargerModel.findById(scheduleCharger.chargerId).session(session);
+            
             if (!charger) {
                 throw new HttpException('Charger not found with this id', HttpStatus.BAD_REQUEST);
             }
     
             const vehicle = await this.vehicleModel.findById(scheduleCharger.vehicleId).session(session);
+            
             if (!vehicle) {
                 throw new HttpException('Vehicle not found with this id', HttpStatus.BAD_REQUEST);
             }
@@ -206,6 +223,21 @@ export class ScheduleChargersService {
         const energyDelivered = chargingPower * chargingTime;
         const effectiveEnergyDelivered = energyDelivered * chargingEfficiency;
         return Math.min(effectiveEnergyDelivered, batteryCapacity);
+    }
+
+    private isScheduleOver(dateString?: string, timeString?: string): boolean {
+        // Split the date string into month, day, and year
+        const [month, day, year] = dateString.split('-').map(Number);
+
+        // Split the time string into hours and minutes
+        const [hours, minutes] = timeString.split(':').map(Number);
+
+        // Create a new Date object using the parsed values
+        const scheduleDateTime = new Date(year, month - 1, day, hours, minutes);
+        // Compare the dateTime with now 
+        const now = new Date();
+
+        return scheduleDateTime < now;
     }
 
     //#endregion

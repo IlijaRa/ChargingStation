@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { ChargerGetAllItemDto, ChargerSearchItemDto, ChargersService, ViewState } from "src/app/core";
+import { ChargerSearchItemDto, ChargersService, ViewState } from "src/app/core";
 import { ChargerAddEditComponent } from ".";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { ConfirmActionDialogComponent } from "src/app/core/common/confirm-action-dialog";
 import { PageEvent, MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'chargers',
@@ -30,7 +31,12 @@ export class ChargersComponent implements OnInit {
 
     @ViewChild(MatPaginator) paginator?: MatPaginator;
 
-    constructor(private formBuilder: FormBuilder, private chargersService: ChargersService, private matDialog: MatDialog) 
+    constructor(
+        private formBuilder: FormBuilder, 
+        private chargersService: ChargersService, 
+        private matDialog: MatDialog,
+        private toastr: ToastrService
+    ) 
     {
         this.form = this.formBuilder.group({
             query: new FormControl(this.querySearch),
@@ -111,6 +117,7 @@ export class ChargersComponent implements OnInit {
         .subscribe((res) => {
             if (res === 'yes') {
                 this.deleteCharger(id).then(() => {
+                    this.toastr.success("Charger deleted successfully!", "Success message", { timeOut: 5000 });
                     this.search();
                 })
             }

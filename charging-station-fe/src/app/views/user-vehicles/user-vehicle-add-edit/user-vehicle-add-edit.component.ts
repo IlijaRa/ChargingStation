@@ -2,8 +2,9 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { VehicleGetByIdDto, UserAllItemDto, ViewState, UsersService, VehiclesService, UserAllDto, VehicleSaveDto, AccountsService } from 'src/app/core';
+import { VehicleGetByIdDto, ViewState, VehiclesService, VehicleSaveDto } from 'src/app/core';
 import { VehicleAddEditComponent } from '../../vehicles';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-vehicle-add-edit',
@@ -23,6 +24,7 @@ export class UserVehicleAddEditComponent {
     private formBuilder: FormBuilder,
     private vehiclesService: VehiclesService, 
     private dialogRef: DialogRef<VehicleAddEditComponent>,
+    private toastr: ToastrService,
     @Inject(MAT_DIALOG_DATA) data: { id: string, userId: string, userFullName: string, state?: ViewState }) 
     {
       this.entityId = data.id;
@@ -69,9 +71,11 @@ export class UserVehicleAddEditComponent {
       };
       this.vehiclesService.save(model).subscribe({
         next: (val: any) => {
+          this.toastr.success("Vehicle saved successfully!", "Success message", { timeOut: 5000 });
           this.cancel();
         },
         error: (err: any) => {
+          this.toastr.error(err.message, "Error message", { timeOut: 5000 });
           console.error(err);
         }
       })
