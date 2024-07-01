@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AppointmentsComponent, ChargersComponent, ChargingHistoriesComponent, LoginComponent, RegisterComponent, UnconfirmedUsersComponent, UsersComponent, UserVehiclesComponent, VehiclesComponent } from './views';
+import { AppointmentsComponent, ChargersComponent, ChargingHistoriesComponent, LoginComponent, RegisterComponent, UnconfirmedUsersComponent, UserSchedulesComponent, UsersComponent, UserVehiclesComponent, VehiclesComponent } from './views';
 import { HeaderLayoutComponent } from './layouts';
 import { AuthGuard } from './core';
 import { ScheduleChargerComponent } from './views/schedule-charger/schedule-charger.component';
@@ -42,6 +42,10 @@ const routes: Routes = [
       {
         path: 'user-vehicles',
         component: UserVehiclesComponent,
+      },
+      {
+        path: 'user-schedules',
+        component: UserSchedulesComponent,
       },
       {
         path: 'unconfirmed-users',

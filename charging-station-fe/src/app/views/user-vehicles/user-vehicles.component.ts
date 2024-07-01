@@ -53,6 +53,10 @@ export class UserVehiclesComponent {
         ).subscribe({
             next: (vehicles: any) => {
                 this.vehicles = vehicles.items;
+                this.dataSource = new MatTableDataSource<VehicleSearchItemDto>(vehicles.items);
+                this.dataSource.paginator = this.paginator;
+                this.totalSize = this.vehicles?.length!;
+                this.iterator();
             },
             error: (err: any) => {
                 console.error(err);

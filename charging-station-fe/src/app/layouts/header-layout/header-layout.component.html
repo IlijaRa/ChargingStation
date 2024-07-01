@@ -38,6 +38,9 @@
         <button mat-menu-item routerLink="/schedule-charger"><mat-icon color="primary">battery_alert</mat-icon>Schedule charger</button>
       </mat-list-item>
       <mat-list-item *ngIf="auth.authorized['driver']">
+        <button mat-menu-item routerLink="/user-schedules"><mat-icon color="primary">schedule</mat-icon>My schedules</button>
+      </mat-list-item>
+      <mat-list-item *ngIf="auth.authorized['driver']">
         <button mat-menu-item routerLink="/user-vehicles"><mat-icon color="primary">directions_car</mat-icon>My vehicles</button>
       </mat-list-item>
       <mat-list-item *ngIf="auth.authorized['driver']">

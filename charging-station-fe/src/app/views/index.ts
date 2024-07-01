@@ -4,6 +4,7 @@ export * from './charging-histories';
 export * from './login';
 export * from './register';
 export * from './unconfirmed-users';
+export * from './user-schedules';
+export * from './user-vehicles';
 export * from './users';
 export * from './vehicles';
-export * from './user-vehicles';

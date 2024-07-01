@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ChargingHistoriesController } from "src/controllers";
-import { Charger, ChargerSchema, ChargingHistory, ChargingHistorySchema, User, UserSchema } from "src/schemas";
+import { Appointment, AppointmentSchema, Charger, ChargerSchema, ChargingHistory, ChargingHistorySchema, User, UserSchema, Vehicle, VehicleSchema } from "src/schemas";
 import { ChargingHistoriesService } from "src/services";
 
 @Module({
@@ -9,12 +9,12 @@ import { ChargingHistoriesService } from "src/services";
         MongooseModule.forFeature([
             { name: ChargingHistory.name, schema: ChargingHistorySchema },
             { name: User.name, schema: UserSchema },
+            { name: Vehicle.name, schema: VehicleSchema },
+            { name: Appointment.name, schema: AppointmentSchema },
             { name: Charger.name, schema: ChargerSchema }
         ])
     ],
     providers: [ChargingHistoriesService],
     controllers: [ChargingHistoriesController]
 })
-export class ChargingHistoriesModule {
-
-}
+export class ChargingHistoriesModule { }

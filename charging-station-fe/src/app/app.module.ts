@@ -36,6 +36,7 @@ import { MapsComponent } from './views/maps/maps.component';
 import { ScheduleChargerComponent } from './views/schedule-charger/schedule-charger.component';
 import { ScheduleChargerAddComponent } from './views/schedule-charger/schedule-charger-add/schedule-charger-add.component';
 import { DatePipe } from '@angular/common';
+import { UserSchedulesComponent } from './views/user-schedules/user-schedules.component';
 // import { ErrorStateMatcher } from '@angular/material/core';
 
 @NgModule({
@@ -67,7 +68,8 @@ import { DatePipe } from '@angular/common';
     UserVehiclesComponent,
     MapsComponent,
     ScheduleChargerComponent,
-    ScheduleChargerAddComponent
+    ScheduleChargerAddComponent,
+    UserSchedulesComponent
   ],
   imports: [
     BrowserModule,

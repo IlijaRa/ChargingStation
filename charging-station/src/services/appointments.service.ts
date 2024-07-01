@@ -59,7 +59,9 @@ export class AppointmentsService {
 
         const appointmentsToAvoid = scheduleChargers.map(x => x.appointmentId);
         const appointments = await this.appointmentModel.find({ 
-            chargerId, 
+            chargerId,
+            isAllowed: true,
+            isAvailable: true, 
             _id: { $nin: appointmentsToAvoid } 
         });
 

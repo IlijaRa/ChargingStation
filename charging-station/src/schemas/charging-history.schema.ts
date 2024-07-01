@@ -4,10 +4,7 @@ import { Document } from 'mongoose';
 @Schema({ timestamps: true })
 export class ChargingHistory extends Document {
     @Prop({ required: true })
-    startTime?: string;
-
-    @Prop({ required: true })
-    endTime?: string;
+    date?: string;
 
     @Prop({ required: true })
     cost?: Number;
@@ -23,6 +20,12 @@ export class ChargingHistory extends Document {
 
     @Prop({ required: true })
     chargerId?: string;
+
+    @Prop({ required: true })
+    vehicleId?: string;
+
+    @Prop({ required: true })
+    appointmentId?: string;
 }
 
 export const ChargingHistorySchema = SchemaFactory.createForClass(ChargingHistory);

@@ -1,16 +1,11 @@
-import { Type } from "class-transformer";
 import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class ChargingHistorySaveDto {
     _id?: string;
 
     @IsNotEmpty()
-    @Type(() => Date)
-    startTime?: Date;
-
-    @IsNotEmpty()
-    @Type(() => Date)
-    endTime?: Date;
+    @IsString()
+    date?: string;
 
     @IsNotEmpty()
     @IsNumber()
@@ -31,4 +26,12 @@ export class ChargingHistorySaveDto {
     @IsNotEmpty()
     @IsString()
     chargerId?: string;
+
+    @IsNotEmpty()
+    @IsString()
+    vehicleId?: string;
+
+    @IsNotEmpty()
+    @IsString()
+    appointmentId?: string;
 }

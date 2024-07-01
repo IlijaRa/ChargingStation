@@ -79,7 +79,9 @@ export class ScheduleChargerComponent implements OnInit {
         // Remove the marker if it exists
         if (this.driverMarker) {
           this.driverMarker.remove();
+          this.removeMarkerPopupsFromMap();
           this.removeRoutesFromMap();
+          this.addChargerLocationsToMap();
         }
       });
 
@@ -133,6 +135,8 @@ export class ScheduleChargerComponent implements OnInit {
           }
         });
 
+        this.chargerMarkers = [];
+
         routes.forEach((route, index) => {
           const color = route === shortestRoute ? '#FF4786' : '#3F51B5';
           const isShortestRoute = route === shortestRoute;
@@ -166,6 +170,8 @@ export class ScheduleChargerComponent implements OnInit {
           const popupContent = this.addInfoPopupToMap(route, this.chargers![index]);
           const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
           marker.setPopup(popup);
+
+          this.chargerMarkers?.push(marker);
         });
 
         this.driverMarker = new mapboxgl.Marker({ color: '#FF4786' })
@@ -232,7 +238,23 @@ export class ScheduleChargerComponent implements OnInit {
   }
 
   removeMarkersFromMap(){
-    this.chargerMarkers?.forEach(marker => marker.remove());
+    this.chargerMarkers?.forEach(marker => {
+      const popup = marker.getPopup();
+      if (popup) {
+        popup.remove();
+      }
+      
+      marker.remove()}
+    );
+  }
+
+  removeMarkerPopupsFromMap(){
+    this.chargerMarkers?.forEach(marker => {
+      const popup = marker.getPopup();
+      if (popup) {
+        popup.remove();
+      }}
+    );
   }
 
   removeRoutesFromMap() {

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { AppointmentGetAllDto, ChargingHistoriesService, ChargingHistoryGetAllItemDto, ViewState } from "src/app/core";
+import { AccountsService, ChargingHistoriesService, ChargingHistoryGetAllItemDto, CurrentUserDto, ViewState } from "src/app/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 
@@ -11,9 +11,9 @@ import { MatTableDataSource } from "@angular/material/table";
 })
 export class ChargingHistoriesComponent implements OnInit {
     chargingHistories?: ChargingHistoryGetAllItemDto[];
-    displayedColumns: string[] = ['startTime', 'endTime', 'cost', 'paymentMethod', 'takenEnergy'];
+    displayedColumns: string[] = ['location', 'startTime', 'endTime', 'date', 'cost', 'paymentMethod', 'takenEnergy', 'vehicle', 'user'];
     viewState = ViewState;
-    driverId?: string;
+    user?: CurrentUserDto;
 
     pageEvent?: PageEvent;
     dataSource: any;
@@ -25,21 +25,39 @@ export class ChargingHistoriesComponent implements OnInit {
     
     constructor(
         private chargingHistoriesService: ChargingHistoriesService,
+        private accountsService: AccountsService,
         private route: ActivatedRoute
         ) {}
 
     ngOnInit(): void {
-        this.route.params.subscribe((value: any) => {
-            this.driverId = value.id;
+        this.getCurrentUser().then(() => {
             this.getAll();
         })
+        .catch((err) => {
+            console.error(err);
+        });
+    }
+
+    private getCurrentUser(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+          this.accountsService.getCurrentUser().subscribe({
+            next: (user: any) => {
+              this.user = user;
+              resolve();
+            },
+            error: (err: any) => {
+              console.error(err);
+              reject(err);
+            }
+          });
+        });
     }
 
     getAll() {
-        this.chargingHistoriesService.getAll(this.driverId).subscribe({
+        this.chargingHistoriesService.getAll(this.user?._id).subscribe({
             next: (val: any) => {
                 this.chargingHistories = val.items;
-                this.dataSource = new MatTableDataSource<AppointmentGetAllDto>(val.items);
+                this.dataSource = new MatTableDataSource<ChargingHistoryGetAllItemDto>(val.items);
                 this.dataSource.paginator = this.paginator;
                 this.totalSize = this.chargingHistories?.length!;
                 this.iterator();
