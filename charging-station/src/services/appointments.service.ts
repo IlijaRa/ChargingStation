@@ -1,24 +1,43 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { AppointmentAllDto, AppointmentAllItemDto, AppointmentAllowDto, AppointmentGetAllDto, AppointmentGetAllItemDto, AppointmentGetByIdDto, AppointmentSaveDto, AppointmentUnallowDto } from "src/dto";
-import { Appointment, ScheduleCharger } from "src/schemas";
+import { Appointment, Charger, ScheduleCharger } from "src/schemas";
 
 @Injectable()
 export class AppointmentsService {
     constructor(
         @InjectModel(Appointment.name) private appointmentModel: Model<Appointment>,
+        @InjectModel(Charger.name) private chargerModel: Model<Charger>,
         @InjectModel(ScheduleCharger.name) private scheduleChargerModel: Model<ScheduleCharger>) {}
 
     save(model?: AppointmentSaveDto) {
         if (model._id == null) {
             return new this.appointmentModel(model).save();
         } else {
+            const appointment = this.appointmentModel.findById(model._id);
+            
+            if (!appointment) {
+                throw new HttpException('Appointment with provided id does not exist', HttpStatus.BAD_REQUEST);
+            }
+
             return this.appointmentModel.findByIdAndUpdate(model._id, model);
         }
     }
 
     allow(model?: AppointmentAllowDto) {
+        const appointment = this.appointmentModel.findById(model.appointmentId);
+            
+        if (!appointment) {
+            throw new HttpException('Appointment with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
+        const charger = this.chargerModel.findById(model.chargerId);
+            
+        if (!charger) {
+            throw new HttpException('Charger with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
         return this.appointmentModel.findByIdAndUpdate(
             { _id: model.appointmentId, chargerId: model.chargerId },
             { isAllowed: true, isAvailable : true }
@@ -26,6 +45,18 @@ export class AppointmentsService {
     }
 
     unallow(model?: AppointmentUnallowDto) {
+        const appointment = this.appointmentModel.findById(model.appointmentId);
+            
+        if (!appointment) {
+            throw new HttpException('Appointment with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
+        const charger = this.chargerModel.findById(model.chargerId);
+            
+        if (!charger) {
+            throw new HttpException('Charger with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
         return this.appointmentModel.findByIdAndUpdate(
             { _id: model.appointmentId, chargerId: model.chargerId },
             { isAllowed: false, isAvailable : false }
@@ -36,7 +67,7 @@ export class AppointmentsService {
         const appointment = await this.appointmentModel.findById(appointmentId);
 
         if (!appointment) {
-            return null;
+            throw new HttpException('Appointment with provided id does not exist', HttpStatus.BAD_REQUEST);
         }
 
         const appointmentDto: AppointmentGetByIdDto = {
@@ -52,6 +83,12 @@ export class AppointmentsService {
     }
 
     async all(chargerId?: string, date?: string): Promise<AppointmentAllDto> {
+        const charger = this.chargerModel.findById(chargerId);
+            
+        if (!charger) {
+            throw new HttpException('Charger with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
         const scheduleChargers = await this.scheduleChargerModel.find({
             chargerId: chargerId, 
             date: date
@@ -79,6 +116,12 @@ export class AppointmentsService {
     }
 
     async getAll(chargerId?: string): Promise<AppointmentGetAllDto> {
+        const charger = this.chargerModel.findById(chargerId);
+            
+        if (!charger) {
+            throw new HttpException('Charger with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
         const appointments = await this.appointmentModel.find({ chargerId });
         
         const appointmentItems: AppointmentGetAllItemDto[] = appointments.map(appointment => ({
@@ -98,6 +141,12 @@ export class AppointmentsService {
     }
 
     delete(appointmentId?: string) {
+        const appointment = this.appointmentModel.findById(appointmentId);
+            
+        if (!appointment) {
+            throw new HttpException('Appointment with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
         return this.appointmentModel.findByIdAndDelete(appointmentId);
     }
 }

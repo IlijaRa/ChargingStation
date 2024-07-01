@@ -1,26 +1,46 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { VehicleGetAllDto, VehicleGetAllItemDto, VehicleSaveDto, VehicleSearchDto, VehicleSearchItemDto } from "src/dto";
-import { Vehicle } from "src/schemas";
+import { User, Vehicle } from "src/schemas";
 
 @Injectable()
 export class VehiclesService {
-    constructor(@InjectModel(Vehicle.name) private vehicleModel: Model<Vehicle>) {}
+    constructor(
+        @InjectModel(Vehicle.name) private vehicleModel: Model<Vehicle>,
+        @InjectModel(User.name) private userModel: Model<User>) {}
 
     async save(model?: VehicleSaveDto) {
         if (model._id) {
+            const vehicle = await this.vehicleModel.findById(model._id);
+        
+            if (!vehicle) {
+                throw new HttpException('Vehicle with provided id does not exist.', HttpStatus.BAD_REQUEST);
+            }
+
             return this.vehicleModel.findByIdAndUpdate(model._id, model);
         } else {
             return new this.vehicleModel(model).save();
         }
     }
 
-    getById(vehicleId?: string) {
+    async getById(vehicleId?: string) {
+        const vehicle = await this.vehicleModel.findById(vehicleId);
+        
+        if (!vehicle) {
+            throw new HttpException('Vehicle with provided id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         return this.vehicleModel.findById(vehicleId);
     }
 
     async getAllByUserId(userId?: string): Promise<VehicleGetAllDto> {
+        const user = await this.userModel.findById(userId);
+        
+        if (!user) {
+            throw new HttpException('User with provided id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         const vehicles = await this.vehicleModel.find({ userId });
         const vehicleItems: VehicleGetAllItemDto[] = vehicles.map(vehicle => ({
             id: vehicle._id.toString(),
@@ -74,6 +94,12 @@ export class VehiclesService {
     }
 
     async searchByDriver(query?: string, driverId?: string): Promise<VehicleSearchDto> {
+        const existingDriver = await this.userModel.findOne({ _id: driverId, role: 'driver' });
+        
+        if (!existingDriver) {
+            throw new HttpException('Driver user with this id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         let vehicles;
 
         if (this.isEmpty(query)) {
@@ -105,7 +131,13 @@ export class VehiclesService {
         return { items: vehicleItems };
     }
 
-    delete(vehicleId?: string) {
+    async delete(vehicleId?: string) {
+        const vehicle = await this.vehicleModel.findById(vehicleId);
+        
+        if (!vehicle) {
+            throw new HttpException('Vehicle with provided id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         return this.vehicleModel.findByIdAndDelete(vehicleId);
     }
 

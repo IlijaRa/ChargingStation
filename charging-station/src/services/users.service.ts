@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { UserAllDto, UserAllItemDto, UserGetAllDto, UserGetAllItemDto, UserGetByIdDto, UserSearchDto, UserSearchItemDto, UserUpdateDto } from "src/dto";
@@ -9,6 +9,12 @@ export class UsersService {
     constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
     async update(model?: UserUpdateDto) {
+        const user = await this.userModel.findById(model._id);
+        
+        if (!user) {
+            throw new HttpException('User with provided id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         await this.userModel.findOneAndUpdate(
             {
                 _id: model._id,
@@ -21,8 +27,9 @@ export class UsersService {
 
     async getById(userId: string): Promise<UserGetByIdDto | null> {
         const user = await this.userModel.findById(userId);
+        
         if (!user) {
-            return null;
+            throw new HttpException('User with provided id does not exist.', HttpStatus.BAD_REQUEST);
         }
 
         const userDto: UserGetByIdDto = {
@@ -180,19 +187,43 @@ export class UsersService {
         return this.userModel.find({ isBlocked: false });
     }
 
-    block(userId?: string) {
+    async block(userId?: string) {
+        const user = await this.userModel.findById(userId);
+        
+        if (!user) {
+            throw new HttpException('User with provided id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         return this.userModel.findByIdAndUpdate(userId, { isBlocked: true });
     }
 
-    unblock(userId?: string) {
+    async unblock(userId?: string) {
+        const user = await this.userModel.findById(userId);
+        
+        if (!user) {
+            throw new HttpException('User with provided id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         return this.userModel.findByIdAndUpdate(userId, { isBlocked: false });
     }
 
-    confirm(userId?: string) {
+    async confirm(userId?: string) {
+        const user = await this.userModel.findById(userId);
+        
+        if (!user) {
+            throw new HttpException('User with provided id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         return this.userModel.findByIdAndUpdate(userId, { isConfirmed: true });
     }
 
-    delete(userId?: string) {
+    async delete(userId?: string) {
+        const user = await this.userModel.findById(userId);
+        
+        if (!user) {
+            throw new HttpException('User with provided id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         return this.userModel.findByIdAndDelete(userId);
     }
 

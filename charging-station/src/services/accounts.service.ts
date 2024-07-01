@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import { ForbiddenException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { CurrentUserGetDto } from "src/dto";
@@ -11,7 +11,8 @@ export class AccountsService {
     async getCurrentUser(userId?: string): Promise<CurrentUserGetDto> {
         const user = await this.userModel.findById(userId);
         if (!user) {
-            return null;
+            // return null;
+            throw new HttpException('User with provided id does not exist', HttpStatus.BAD_REQUEST);
         }
 
         const userDto: CurrentUserGetDto = {

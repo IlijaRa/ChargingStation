@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { ChargingHistoryGetAllDto, ChargingHistoryGetAllItemDto, ChargingHistoryGetByIdDto, ChargingHistorySaveDto } from "src/dto";
@@ -18,17 +18,26 @@ export class ChargingHistoriesService {
         return new this.chargingHistoryModel(model).save();
     }
 
-    //TODO: make a validation if chargingHistory, user and charger are not null or undefined
-    //TODO: utilize automapper instead of bruteforce mapping
     async getById(chargingHistoryId?: string) {
         const chargingHistory = await this.chargingHistoryModel.findById(chargingHistoryId);
+
+        if (!chargingHistory) {
+            throw new HttpException('Charging history with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
+        if (!chargingHistory.userId) {
+            throw new HttpException('User with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
+        if (!chargingHistory.chargerId) {
+            throw new HttpException('Charger with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
         const user = await this.userModel.findById(chargingHistory.userId);
         const charger = await this.chargerModel.findById(chargingHistory.chargerId);
 
         const chargingHistoryDto: ChargingHistoryGetByIdDto = {
             _id: chargingHistory._id,
-            // startTime: chargingHistory.startTime,
-            // endTime: chargingHistory.endTime,
             cost: chargingHistory.cost,
             paymentMethod: chargingHistory.paymentMethod,
             takenEnergy: chargingHistory.takenEnergy,
@@ -44,6 +53,12 @@ export class ChargingHistoriesService {
     }
 
     async getAll(userId?: string): Promise<ChargingHistoryGetAllDto> {
+        const user = await this.userModel.findById(userId);
+
+        if (!user) {
+            throw new HttpException('User with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
         const chargingHistories = await this.chargingHistoryModel.find({ userId });
         let chargingHistoryItems: ChargingHistoryGetAllItemDto[] = [];
         
@@ -72,9 +87,6 @@ export class ChargingHistoriesService {
     
         // Wait for all promises to resolve
         await Promise.all(promises);
-    
-        // Optionally sort the items
-        // chargingHistoryItems.sort((a, b) => a.startTime.localeCompare(b.startTime));
         
         return { items: chargingHistoryItems };
     }

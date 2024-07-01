@@ -57,6 +57,12 @@ export class ScheduleChargersService {
     }
 
     async getAll(driverId?: string): Promise<ScheduleChargerGetAllDto> {
+        const existingDriver = await this.userModel.findOne({ _id: driverId, role: 'driver' });
+        
+        if (!existingDriver) {
+            throw new HttpException('Driver user with this id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         const scheduleChargers = await this.scheduleChargerModel.find({ userId : driverId });
         let scheduleChargerItems: ScheduleChargerGetAllItemDto[] = [];
 
@@ -91,6 +97,12 @@ export class ScheduleChargersService {
     }
 
     async searchByDriver(query?: string, driverId?: string): Promise<ScheduleChargerSearchDto> {
+        const existingDriver = await this.userModel.findOne({ _id: driverId, role: 'driver' });
+        
+        if (!existingDriver) {
+            throw new HttpException('Driver user with this id does not exist.', HttpStatus.BAD_REQUEST);
+        }
+
         let scheduleChargers;
         let scheduleChargerItems: ScheduleChargerGetAllItemDto[] = [];
 

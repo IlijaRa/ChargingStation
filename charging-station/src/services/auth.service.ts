@@ -63,6 +63,12 @@ export class AuthService {
     }
 
     async logout(userId?: string) {
+        const user = await this.userModel.findById(userId);
+
+        if (!user) {
+            throw new HttpException('User with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
         await this.userModel.findOneAndUpdate( 
             { 
                 _id: userId, 

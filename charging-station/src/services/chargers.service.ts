@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { ChargerGetAllDto, ChargerGetAllItemDto, ChargerSaveDto, ChargerSearchDto, ChargerSearchItemDto } from "src/dto";
+import { ChargerGetAllDto, ChargerGetAllItemDto, ChargerGetByIdDto, ChargerSaveDto, ChargerSearchDto, ChargerSearchItemDto } from "src/dto";
 import { Appointment, Charger } from "src/schemas";
 
 @Injectable()
@@ -16,12 +16,35 @@ export class ChargersService {
             await this.generateAppointments(savedCharger._id);
             return savedCharger;
         } else {
+            const charger = await this.chargerModel.findById(model._id);
+
+            if (!charger) {
+                throw new HttpException('Charger with provided id does not exist', HttpStatus.BAD_REQUEST);
+            }
+
             return this.chargerModel.findByIdAndUpdate(model._id, model);
         }
     }
 
-    getById(chargerId?: string) {
-        return this.chargerModel.findById(chargerId);
+    async getById(chargerId?: string): Promise<ChargerGetByIdDto> {
+        const charger = await this.chargerModel.findById(chargerId);
+
+        if (!charger) {
+            throw new HttpException('Charger with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
+        const chargerDto: ChargerGetByIdDto = {
+            id: charger._id,
+            chargingPower: charger.chargingPower,
+            chargingProtocol: charger.chargingProtocol,
+            pricePerKwh: charger.pricePerKwh,
+            paymentMethod: charger.paymentMethod,
+            location: charger.location,
+            latitude: charger.latitude,
+            longitude: charger.longitude
+        };
+
+        return chargerDto;
     }
 
     async getAll(): Promise<ChargerGetAllDto> {
@@ -71,6 +94,12 @@ export class ChargersService {
     }
 
     async delete(chargerId?: string) {
+        const charger = this.chargerModel.findById(chargerId);
+            
+        if (!charger) {
+            throw new HttpException('Charger with provided id does not exist', HttpStatus.BAD_REQUEST);
+        }
+
         await this.appointmentModel.deleteMany({ chargerId });
         return this.chargerModel.findByIdAndDelete(chargerId);
     }
