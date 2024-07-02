@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, Max, Min } from "class-validator";
 
 export class ChargerSaveDto {
     _id?: string;
@@ -6,6 +6,7 @@ export class ChargerSaveDto {
     @IsNotEmpty()
     @IsNumber()
     @Min(1)
+    @Max(320)
     chargingPower?: number;
 
     @IsNotEmpty()

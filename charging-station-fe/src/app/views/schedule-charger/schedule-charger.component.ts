@@ -18,6 +18,7 @@ export class ScheduleChargerComponent implements OnInit {
   chargerMarkers?: mapboxgl.Marker[] = new Array<mapboxgl.Marker>;
   driverMarker?: mapboxgl.Marker;
   selectedMarker?: mapboxgl.Marker; // Track the selected marker
+  routes?: any[];
 
   // Default Belgrade coordinates for a driver
   driverCoordinates = {
@@ -81,7 +82,7 @@ export class ScheduleChargerComponent implements OnInit {
           this.driverMarker.remove();
           this.removeMarkerPopupsFromMap();
           this.removeRoutesFromMap();
-          this.addChargerLocationsToMap();
+          // this.addChargerLocationsToMap();
         }
       });
 
@@ -92,12 +93,11 @@ export class ScheduleChargerComponent implements OnInit {
   }
 
   addChargerLocationsToMap() {
+    // Iterating through all chargers and creating markers
     this.chargers!.forEach(charger => {
       const marker = new mapboxgl.Marker({ color: '#3F51B5' })
         .setLngLat([charger.longitude!, charger.latitude!])
         .addTo(this.map!);
-  
-      this.chargerMarkers?.push(marker);
   
       marker.getElement().addEventListener('click', () => {
         // Remove the popup from the previously selected marker
@@ -109,15 +109,19 @@ export class ScheduleChargerComponent implements OnInit {
         this.selectedMarker = marker;
   
         // Add the popup to the clicked marker
-        const popupContent = this.addInfoPopupToMap(null, charger);
+        const popupContent = this.addInfoPopupToMap(marker, charger);
         const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
+
+        // Setting the popup and activating it
         marker.setPopup(popup).togglePopup();
       });
+
+      this.chargerMarkers?.push(marker);
     });
   }
 
   private getRoutes() {
-    this.removeMarkersFromMap();
+    // this.removeMarkersFromMap();
     
     const routePromises = this.chargers!.map(charger => {
       const url = `https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${this.driverCoordinates.longitude},${this.driverCoordinates.latitude};${charger.longitude},${charger.latitude}?geometries=geojson&overview=full&steps=true&access_token=${environment.mapKey}`;
@@ -126,23 +130,16 @@ export class ScheduleChargerComponent implements OnInit {
 
     axios.all(routePromises)
       .then(axios.spread((...responses) => {
-        const routes = responses.map(response => response.data.routes[0]);
-        // let shortestRoute = routes[0];
-
-        // routes.forEach(route => {
-        //   if (route.distance < shortestRoute.distance) {
-        //     shortestRoute = route;
-        //   }
-        // });
+        this.routes = responses.map(response => response.data.routes[0]);
 
         // Calculate the best charger based on the score
-        const bestFittingChargerIndex = this.calculateBestFittingCharger(routes);
+        const bestFittingChargerIndex = this.calculateBestFittingCharger(this.routes);
 
-        this.chargerMarkers = [];
+        // this.chargerMarkers = [];
 
-        routes.forEach((route, index) => {
-          const color = index === bestFittingChargerIndex ? '#FF4786' : '#3F51B5';
+        this.routes.forEach((route, index) => {
           const isBestFittingCharger = index === bestFittingChargerIndex;
+
           this.map!.addLayer({
             id: `route-${index}`,
             type: 'line',
@@ -159,22 +156,27 @@ export class ScheduleChargerComponent implements OnInit {
               'line-cap': 'round'
             },
             paint: {
-              'line-color': color,
-              'line-width': isBestFittingCharger ? 7 : 5,
-              'line-opacity': 0.75,
-              'line-dasharray': isBestFittingCharger ? [1, 0] : [2, 4]
+              'line-color': isBestFittingCharger ? '#FF4786' : '#3F51B5',
+              'line-width': isBestFittingCharger ? 8 : 4,
+              'line-opacity': isBestFittingCharger ? 1 : 0.75,
+              'line-dasharray': isBestFittingCharger ? [1, 0] : [1, 3]
             }
           });
 
-          const marker = new mapboxgl.Marker({ color: '#3F51B5' });
-          marker.setLngLat([this.chargers![index].longitude!, this.chargers![index].latitude!])
-            .addTo(this.map!);
+          // const marker = new mapboxgl.Marker({ color: '#3F51B5' });
+          // marker.setLngLat([this.chargers![index].longitude!, this.chargers![index].latitude!])
+          //   .addTo(this.map!);
 
-          const popupContent = this.addInfoPopupToMap(route, this.chargers![index]);
-          const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
-          marker.setPopup(popup);
+          // const popupContent = this.addInfoPopupToMap(route, this.chargers![index]);
+          // const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
+          (this.chargerMarkers![index] as any).routeDistance = route.distance;
+          (this.chargerMarkers![index] as any).routeDuration = route.duration;
 
-          this.chargerMarkers?.push(marker);
+          // const popupContent = this.addInfoPopupToMap(route, this.chargers![index]);
+          // const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(popupContent);
+          // marker.setPopup(popup);
+
+          // this.chargerMarkers?.push(marker);
         });
 
         this.driverMarker = new mapboxgl.Marker({ color: '#FF4786' })
@@ -190,9 +192,12 @@ export class ScheduleChargerComponent implements OnInit {
     let bestChargerIndex = 0;
     let highestScore = -Infinity;
 
+    // Calculate min and max values for normalization
+    const minMaxValues = this.getMinMaxValues(this.chargers!, routes);
+
     routes.forEach((route, index) => {
       const charger = this.chargers![index];
-      const score = this.calculateChargerScore(route, charger);
+      const score = this.calculateChargerScore(route, charger, minMaxValues);
 
       if (score > highestScore) {
         highestScore = score;
@@ -201,24 +206,55 @@ export class ScheduleChargerComponent implements OnInit {
     });
 
     return bestChargerIndex;
-  }
+  } 
 
-  calculateChargerScore(route: any, charger: ChargerGetAllItemDto): number {
-    const distanceWeight = 0.5;
+  calculateChargerScore(route: any, charger: ChargerGetAllItemDto, minMaxValues: any): number {
+    const distanceWeight = 0.6;
     const chargingPowerWeight = 0.3;
-    const pricePerKwhWeight = 0.2;
-
-    // Normalize and calculate score
-    const distanceScore = 1 / (route.distance + 1); // Inverse of distance (smaller is better)
-    const chargingPowerScore = charger.chargingPower!;
-    const pricePerKwhScore = 1 / (charger.pricePerKwh! + 1); // Inverse of price (cheaper is better)
-
+    const pricePerKwhWeight = 0.1;
+  
+    // Min-Max normalization for distance
+    const minDistance = minMaxValues.minDistance;
+    const maxDistance = minMaxValues.maxDistance;
+    const distanceScore = (maxDistance - route.distance) / (maxDistance - minDistance);
+  
+    // Min-Max normalization for charging power
+    const minChargingPower = minMaxValues.minChargingPower;
+    const maxChargingPower = minMaxValues.maxChargingPower;
+    const chargingPowerScore = (charger.chargingPower! - minChargingPower) / (maxChargingPower - minChargingPower);
+  
+    // Min-Max normalization for price per kWh
+    const minPricePerKwh = minMaxValues.minPricePerKwh;
+    const maxPricePerKwh = minMaxValues.maxPricePerKwh;
+    const pricePerKwhScore = (maxPricePerKwh - charger.pricePerKwh!) / (maxPricePerKwh - minPricePerKwh);
+  
     const totalScore = 
       distanceWeight * distanceScore + 
       chargingPowerWeight * chargingPowerScore + 
-      pricePerKwhWeight * pricePerKwhScore
-
+      pricePerKwhWeight * pricePerKwhScore;
+  
     return totalScore;
+  }
+  
+  // Function to get the min and max values for normalization
+  getMinMaxValues(chargers: ChargerGetAllItemDto[], routes: any[]): any {
+    let minDistance = Infinity, maxDistance = -Infinity;
+    let minChargingPower = Infinity, maxChargingPower = -Infinity;
+    let minPricePerKwh = Infinity, maxPricePerKwh = -Infinity;
+  
+    routes.forEach(route => {
+      if (route.distance < minDistance) minDistance = route.distance;
+      if (route.distance > maxDistance) maxDistance = route.distance;
+    });
+  
+    chargers.forEach(charger => {
+      if (charger.chargingPower! < minChargingPower) minChargingPower = charger.chargingPower!;
+      if (charger.chargingPower! > maxChargingPower) maxChargingPower = charger.chargingPower!;
+      if (charger.pricePerKwh! < minPricePerKwh) minPricePerKwh = charger.pricePerKwh!;
+      if (charger.pricePerKwh! > maxPricePerKwh) maxPricePerKwh = charger.pricePerKwh!;
+    });
+  
+    return { minDistance, maxDistance, minChargingPower, maxChargingPower, minPricePerKwh, maxPricePerKwh };
   }
 
   getAllChargers(): Observable<boolean> {
@@ -238,13 +274,13 @@ export class ScheduleChargerComponent implements OnInit {
     });
   }
 
-  addInfoPopupToMap(route?: any, charger?: ChargerGetAllItemDto) {
+  addInfoPopupToMap(selectedMarker?: any, charger?: ChargerGetAllItemDto) {
     return `
       <div style="padding: 10px; border-radius: 8px; box-shadow: 0 2px 8px rgba(63, 81, 181); position: relative;">
         <h3 style="font-size: 18px; margin-bottom: 10px; color: #3F51B5; font-weight: bold;">Route Information</h3>
         <p style="margin: 5px 0; font-size: 14px;"><b>Traveling method</b>: Driving</p>
-        <p style="margin: 5px 0; font-size: 14px;"><b>Distance</b>: ${(route.distance / 1000).toFixed(2)} km</p>
-        <p style="margin: 5px 0;font-size: 14px;"><b>Travel duration</b> ≈ ${Math.round(route.duration / 60)} minutes</p>
+        <p style="margin: 5px 0; font-size: 14px;"><b>Distance</b>: ${(selectedMarker.routeDistance / 1000).toFixed(2)} km</p>
+        <p style="margin: 5px 0;font-size: 14px;"><b>Travel duration</b> ≈ ${Math.round(selectedMarker.routeDuration / 60)} minutes</p>
         
         <h3 style="font-size: 18px; margin-bottom: 10px; color: #3F51B5; font-weight: bold; ">Charger Information</h3>
         <p style="margin: 5px 0; font-size: 14px;"><b>Location</b>: ${charger?.location}</p>

@@ -26,7 +26,7 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-                <mat-label>Select appointment time</mat-label>
+                <mat-label>Select after choosing date</mat-label>
                 <mat-select formControlName="appointments" [(ngModel)]="selectedAppointmentId">
                     <ng-container *ngFor="let appointment of appointments">
                         <mat-option [value]="appointment.id">{{ appointment.startTime }} - {{ appointment.endTime }}</mat-option>

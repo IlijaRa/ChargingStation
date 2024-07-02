@@ -43,6 +43,7 @@ export class ChargingHistoriesComponent implements OnInit {
           this.accountsService.getCurrentUser().subscribe({
             next: (user: any) => {
               this.user = user;
+              console.log("this.user", this.user);
               resolve();
             },
             error: (err: any) => {

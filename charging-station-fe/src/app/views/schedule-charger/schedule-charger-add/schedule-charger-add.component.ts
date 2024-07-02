@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AccountsService, AppointmentAllItemDto, AppointmentsService, ChargerGetByIdDto, ChargersService, CurrentUserDto, IAddressResult, IResult, ScheduleChargerSaveDto, ScheduleChargersService, VehicleGetAllItemDto, VehiclesService } from 'src/app/core';
+import { AccountsService, AppointmentAllItemDto, AppointmentsService, ChargerGetByIdDto, ChargersService, CurrentUserDto, ScheduleChargerSaveDto, ScheduleChargersService, VehicleGetAllItemDto, VehiclesService } from 'src/app/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
