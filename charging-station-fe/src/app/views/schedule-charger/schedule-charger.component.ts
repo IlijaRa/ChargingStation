@@ -127,19 +127,22 @@ export class ScheduleChargerComponent implements OnInit {
     axios.all(routePromises)
       .then(axios.spread((...responses) => {
         const routes = responses.map(response => response.data.routes[0]);
-        let shortestRoute = routes[0];
+        // let shortestRoute = routes[0];
 
-        routes.forEach(route => {
-          if (route.distance < shortestRoute.distance) {
-            shortestRoute = route;
-          }
-        });
+        // routes.forEach(route => {
+        //   if (route.distance < shortestRoute.distance) {
+        //     shortestRoute = route;
+        //   }
+        // });
+
+        // Calculate the best charger based on the score
+        const bestFittingChargerIndex = this.calculateBestFittingCharger(routes);
 
         this.chargerMarkers = [];
 
         routes.forEach((route, index) => {
-          const color = route === shortestRoute ? '#FF4786' : '#3F51B5';
-          const isShortestRoute = route === shortestRoute;
+          const color = index === bestFittingChargerIndex ? '#FF4786' : '#3F51B5';
+          const isBestFittingCharger = index === bestFittingChargerIndex;
           this.map!.addLayer({
             id: `route-${index}`,
             type: 'line',
@@ -157,9 +160,9 @@ export class ScheduleChargerComponent implements OnInit {
             },
             paint: {
               'line-color': color,
-              'line-width': 7,
+              'line-width': isBestFittingCharger ? 7 : 5,
               'line-opacity': 0.75,
-              'line-dasharray': isShortestRoute ? [1, 0] : [2, 4]
+              'line-dasharray': isBestFittingCharger ? [1, 0] : [2, 4]
             }
           });
 
@@ -181,6 +184,41 @@ export class ScheduleChargerComponent implements OnInit {
       .catch(error => {
         console.error('Error fetching directions:', error);
       });
+  }
+
+  calculateBestFittingCharger(routes: any[]): number {
+    let bestChargerIndex = 0;
+    let highestScore = -Infinity;
+
+    routes.forEach((route, index) => {
+      const charger = this.chargers![index];
+      const score = this.calculateChargerScore(route, charger);
+
+      if (score > highestScore) {
+        highestScore = score;
+        bestChargerIndex = index;
+      }
+    });
+
+    return bestChargerIndex;
+  }
+
+  calculateChargerScore(route: any, charger: ChargerGetAllItemDto): number {
+    const distanceWeight = 0.5;
+    const chargingPowerWeight = 0.3;
+    const pricePerKwhWeight = 0.2;
+
+    // Normalize and calculate score
+    const distanceScore = 1 / (route.distance + 1); // Inverse of distance (smaller is better)
+    const chargingPowerScore = charger.chargingPower!;
+    const pricePerKwhScore = 1 / (charger.pricePerKwh! + 1); // Inverse of price (cheaper is better)
+
+    const totalScore = 
+      distanceWeight * distanceScore + 
+      chargingPowerWeight * chargingPowerScore + 
+      pricePerKwhWeight * pricePerKwhScore
+
+    return totalScore;
   }
 
   getAllChargers(): Observable<boolean> {
@@ -206,7 +244,7 @@ export class ScheduleChargerComponent implements OnInit {
         <h3 style="font-size: 18px; margin-bottom: 10px; color: #3F51B5; font-weight: bold;">Route Information</h3>
         <p style="margin: 5px 0; font-size: 14px;"><b>Traveling method</b>: Driving</p>
         <p style="margin: 5px 0; font-size: 14px;"><b>Distance</b>: ${(route.distance / 1000).toFixed(2)} km</p>
-        <p style="margin: 5px 0;font-size: 14px;"><b>Duration</b>: ${(route.duration / 60).toFixed(2)} minutes</p>
+        <p style="margin: 5px 0;font-size: 14px;"><b>Travel duration</b> ≈ ${Math.round(route.duration / 60)} minutes</p>
         
         <h3 style="font-size: 18px; margin-bottom: 10px; color: #3F51B5; font-weight: bold; ">Charger Information</h3>
         <p style="margin: 5px 0; font-size: 14px;"><b>Location</b>: ${charger?.location}</p>
